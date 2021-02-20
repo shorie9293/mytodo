@@ -1,17 +1,17 @@
 <template>
-  <div id="app">
-    <MainMenu/>
+  <div id="App">
+    <StatusComponent/>
   </div>
 </template>
 
 <script>
-import MainMenu from './components/TsunaQuest.vue'
+import StatusComponent from './components/organisms/StatusComponent'
 
 export default {
   name: 'App',
   components: {
-    MainMenu
-  }
+    StatusComponent
+  },
 }
 </script>
 
@@ -24,4 +24,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
