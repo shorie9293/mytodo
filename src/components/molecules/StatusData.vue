@@ -1,8 +1,6 @@
 <template>
-  <tr class="data">
-    <td class="item">{{ item }}</td>
-    <td class="value">{{ value }}</td>
-  </tr>
+  <dt class="item">{{ item }}</dt>
+  <dd class="value">{{ value }}</dd>
 </template>
 
 <script>
@@ -19,6 +17,8 @@ export default {
 
 <style scoped>
   .item {
+    float: left;
+    height: 1.2em;
     text-align: left;
   }
   .item::after {
@@ -26,7 +26,7 @@ export default {
   }
   .value {
     text-align: right;
-    width: auto;
+    height: 1.2em;
   }
 
 </style>

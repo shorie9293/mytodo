@@ -19,5 +19,8 @@ export default {
     color: white;
     padding: 5px;
     cursor: pointer;
+    user-select: none;
+    margin-right: auto;
+    margin-right: left;
   }
 </style>

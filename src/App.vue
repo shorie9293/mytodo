@@ -1,16 +1,16 @@
 <template>
   <div id="App">
-    <StatusComponent/>
+    <QuestTemplate/>
   </div>
 </template>
 
 <script>
-import StatusComponent from './components/organisms/StatusComponent'
+import QuestTemplate from './components/template/QuestTemplate'
 
 export default {
   name: 'App',
   components: {
-    StatusComponent
+    QuestTemplate
   },
 }
 </script>

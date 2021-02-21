@@ -1,5 +1,6 @@
 <template>
   <div style="width: auto;">
+    <MonsterView :imgs="img"/>
     <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" style="margin-bottom: 10px;"/>
     <StatusPanel v-for="(item,index) in sts"
       :key="index"
@@ -11,37 +12,42 @@
       />
     <Button @click=ptToVl title="ポイント反映"></Button>
     <Button @click=ptToSkpt title="キャンセル"></Button>
-    <Button @click=expstockToExp title="経験値反映">PT</Button>
-    <Button @click=clear title="clear">PT</Button>
-    <input type="number" v-model="lvdata.stexp">
+    <div v-show=false>
+      <Button @click=expstockToExp title="経験値反映"></Button>
+      <Button @click=clear title="clear"></Button>
+      <input type="number" v-model="lvdata.stexp">
+    </div>
   </div>
 </template>
 
 <script>
 import StatusPanel from './StatusPanel'
-import LevelData from './LevelData'
+import LevelData from '../molecules/LevelData'
 import Button from '../atoms/Button'
+import MonsterView from '../atoms/MonsterView'
 
 export default {
   name: "StatusComponent",
   components: {
     StatusPanel,
     LevelData,
-    Button
+    Button,
+    MonsterView
   },
   data: function(){
     return {
       sts: [
-        {itm: "HP", vl: 0, pt: 0, cl:"box1"},
-        {itm: "AT", vl: 0, pt: 0, cl:"box2"},
-        {itm: "DF", vl: 0, pt: 0, cl:"box3"}
+        {itm: "HP", vl: 12, pt: 0, cl:"box1"},
+        {itm: "AT", vl: 4, pt: 0, cl:"box2"},
+        {itm: "DF", vl: 1, pt: 0, cl:"box3"}
         ],
       lvdata: {
         lv: 1,
         exp: 0,
         pt: 100,
         stexp: 0
-      }
+      },
+      img: require('/public/imgs/yuusya_game.png')
     }
   },
   watch: {
@@ -72,11 +78,11 @@ export default {
   },
   mounted: function() {
     this.sts = JSON.parse(localStorage.getItem('status'))  || [
-      {itm: "HP", vl: 0, pt: 0, cl:"box1"},
-      {itm: "AT", vl: 0, pt: 0, cl:"box2"},
-      {itm: "DF", vl: 0, pt: 0, cl:"box3"}
+      {itm: "HP", vl: 12, pt: 0, cl:"box1"},
+      {itm: "AT", vl: 4, pt: 0, cl:"box2"},
+      {itm: "DF", vl: 1, pt: 0, cl:"box3"}
     ];
-    this.lvdata = JSON.parse(localStorage.getItem('leveldata'))  || {lv: 1, exp: 0, pt: 100, stexp: 0};
+    this.lvdata = JSON.parse(localStorage.getItem('leveldata'))  || {lv: 1, exp: 0, pt: 0, stexp: 0};
 
   },
   methods: {
@@ -84,8 +90,14 @@ export default {
       if (this.lvdata.pt <= 0) {
         return;
       }
+      
+      let a_countup = new Audio(require("/public/mp3/button01a.mp3"))
+
       this.sts[n].pt += 1
       this.lvdata.pt -= 1
+
+      a_countup.play()
+
     },
     ptToVl: function() {
       this.sts.forEach(element => {
@@ -108,9 +120,9 @@ export default {
     },
     clear: function() {
       localStorage.setItem('status', JSON.stringify([
-        {itm: "HP", vl: 0, pt: 0, cl:"box1"},
-        {itm: "AT", vl: 0, pt: 0, cl:"box2"},
-        {itm: "DF", vl: 0, pt: 0, cl:"box3"}
+        {itm: "HP", vl: 12, pt: 0, cl:"box1"},
+        {itm: "AT", vl: 4, pt: 0, cl:"box2"},
+        {itm: "DF", vl: 1, pt: 0, cl:"box3"}
       ]));
       localStorage.setItem('leveldata', JSON.stringify({
         lv: 1, exp: 0, pt: 100, stexp: 0
