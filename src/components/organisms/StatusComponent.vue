@@ -12,9 +12,9 @@
       />
     <Button @click=ptToVl title="ポイント反映"></Button>
     <Button @click=ptToSkpt title="キャンセル"></Button>
+    <Button @click=clear title="clear"></Button>
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"></Button>
-      <Button @click=clear title="clear"></Button>
       <input type="number" v-model="lvdata.stexp">
     </div>
   </div>
@@ -119,14 +119,7 @@ export default {
       this.lvdata.stexp = 0;
     },
     clear: function() {
-      localStorage.setItem('status', JSON.stringify([
-        {itm: "HP", vl: 12, pt: 0, cl:"box1"},
-        {itm: "AT", vl: 4, pt: 0, cl:"box2"},
-        {itm: "DF", vl: 1, pt: 0, cl:"box3"}
-      ]));
-      localStorage.setItem('leveldata', JSON.stringify({
-        lv: 1, exp: 0, pt: 100, stexp: 0
-      }));
+      localStorage.clear();
     }
   }
 

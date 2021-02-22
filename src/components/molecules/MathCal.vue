@@ -70,6 +70,7 @@ name: "MathCal",
         this.nextQuestion();
       }
       this.$emit("updateAnswer", this.judge);
+      this.myAnswer = ''
     }
   }
 }

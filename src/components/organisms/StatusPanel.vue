@@ -2,7 +2,7 @@
   <div class="box">
     <table class="status-data">
       <StatusData :item="item" :value="value"/>
-      <StatusData item="ポイント" :value="point"/>
+      <StatusData item="PT" :value="point"/>
     </table>
   </div>
 </template>
