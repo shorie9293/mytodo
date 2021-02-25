@@ -50,7 +50,7 @@ export default {
         pt: 0,
         stexp: 0
       },
-      img: require('/public/imgs/yuusya_game.png')
+      img: require('@/assets/imgs/yuusya_game.png')
     }
   },
   watch: {
@@ -97,7 +97,7 @@ export default {
         return;
       }
       
-      let a_countup = new Audio(require("/public/mp3/button01a.mp3"))
+      let a_countup = new Audio(require("@/assets/mp3/button01a.mp3"))
 
       this.sts[n].pt += 1
       this.lvdata.pt -= 1
