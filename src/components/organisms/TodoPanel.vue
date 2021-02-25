@@ -4,7 +4,7 @@
     <label :for="todo.id">{{ todo.value }}: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span>
   </div>
   <dl>
-  <dt>タイトル</dt>
+  <dt>TODO</dt>
   <dd><input type="text" v-model="todo_title"/></dd>
   <dt>けいけんち</dt>
   <dd><input type="Number" v-model="todo_exp"/></dd>
