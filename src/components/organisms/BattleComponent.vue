@@ -4,13 +4,17 @@
       <MonsterView :imgs="img" :class="{shake : isShake, attack : isAttack}" v-show="show" />
     </transition>
   </div>
-  <MathCal value1="1" value2="2" symbol="x" :anser="anser" @updateAnswer="judgeAnswer"/>
+  <MathCal @updateAnswer="judgeAnswer"/>
   <BattleStatusData class="hp-box" :myHp="status.myStatus.hp" :enHp="status.enemyStatus.hp"/>
   <div v-if="winner == 0" class="state wait">たいせん中</div>
   <div v-else-if="winner == 1" class="state win">あなたのかち!!</div>
   <div v-else-if="winner == 2" class="state lose">あなたのまけ...</div>
   <div v-else>Error</div>
   <Button title="さいせん" @click="reset"/>
+  <div style="width: 100px;">
+      勝利数: {{defetCounter}}
+      <Button title="reset" @click="resetCounter"/>
+  </div>
   <div v-show=false>
     <div>
       <input type="number" v-model="status.enemyStatus.hp">
@@ -39,6 +43,9 @@ export default {
     Button,
     MathCal
   },
+  props: {
+    class: String
+  },
   data: function() {
     return {
       img: require('/public/imgs/bone_ape.png'),
@@ -64,16 +71,25 @@ export default {
         {itm: "HP", vl: 0, pt: 0, cl:"box1"},
         {itm: "AT", vl: 0, pt: 0, cl:"box2"},
         {itm: "DF", vl: 0, pt: 0, cl:"box3"}
-      ]
+      ],
+      defetCounter: 0
 
     }
   },
-  mounted: function() {
+  watch: {
+    winner: function() {
+      localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
+    }
+  },
+  mounted: 
+    function() {
     this.sts = JSON.parse(localStorage.getItem('status'))
+    this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
     this.status.myStatus.hp = this.sts[0].vl
     this.status.myStatus.attack = this.sts[1].vl
     this.status.myStatus.diffence = this.sts[2].vl
-  },
+    }
+  ,
   methods: {
     damage: function() {
       
@@ -101,6 +117,7 @@ export default {
         if (ensts.hp <= 0) {
           v.show = false;
           v.winner = 1;
+          v.defetCounter++;
           new Audio(require('/public/mp3/chorus_of_angels1.mp3')).play()
           return
         } else {
@@ -140,6 +157,10 @@ export default {
     judgeAnswer: function(value) {
       this.judge = value;
       this.damage();
+    },
+    resetCounter: function() {
+      this.defetCounter = 0;
+      localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     }
   }
   
@@ -200,6 +221,7 @@ export default {
 }
 
 .mst-box {
+  display: flexbox;
   width: auto;
   height: 100px;
   margin-right: auto;
@@ -227,7 +249,7 @@ export default {
 }
 
 .state {
-  font-size: 30pt;
+  font-size: 20pt;
   font-weight: bolder;
 }
 

@@ -1,9 +1,9 @@
 <template>
   <div class="box">
-    <table class="status-data">
+    <dl class="status-data">
       <StatusData :item="item" :value="value"/>
       <StatusData item="PT" :value="point"/>
-    </table>
+    </dl>
   </div>
 </template>
 
@@ -31,7 +31,6 @@ export default {
 
 <style scoped>
   .status-data {
-    table-layout: fixed;
     width: 100%;
   }
   .box {

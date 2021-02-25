@@ -14,7 +14,15 @@
     </div>
     <input type="Number" v-model="myAnswer" class="ans">
   </div>
-  <div class="answer" :class="{'ok' : judge, 'ng' : !(judge)}">{{judge ? "あたり！" : "はずれ…"}}</div>
+  <div class="answer" :class="{'ok' : judge, 'ng' : !(judge)}">
+    <div v-if="judge=='たたかいのはじまり'">
+      {{ judge }}
+    </div>
+    <div v-else>
+      {{judge ? "あたり！" : "はずれ…"}}
+    </div>
+      
+  </div>
   <Button title="こうげき" @click="judge_answer"/>
   <Button title="つぎのもんだい" @click="nextQuestion"/>
 </template>
@@ -37,12 +45,13 @@ name: "MathCal",
       myAnswer: '',
       answer: 3,
       index: 0,
-      judge: ''
+      judge: 'たたかいのはじまり'
     }
   },
   mounted: 
     function() {this.nextQuestion();}
   ,
+  emits: ["updateAnswer"],
   methods: {
     solution: function() {
 
@@ -99,7 +108,7 @@ name: "MathCal",
     text-align: right;
   }
   .answer {
-    font-size: 30pt;
+    font-size: 20pt;
     font-weight: bolder;
   }
 

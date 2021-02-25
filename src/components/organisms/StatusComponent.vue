@@ -1,21 +1,24 @@
 <template>
-  <div style="width: auto;">
+  <div style="width: 100%;">
     <MonsterView :imgs="img"/>
     <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" style="margin-bottom: 10px;"/>
-    <StatusPanel v-for="(item,index) in sts"
-      :key="index"
-      :item="item.itm"
-      :value="item.vl"
-      :point="item.pt" 
-      :class="item.cl"
-      @click="countUp(index)"
-      />
+    <div class="status-block">
+      <StatusPanel v-for="(item,index) in sts"
+        :key="index"
+        :item="item.itm"
+        :value="item.vl"
+        :point="item.pt" 
+        :class="item.cl"
+        @click="countUp(index)"
+        />
+    </div>
     <Button @click=ptToVl title="ポイント反映"></Button>
     <Button @click=ptToSkpt title="キャンセル"></Button>
     <Button @click=clear title="clear"></Button>
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"></Button>
-      <input type="number" v-model="lvdata.stexp">
+      <input id="inputexp" type="number" v-model="lvdata.stexp">
+      <label for="inputexp"></label>
     </div>
   </div>
 </template>
@@ -32,7 +35,7 @@ export default {
     StatusPanel,
     LevelData,
     Button,
-    MonsterView
+    MonsterView,
   },
   data: function(){
     return {
@@ -44,7 +47,7 @@ export default {
       lvdata: {
         lv: 1,
         exp: 0,
-        pt: 100,
+        pt: 0,
         stexp: 0
       },
       img: require('/public/imgs/yuusya_game.png')
@@ -76,13 +79,16 @@ export default {
 
     }
   },
+  created: function() {
+    
+  },
   mounted: function() {
-    this.sts = JSON.parse(localStorage.getItem('status'))  || [
+    this.sts = JSON.parse(localStorage.getItem('status')) || [
       {itm: "HP", vl: 12, pt: 0, cl:"box1"},
       {itm: "AT", vl: 4, pt: 0, cl:"box2"},
       {itm: "DF", vl: 1, pt: 0, cl:"box3"}
     ];
-    this.lvdata = JSON.parse(localStorage.getItem('leveldata'))  || {lv: 1, exp: 0, pt: 0, stexp: 0};
+    this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0};
 
   },
   methods: {
@@ -129,15 +135,22 @@ export default {
 <style scoped>
 
 .box1 {
+  width: 100%;
   background-color: orange;
 }
 
 .box2 {
+  width: 100%;
   background-color: lightblue;
 }
 
 .box3 {
+  width: 100%;
   background-color: lightgreen;
+}
+
+.status-block {
+  display: flex;
 }
 
 </style>

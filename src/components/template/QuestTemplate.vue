@@ -1,14 +1,17 @@
 <template>
   <div class="display-panel">
-    <template v-if="display">
+    <template v-if="display==0">
       <StatusComponent class="component"/>
     </template>
-    <template v-else>
+    <template v-else-if="display==1">
       <BattleComponent class="component"/>
+    </template>
+    <template v-else>
+      <TodoPanel class="component"/>
     </template>
   </div>
   <div class="btn">
-    <Button title="SELECT" @click="display = !display"/>
+    <Button title="SELECT" @click="selectComp"/>
   </div>
 </template>
 
@@ -16,17 +19,30 @@
 import Button from '../atoms/Button'
 import StatusComponent from '../organisms/StatusComponent'
 import BattleComponent from '../organisms/BattleComponent'
+import TodoPanel from '../organisms/TodoPanel.vue'
+
 
 export default {
   name: 'QuestTemplate',
   components: {
     Button,
     StatusComponent,
-    BattleComponent
+    BattleComponent,
+    TodoPanel
   },
   data: function() {
     return{
-      display: true
+      display: 0,
+      comp: 3
+    }
+  },
+  methods: {
+    selectComp: function() {
+      if (this.display == this.comp - 1) {
+        this.display = 0
+      } else {
+        this.display++
+      }
     }
   }
 }
