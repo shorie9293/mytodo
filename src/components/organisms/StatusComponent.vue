@@ -50,7 +50,6 @@ export default {
         pt: 0,
         stexp: 0
       },
-      // img: require('@/assets/imgs/yuusya_game.png')
       img: require('/public/imgs/yuusya_game.png')
     }
   },
@@ -98,12 +97,10 @@ export default {
         return;
       }
       
-      // let a_countup = new Audio(require("/public/media/button01a.mp3"))
+      new Audio(require("/public/media/button01a.mp3")).play();
 
       this.sts[n].pt += 1
       this.lvdata.pt -= 1
-
-      // a_countup.play()
 
     },
     ptToVl: function() {

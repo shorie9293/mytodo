@@ -109,8 +109,7 @@ export default {
 
       function atkToEnemy(v) {
         if (dam > 0) {
-          // new Audio(require('../public/media/straight_punch.mp3')).play()
-          // a_atk.play()
+          new Audio(require("/public/media/straight_punch.mp3")).play()
           v.isShake = true;
         }
         ensts.hp -= dam > 0 ? dam : 0;  
@@ -118,7 +117,7 @@ export default {
           v.show = false;
           v.winner = 1;
           v.defetCounter++;
-          // new Audio(require('../public/media/chorus_of_angels1.mp3')).play()
+          new Audio(require('/public/media/chorus_of_angels1.mp3')).play()
           return
         } else {
           setTimeout(function(){ 
@@ -130,11 +129,11 @@ export default {
         return;
 
         function atkFromEnemy(v) {
-          // new Audio(require('../public/media/kick2.mp3')).play()
+          new Audio(require('/public/media/kick2.mp3')).play()
           v.isAttack = true;
           if (mysts.hp <= 0) {
             v.winner = 2;
-            // new Audio(require('../public/media/surprising_shock2.mp3')).play()
+            new Audio(require('/public/media/surprising_shock2.mp3')).play()
             return;
           } else {
             setTimeout(function(){ v.isAttack = false }, 820)

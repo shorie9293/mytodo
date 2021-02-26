@@ -69,6 +69,8 @@ export default {
         return;
       }
       this.leveldata.exp += this.calExp
+      new Audio(require("/public/media/powerup10.mp3")).play();
+
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     }
   },
