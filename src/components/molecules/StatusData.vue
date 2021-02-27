@@ -1,3 +1,5 @@
+<!-- ITEM: VALUEと表示するパーツ -->
+
 <template>
   <dt class="item">{{ item }}</dt>
   <dd class="value">{{ value }}</dd>

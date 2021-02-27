@@ -1,3 +1,4 @@
+<!-- ステータスアップコンポーネント -->
 <template>
   <div style="width: 100%;">
     <MonsterView :imgs="img"/>
@@ -15,6 +16,7 @@
     <Button @click=ptToVl title="ポイント反映"></Button>
     <Button @click=ptToSkpt title="キャンセル"></Button>
     <Button @click=clear title="clear"></Button>
+    <!-- デバッグ用。うつしてないがとりあえず保存しておくが消しても良い 21/2/27。 -->
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"></Button>
       <input id="inputexp" type="number" v-model="lvdata.stexp">
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import StatusPanel from './StatusPanel'
+import StatusPanel from '../molecules/StatusPanel'
 import LevelData from '../molecules/LevelData'
 import Button from '../atoms/Button'
 import MonsterView from '../atoms/MonsterView'
@@ -54,16 +56,16 @@ export default {
     }
   },
   watch: {
-    sts: {
+    // 各変更に対して値をlocalstrageに格納
+    'sts': {
       handler: function() {
         localStorage.setItem('status', JSON.stringify(this.sts));
         localStorage.setItem('leveldata', JSON.stringify(this.lvdata));
       }, 
       deep: true
     },
-    lvdata: {
+    'lvdata': {
       handler: function() {
-        localStorage.setItem('status', JSON.stringify(this.sts));
         localStorage.setItem('leveldata', JSON.stringify(this.lvdata));
       }, 
       deep: true
@@ -79,9 +81,6 @@ export default {
 
     }
   },
-  created: function() {
-    
-  },
   mounted: function() {
     this.sts = JSON.parse(localStorage.getItem('status')) || [
       {itm: "HP", vl: 12, pt: 0, cl:"box1"},
@@ -92,6 +91,7 @@ export default {
 
   },
   methods: {
+    // スキルポイントを各ステータスに割り振る
     countUp: function(n) {
       if (this.lvdata.pt <= 0) {
         return;
@@ -103,18 +103,21 @@ export default {
       this.lvdata.pt -= 1
 
     },
+    // スキルポイントの反映
     ptToVl: function() {
       this.sts.forEach(element => {
         element.vl += element.pt
         element.pt = 0
       });
     },
+    // スキルポイントのキャンセル
     ptToSkpt: function() {
       this.sts.forEach(element => {
         this.lvdata.pt += element.pt
         element.pt = 0
       });
     },
+    // デバッグ用。いまのところ保存 210207
     expstockToExp: function() {
       if (this.lvdata.stexp <= 0) {
         return;
@@ -122,6 +125,7 @@ export default {
       this.lvdata.exp += Number(this.lvdata.stexp);
       this.lvdata.stexp = 0;
     },
+    // 全データのリセット
     clear: function() {
       localStorage.clear();
     }

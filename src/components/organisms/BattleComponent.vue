@@ -1,11 +1,16 @@
+<!-- 戦闘画面 -->
 <template>
   <div class="mst-box">
     <transition name="mst">
       <MonsterView :imgs="img" :class="{shake : isShake, attack : isAttack}" v-show="show" />
     </transition>
   </div>
+  <!-- 問題表記の画面はもう少し工夫したい。 -->
+  <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
+  <!-- そうすれば問題がどんな問題にも関わらず正解判定できるはず -->
   <MathCal @updateAnswer="judgeAnswer"/>
   <BattleStatusData class="hp-box" :myHp="status.myStatus.hp" :enHp="status.enemyStatus.hp"/>
+  <!-- 対戦状態を表記する -->
   <div v-if="winner == 0" class="state wait">たいせん中</div>
   <div v-else-if="winner == 1" class="state win">あなたのかち!!</div>
   <div v-else-if="winner == 2" class="state lose">あなたのまけ...</div>
@@ -77,20 +82,23 @@ export default {
     }
   },
   watch: {
-    winner: function() {
+    // 勝った回数を記録する。今の所使用予定はない。
+    'winner': function() {
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     }
   },
   mounted: 
     function() {
-    this.sts = JSON.parse(localStorage.getItem('status'))
-    this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
-    this.status.myStatus.hp = this.sts[0].vl
-    this.status.myStatus.attack = this.sts[1].vl
-    this.status.myStatus.diffence = this.sts[2].vl
-    }
-  ,
+    // 自分のステータスを読み込む。
+      this.sts = JSON.parse(localStorage.getItem('status'))
+      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
+      this.status.myStatus.hp = this.sts[0].vl
+      this.status.myStatus.attack = this.sts[1].vl
+      this.status.myStatus.diffence = this.sts[2].vl
+    },
   methods: {
+    // 一連の攻撃画面。アニメーションを表記するためにsetTimeoutを入れ子にしているのと、内部関数使ってる
+    // 再帰とか使えばもっとうまくかけそうな気がするが…
     damage: function() {
       
       var mysts = this.status.myStatus
@@ -106,7 +114,7 @@ export default {
         dam = mysts.attack - ensts.diffence;
       }
       atkToEnemy(this)
-
+      // 敵への攻撃
       function atkToEnemy(v) {
         if (dam > 0) {
           new Audio(require("/public/media/straight_punch.mp3")).play()
@@ -127,7 +135,7 @@ export default {
             atkFromEnemy(v); }, 820)
         }
         return;
-
+        // 敵からの攻撃
         function atkFromEnemy(v) {
           new Audio(require('/public/media/kick2.mp3')).play()
           v.isAttack = true;
@@ -143,6 +151,7 @@ export default {
       }
 
     },
+    // 勝負状態をリセットして再戦する
     reset: function() {
       this.show = true;
       this.isShake = false;
@@ -153,10 +162,12 @@ export default {
       this.status.myStatus.diffence = this.sts[2].vl
       this.status.enemyStatus.hp = 10
     },
+    // 別にjudgeしているわけではないが、将来的にここで判定したい
     judgeAnswer: function(value) {
       this.judge = value;
       this.damage();
     },
+    // 対戦回数リセット
     resetCounter: function() {
       this.defetCounter = 0;
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
@@ -167,7 +178,8 @@ export default {
 </script>
 
 <style scoped>
-
+/* アニメーション処理 */
+/* 自分攻撃時。横揺れ */
 .shake {
   animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: translate3d(0, 0, 0);
@@ -200,6 +212,7 @@ export default {
   }
 }
 
+/* 敵攻撃時。拡大縮小 */
 .attack {
   background-color: tomato;
   animation: attack 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;

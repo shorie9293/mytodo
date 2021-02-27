@@ -1,3 +1,4 @@
+<!-- 算数の問題を出すパーツ  -->
 <template>
   <div class="component">
     <div class="txt">
@@ -14,6 +15,8 @@
     </div>
     <input type="Number" v-model="myAnswer" class="ans">
   </div>
+
+  <!-- あたりとはずれの表示をする。一回目だけたたかいの始まりを表示する -->
   <div class="answer" :class="{'ok' : judge, 'ng' : !(judge)}">
     <div v-if="judge=='たたかいのはじまり'">
       {{ judge }}
@@ -21,7 +24,6 @@
     <div v-else>
       {{judge ? "あたり！" : "はずれ…"}}
     </div>
-      
   </div>
   <Button title="こうげき" @click="judge_answer"/>
   <Button title="つぎのもんだい" @click="nextQuestion"/>
@@ -49,16 +51,17 @@ name: "MathCal",
     }
   },
   mounted: 
+  // マウントするたびに問題を更新する
     function() {this.nextQuestion();}
   ,
   emits: ["updateAnswer"],
   methods: {
-    solution: function() {
-
-    },
+    //問題更新
     nextQuestion: function() {
+      //足し算、引き算、掛け算を割り振る
       this.index = Math.floor(Math.random() * 3);
 
+      //足し算は二桁、掛け算は一桁、引き算は正の整数になるようにしている
       if (this.symbol[this.index] == "x") {
         this.value1 = Math.floor(Math.random() * 9) + 1;
         this.value2 = Math.floor(Math.random() * 9) + 1;
@@ -73,6 +76,7 @@ name: "MathCal",
         this.answer = this.value1 - this.value2
       }
     },
+    // こたえがあっているかどうか確認する
     judge_answer: function() {
       this.judge = this.answer == this.myAnswer ? true : false;
       if (this.judge) {

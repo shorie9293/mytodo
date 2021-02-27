@@ -1,5 +1,7 @@
 <template>
   <div id="App">
+    <h1>マグロクエスト</h1>
+    <h2>~{{name}}のぼうけん~</h2>
     <QuestTemplate/>
   </div>
 </template>
@@ -12,6 +14,12 @@ export default {
   components: {
     QuestTemplate
   },
+  data() {
+    return {
+      name: "HOGEHOGE"
+    }
+  }
+  
 }
 </script>
 
@@ -22,7 +30,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
 }
 
 </style>

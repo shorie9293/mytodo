@@ -1,3 +1,5 @@
+<!-- ステータスを表示するボックス -->
+
 <template>
   <div class="box">
     <dl class="status-data">
@@ -19,11 +21,6 @@ export default {
     item: String,
     value: Number,
     point: Number
-  },
-  methods: {
-    countUp: function(p) {
-      return p + 1;
-    }
   }
 }
 

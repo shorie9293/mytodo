@@ -1,3 +1,4 @@
+<!-- 各コンポーネント表示用 -->
 <template>
   <div class="display-panel">
     <template v-if="display==0">

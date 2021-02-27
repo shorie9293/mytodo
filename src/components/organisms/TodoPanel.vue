@@ -1,3 +1,5 @@
+<!-- TODOを表示するパネル
+TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
   <div v-for="(todo, index) in todos" :key="todo.id">
     <input :id="todo.id" type="checkbox" v-model="todo.checked">
@@ -34,11 +36,14 @@ export default {
     }
   },
   mounted: function() {
+    // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
     this.todos = JSON.parse(localStorage.getItem('todos')) || [];
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
   },
   watch: {
+    // todoリストが変更されたらlocalStorageを変更する
+    // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     todos: {
       handler: function() {
         localStorage.setItem('todos', JSON.stringify(this.todos));
@@ -48,12 +53,15 @@ export default {
     }
   },
   methods: {
+    // todoを加える
     addTodo: function() {
+      // !!task!! ここにあとから全部入ってないと入力できないようにする
       this.todos.push({id: this.id_number, value: this.todo_title, exp: this.todo_exp, checked: false});
       this.id_number++;
       this.todo_title = '';
       this.todo_exp = '';
     },
+    // [x]ボタンを押すとtodoを消す
     deleteItem: function(index) {
       if (!confirm('けしますか？')) {
         return;
@@ -61,11 +69,15 @@ export default {
       this.todos.splice(index, 1);
       this.todo_title = '';
     },
+    // checkされたアイテムを消す。
+    // computedに定義されたremainingをtodoに代入している。
     deleteCheckedItem: function() {
       this.todos = this.remaining;
     },
+    // かんりょうずみタスクの経験値を反映。
+    // computedのcalExpを使っている。
     enhanceExp: function() {
-      if (!confirm('けいけんちをアップしますか？')) {
+      if (!confirm('けいけんちをはんえいしますか？')) {
         return;
       }
       this.leveldata.exp += this.calExp
@@ -75,6 +87,7 @@ export default {
     }
   },
   computed: {
+    // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
       if (!confirm('完了タスクをけしますか？')) {
         return;
@@ -83,11 +96,13 @@ export default {
         return !todo.checked;
       })
     },
+    // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
       this.todos.forEach(function(todo){
         if (todo.checked) {
           totalExp += Number(todo.exp);
+          todo.exp = 0;
         }
       })
       return totalExp;

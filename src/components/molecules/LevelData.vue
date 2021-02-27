@@ -1,3 +1,4 @@
+<!-- レベルに関するデータを表示するパーツ  -->
 <template>
   <dl>
     <StatusData item="レベル" :value="level"/>

@@ -1,3 +1,4 @@
+<!-- モンスター(というよりイメージ)を表示する -->
 <template>
   <img class="monster" :src="imgs" alt="image">
 </template>

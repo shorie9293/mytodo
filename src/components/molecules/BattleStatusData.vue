@@ -1,5 +1,5 @@
+<!-- 自分と敵のHPを表示するパーツ  -->
 <template>
-  
   <dl class="data">
     <StatusData item="じぶんのHP" :value="myHp"/>
     <StatusData item="てきのHP" :value="enHp"/>

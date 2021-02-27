@@ -1,3 +1,4 @@
+<!-- //ボタンの再定義 -->
 <template>
   <div class="bt">{{ title }}</div>
 </template>

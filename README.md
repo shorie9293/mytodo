@@ -1,4 +1,4 @@
-# tsunaquest
+# tsunaQuest
 
 ## Project setup
 ```
