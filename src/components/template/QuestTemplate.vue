@@ -2,26 +2,27 @@
 <template>
   <div class="display-panel">
     <template v-if="display==0">
-      <StatusComponent class="component"/>
+      <status-component class="component"/>
     </template>
     <template v-else-if="display==1">
-      <BattleComponent class="component"/>
+      <battle-component class="component"/>
     </template>
     <template v-else>
-      <TodoPanel class="component"/>
+      <todo-component class="component"/>
     </template>
   </div>
-  <div class="btn">
-    <Button title="SELECT" @click="selectComp"/>
+  <div class="btns">
+    <Button title="ステータス" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
+    <Button title="バトル" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
+    <Button title="やること" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
   </div>
 </template>
 
 <script>
 import Button from '../atoms/Button'
-import StatusComponent from '../organisms/StatusComponent'
-import BattleComponent from '../organisms/BattleComponent'
-import TodoPanel from '../organisms/TodoPanel.vue'
-
+import TodoComponent from '../organisms/TodoComponent.vue'
+import StatusComponent from '../organisms/StatusComponent.vue'
+import BattleComponent from '../organisms/BattleComponent.vue'
 
 export default {
   name: 'QuestTemplate',
@@ -29,7 +30,7 @@ export default {
     Button,
     StatusComponent,
     BattleComponent,
-    TodoPanel
+    TodoComponent,
   },
   data: function() {
     return{
@@ -65,10 +66,21 @@ export default {
 
   }
 
-  .btn {
+  .btns {
+    display: flex;
     padding: 10px;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
+  }
+
+  .btn {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .selected {
+    background-color: lightgray;
   }
 </style>

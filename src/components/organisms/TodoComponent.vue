@@ -1,14 +1,16 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-  <div v-for="(todo, index) in todos" :key="todo.id">
-    <input :id="todo.id" type="checkbox" v-model="todo.checked">
-    <label :for="todo.id">{{ todo.value }}: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span>
+  <div class="component">
+    <div v-for="(todo, index) in todos" :key="todo.id">
+      <input :id="todo.id" type="checkbox" v-model="todo.checked">
+      <label :for="todo.id" ><span :class="{ finished : todo.checked }">{{ todo.value }}</span>: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span>
+    </div>
   </div>
   <dl>
-  <dt>タイトル</dt>
+  <dt>タイトル<span v-show="isInputTitle" class="inputError"> あたいをいれてね</span></dt>
   <dd><input type="text" v-model="todo_title"/></dd>
-  <dt>けいけんち</dt>
+  <dt>けいけんち<span v-show="isInputExp" class="inputError"> あたいをいれてね</span></dt>
   <dd><input type="Number" v-model="todo_exp"/></dd>
   </dl>
   <Button @click="addTodo" title="くわえる"/>
@@ -33,6 +35,8 @@ export default {
       todo_title: '',
       todo_exp: '',
       id_number: 0,
+      isInputTitle: false,
+      isInputExp: false,
     }
   },
   mounted: function() {
@@ -56,6 +60,21 @@ export default {
     // todoを加える
     addTodo: function() {
       // !!task!! ここにあとから全部入ってないと入力できないようにする
+      this.isInputTitle = false;
+      this.isInputExp = false;
+      
+      if (this.todo_title == '') {
+        this.isInputTitle = true;
+      }
+
+      if (this.todo_exp == '') {
+        this.isInputExp = true;
+      }
+
+      if (this.isInputTitle || this.isInputExp) {
+        return;
+      }
+
       this.todos.push({id: this.id_number, value: this.todo_title, exp: this.todo_exp, checked: false});
       this.id_number++;
       this.todo_title = '';
@@ -113,5 +132,20 @@ export default {
 </script>
 
 <style scoped>
+.component {
+  text-align: left;
+}
 
+.inputError {
+  color: red;
+  font-size: 50%;
+}
+
+.finished {
+  color:lightseagreen;
+  font-style: italic;
+  font-family: 'Times New Roman', 'ＭＳ Ｐゴシック', serif;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+}
 </style>

@@ -33,4 +33,11 @@ export default {
   margin-top: 10px;
 }
 
+h1 {
+  margin: 0px;
+}
+h2 {
+  margin: 0px;
+}
+
 </style>

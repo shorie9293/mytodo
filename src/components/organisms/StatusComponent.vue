@@ -125,9 +125,16 @@ export default {
       this.lvdata.exp += Number(this.lvdata.stexp);
       this.lvdata.stexp = 0;
     },
-    // 全データのリセット
+    // 全データのリセット。デバッグ用。
     clear: function() {
-      localStorage.clear();
+      if (confirm("OK!?")) {
+        if (confirm('ほんとに!?')) {
+          if (confirm("真的吗？")) {
+            localStorage.clear();
+            alert('ぼうけんのしょがきえました')
+          }
+        }
+      }
     }
   }
 
