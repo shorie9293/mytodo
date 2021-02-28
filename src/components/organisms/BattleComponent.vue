@@ -2,7 +2,7 @@
 <template>
   <div class="mst-box">
     <transition name="mst">
-      <MonsterView :imgs="img[index]" :class="{shake : isShake, attack : isAttack}" v-show="show" />
+      <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" />
     </transition>
   </div>
     <div v-if="status.enemyStatus.name!=''">
@@ -57,14 +57,9 @@ export default {
   },
   data: function() {
     return {
-      img: [
-        require('/public/imgs/bone_ape.png'),
-        require('/public/imgs/dog.png'),
-        require('/public/imgs/ari.gif'),
-        require('/public/imgs/hae.gif'),
-        require('/public/imgs/ossan.gif'),
-        ],
-      datafile: require('/public/data/monster.json'),
+      imgobj: '',
+      img: '',
+      datafile: require(`@/assets/data/monster.json`),
       show: true,
       isShake: false,
       isAttack: false,
@@ -80,6 +75,7 @@ export default {
         },
         enemyStatus: {
           name: '',
+          img: '',
           hp: 10,
           attack: 3,
           diffence: 2
@@ -112,8 +108,7 @@ export default {
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
       this.enemyDatabase = this.datafile
-      }
-    ,
+    },
   methods: {
     // 一連の攻撃画面。アニメーションを表記するためにsetTimeoutを入れ子にしているのと、内部関数使ってる
     // 再帰とか使えばもっとうまくかけそうな気がするが…
@@ -135,7 +130,7 @@ export default {
       // 敵への攻撃
       function atkToEnemy(v) {
         if (dam > 0) {
-          new Audio(require("/public/media/straight_punch.mp3")).play()
+          new Audio(require(`@/assets/media/straight_punch.mp3`)).play()
           v.isShake = true;
         }
         ensts.hp -= dam > 0 ? dam : 0;  
@@ -143,7 +138,7 @@ export default {
           v.show = false;
           v.winner = 1;
           v.defetCounter++;
-          new Audio(require('/public/media/chorus_of_angels1.mp3')).play()
+          new Audio(require(`@/assets/media/chorus_of_angels1.mp3`)).play()
           return
         } else {
           setTimeout(function(){ 
@@ -155,11 +150,11 @@ export default {
         return;
         // 敵からの攻撃
         function atkFromEnemy(v) {
-          new Audio(require('/public/media/kick2.mp3')).play()
+          new Audio(require(`@/assets/media/kick2.mp3`)).play()
           v.isAttack = true;
           if (mysts.hp <= 0) {
             v.winner = 2;
-            new Audio(require('/public/media/surprising_shock2.mp3')).play()
+            new Audio(require(`@/assets/media/surprising_shock2.mp3`)).play()
             return;
           } else {
             setTimeout(function(){ v.isAttack = false }, 820)
@@ -200,12 +195,20 @@ export default {
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     },
     setStage: function() {
+      this.status.enemyStatus.img = require(`@/assets/imgs/${this.enemyDatabase[this.stageNum].img}`)
       this.status.enemyStatus.name = this.enemyDatabase[this.stageNum].name
       this.status.enemyStatus.hp = this.enemyDatabase[this.stageNum].hp
       this.status.enemyStatus.attack = this.enemyDatabase[this.stageNum].at
       this.status.enemyStatus.diffence = this.enemyDatabase[this.stageNum].df
     }
   },
+  computed: {
+    monsterImage() {
+      const fileName = "hae.gif"
+      return require(`@/assets/${fileName}`)
+
+    }
+  }
 }
 </script>
 

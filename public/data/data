@@ -1,5 +1,0 @@
- {"id":2, "name":"いぬ","hp":10,"at":2,"df":1, "img":"/public/imgs/dog.png"},
-  {"id":3, "name":"はえ","hp":10,"at":2,"df":1, "img":"/public/imgs/hae.gif"},
-  {"id":4, "name":"あり","hp":10,"at":2,"df":1, "img":"/public/imgs/ari.gif"},
-  {"id":5, "name":"おっさん","hp":10,"at":2,"df":1, "img":"/public/imgs/ossan.gif"}
-

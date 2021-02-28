@@ -54,7 +54,7 @@ export default {
         pt: 0,
         stexp: 0
       },
-      img: require('/public/imgs/yuusya_game.png')
+      img: require('@/assets/imgs/yuusya_game.png')
     }
   },
   watch: {
@@ -75,7 +75,7 @@ export default {
     'lvdata.exp': function(value) {
       let levelUPValue = 30;
       let lvupPoint = 10;
-      
+
       if (value >= levelUPValue) {
         this.lvdata.lv++;
         this.lvdata.pt += lvupPoint;
@@ -101,7 +101,7 @@ export default {
         return;
       }
       
-      new Audio(require("/public/media/button01a.mp3")).play();
+      new Audio(require(`@/assets/media/button01a.mp3`)).play();
 
       this.sts[n].pt += 1
       this.lvdata.pt -= 1

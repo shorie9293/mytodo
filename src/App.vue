@@ -1,25 +1,73 @@
 <template>
   <div id="App">
     <h1>マグロクエスト</h1>
-    <h2>~{{name}}のぼうけん~</h2>
-    <QuestTemplate/>
+    <h2>~{{parsonal.job}} {{parsonal.name}}のぼうけん~</h2>
+    <div>
+      <div v-if="firstSetting">
+        なまえ<input type="text" v-model="parsonal.name">
+        しょくぎょう<input type="text" list="myjob" v-model="parsonal.job">
+        <datalist id="myjob">
+          <div v-for="job in jobs" :key="job">
+              <option :value="job"></option>
+          </div>
+
+        </datalist>
+        <Button title="ゲームスタート" @click="setNameandJob" />
+      </div>
+      <QuestTemplate v-else/>
+    </div>
   </div>
 </template>
 
 <script>
+import Button from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate'
 
 export default {
   name: 'App',
   components: {
-    QuestTemplate
+    QuestTemplate,
+    Button,
   },
   data() {
     return {
-      name: "HOGEHOGE"
+      firstSetting: 'hoge',
+      parsonal: {name:'hoge', job: ''},
+      jobs: [
+        "ゆうしゃ",
+        "せんし",
+        "まほうつかい"
+      ]
+
     }
-  }
-  
+  },
+  mounted: function(){
+      this.$nextTick(function(){
+        this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
+        // alert(JSON.parse(localStorage.getItem('firstSetting')));
+        let flag = JSON.parse(localStorage.getItem('firstSetting'));
+        if (flag==false) {
+          this.firstSetting = false;
+        } else {
+          true;
+        }
+      })
+   
+  },
+  methods:{
+    setNameandJob: function(){
+      if (confirm('なまえとしょくぎょうはこれでいいですか？')) {
+        localStorage.setItem('parsonal', JSON.stringify(this.parsonal));
+        localStorage.setItem('firstSetting', false);
+        this.firstSetting = false
+      } else {
+        this.parsonal.name = "";
+        this.parsonal.job = ""
+      }
+    }
+
+  } 
+
 }
 </script>
 
