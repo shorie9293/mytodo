@@ -14,6 +14,6 @@ export default {
 
 <style scoped>
  .monster {
-    width: 100px;
+    height: 100%;
     }
 </style>

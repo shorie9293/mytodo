@@ -2,9 +2,14 @@
 <template>
   <div class="mst-box">
     <transition name="mst">
-      <MonsterView :imgs="img" :class="{shake : isShake, attack : isAttack}" v-show="show" />
+      <MonsterView :imgs="img[index]" :class="{shake : isShake, attack : isAttack}" v-show="show" />
     </transition>
   </div>
+    <div v-if="status.enemyStatus.name!=''">
+      {{status.enemyStatus.name}}があらわれた
+    </div>
+    <input type="number" max=4 min=0 v-model="stageNum">
+
   <!-- 問題表記の画面はもう少し工夫したい。 -->
   <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
   <!-- そうすれば問題がどんな問題にも関わらず正解判定できるはず -->
@@ -31,7 +36,6 @@
       <input type="number" v-model="status.enemyStatus.diffence">
     </div>
   </div>
-
 </template>
 
 <script>
@@ -53,20 +57,29 @@ export default {
   },
   data: function() {
     return {
-      img: require('/public/imgs/bone_ape.png'),
+      img: [
+        require('/public/imgs/bone_ape.png'),
+        require('/public/imgs/dog.png'),
+        require('/public/imgs/ari.gif'),
+        require('/public/imgs/hae.gif'),
+        require('/public/imgs/ossan.gif'),
+        ],
+      datafile: require('/public/data/monster.json'),
       show: true,
       isShake: false,
       isAttack: false,
       winner: 0,
       anser: '',
       judge: false,
+      enemyDatabase: [],
       status: {
         myStatus :{
           hp: 0,
           attack: 0,
           diffence: 0
-      },
-      enemyStatus: {
+        },
+        enemyStatus: {
+          name: '',
           hp: 10,
           attack: 3,
           diffence: 2
@@ -77,8 +90,10 @@ export default {
         {itm: "AT", vl: 0, pt: 0, cl:"box2"},
         {itm: "DF", vl: 0, pt: 0, cl:"box3"}
       ],
-      defetCounter: 0
-
+      defetCounter: 0,
+      isEnemyData: false,
+      stageNum: 0,
+      index: 0
     }
   },
   watch: {
@@ -87,15 +102,18 @@ export default {
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     }
   },
-  mounted: 
+  mounted :  
     function() {
-    // 自分のステータスを読み込む。
+      // 自分のステータスを読み込む。
       this.sts = JSON.parse(localStorage.getItem('status'))
       this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
+      this.stageNum = JSON.parse(localStorage.getItem('stageNumber')) || 0
       this.status.myStatus.hp = this.sts[0].vl
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
-    },
+      this.enemyDatabase = this.datafile
+      }
+    ,
   methods: {
     // 一連の攻撃画面。アニメーションを表記するためにsetTimeoutを入れ子にしているのと、内部関数使ってる
     // 再帰とか使えばもっとうまくかけそうな気がするが…
@@ -153,14 +171,23 @@ export default {
     },
     // 勝負状態をリセットして再戦する
     reset: function() {
+      if (!confirm(this.enemyDatabase[this.stageNum].name + "とたたかいますか？")) {
+        return;
+      }
+
+      if (this.winner == 0) {
+        if (!confirm("たいせんとちゅうですがよいですか？")) return;
+      }
+
       this.show = true;
       this.isShake = false;
       this.isAttack = false;
       this.winner = 0;
+      this.index = this.stageNum;
       this.status.myStatus.hp = this.sts[0].vl
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
-      this.status.enemyStatus.hp = 10
+      this.setStage()
     },
     // 別にjudgeしているわけではないが、将来的にここで判定したい
     judgeAnswer: function(value) {
@@ -171,9 +198,14 @@ export default {
     resetCounter: function() {
       this.defetCounter = 0;
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
+    },
+    setStage: function() {
+      this.status.enemyStatus.name = this.enemyDatabase[this.stageNum].name
+      this.status.enemyStatus.hp = this.enemyDatabase[this.stageNum].hp
+      this.status.enemyStatus.attack = this.enemyDatabase[this.stageNum].at
+      this.status.enemyStatus.diffence = this.enemyDatabase[this.stageNum].df
     }
-  }
-  
+  },
 }
 </script>
 

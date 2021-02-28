@@ -1,7 +1,9 @@
 <!-- ステータスアップコンポーネント -->
 <template>
   <div style="width: 100%;">
-    <MonsterView :imgs="img"/>
+    <div style="height: 150px;">
+      <MonsterView :imgs="img"/>
+    </div>
     <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" style="margin-bottom: 10px;"/>
     <div class="status-block">
       <StatusPanel v-for="(item,index) in sts"
@@ -72,9 +74,11 @@ export default {
     },
     'lvdata.exp': function(value) {
       let levelUPValue = 30;
-
+      let lvupPoint = 10;
+      
       if (value >= levelUPValue) {
         this.lvdata.lv++;
+        this.lvdata.pt += lvupPoint;
         this.lvdata.exp -= levelUPValue;
         localStorage.setItem('leveldata', JSON.stringify(this.lvdata));
       }

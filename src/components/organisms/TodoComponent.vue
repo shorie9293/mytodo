@@ -11,7 +11,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <dt>タイトル<span v-show="isInputTitle" class="inputError"> あたいをいれてね</span></dt>
   <dd><input type="text" v-model="todo_title"/></dd>
   <dt>けいけんち<span v-show="isInputExp" class="inputError"> あたいをいれてね</span></dt>
-  <dd><input type="Number" v-model="todo_exp"/></dd>
+  <dd><input type="number" min=0 max=5 v-model="todo_exp"/></dd>
   </dl>
   <Button @click="addTodo" title="くわえる"/>
   <Button @click="enhanceExp" title="けいけんちアップ"/>
