@@ -1,7 +1,7 @@
 <template>
   <div id="App">
     <h1>マグロクエスト</h1>
-    <h2>~{{parsonal.job}} {{parsonal.name}}のぼうけん~</h2>
+    <h2>~{{parsonal.job}} {{parsonal.name}} のぼうけん~</h2>
     <div>
       <div v-if="firstSetting">
         なまえ<input type="text" v-model="parsonal.name">
@@ -14,20 +14,27 @@
         </datalist>
         <Button title="ゲームスタート" @click="setNameandJob" />
       </div>
+      <div v-else-if="show==true">
+        <Button title="とじる" @click="show=false"></Button>
+        <Readme></Readme>
+      </div>
       <QuestTemplate v-else/>
     </div>
+    <span @click="show=true" style="margin-right: 0;">読んでね</span>
   </div>
 </template>
 
 <script>
 import Button from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate'
+import Readme from './components/organisms/Readme';
 
 export default {
   name: 'App',
   components: {
     QuestTemplate,
     Button,
+    Readme
   },
   data() {
     return {
@@ -37,8 +44,8 @@ export default {
         "ゆうしゃ",
         "せんし",
         "まほうつかい"
-      ]
-
+      ],
+      show: false
     }
   },
   mounted: function(){

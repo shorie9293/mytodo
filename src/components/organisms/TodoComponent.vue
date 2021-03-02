@@ -4,7 +4,16 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <div class="component">
     <div v-for="(todo, index) in todos" :key="todo.id">
       <input :id="todo.id" type="checkbox" v-model="todo.checked">
-      <label :for="todo.id" ><span :class="{ finished : todo.checked }">{{ todo.value }}</span>: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span>
+      <!-- <label :for="todo.id" ><span :class="{ finished : todo.checked }">{{ todo.value }}</span>: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span> -->
+      <TodoPanel :forid="todo.id"
+       :value="todo.value"
+       :exp="Number(todo.exp)"
+       :initialExp="Number(todo.initialExp)"
+       :classofvalue="{'finished' : todo.checked}"
+       />
+       <span @click="deleteItem(index)"> [x]</span>
+       <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
+       <input :id="todo.id"  type="radio" name="todoitems" v-model="pick" :value="index">
     </div>
   </div>
   <dl>
@@ -14,16 +23,22 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <dd><input type="number" min=0 max=5 v-model="todo_exp"/></dd>
   </dl>
   <Button @click="addTodo" title="くわえる"/>
+  <Button @click="changeTodo(pick)" title="へんこうする"/>
   <Button @click="enhanceExp" title="けいけんちアップ"/>
   <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+  <Button @click="hoimi" title="けいけんちかいふく"/>
+
 </template>
 
 <script>
 import Button from '../atoms/Button';
+import TodoPanel from '../molecules/TodoPanel.vue';
+
 export default {
   name: "todo-panel",
   components: {
-    Button
+    Button,
+    TodoPanel
   },
   props: {
     class: String
@@ -37,6 +52,7 @@ export default {
       id_number: 0,
       isInputTitle: false,
       isInputExp: false,
+      pick: 'none'
     }
   },
   mounted: function() {
@@ -60,25 +76,36 @@ export default {
     // todoを加える
     addTodo: function() {
       // !!task!! ここにあとから全部入ってないと入力できないようにする
-      this.isInputTitle = false;
-      this.isInputExp = false;
-      
-      if (this.todo_title == '') {
-        this.isInputTitle = true;
-      }
 
-      if (this.todo_exp == '') {
-        this.isInputExp = true;
-      }
-
-      if (this.isInputTitle || this.isInputExp) {
+      if (this.checkInput()) {
         return;
       }
 
-      this.todos.push({id: this.id_number, value: this.todo_title, exp: this.todo_exp, checked: false});
+      this.todos.push({id: this.id_number,
+       value: this.todo_title,
+       exp: this.todo_exp,
+       initialExp: this.todo_exp,
+       checked: false});
       this.id_number++;
       this.todo_title = '';
       this.todo_exp = '';
+    },
+    changeTodo(pick) {
+      
+      if (pick == 'none') {
+        return;
+      }
+
+      if (this.checkInput()) {
+        return;
+      }
+
+      if(!confirm`タスクをへんこうしますか？`) {
+        return;
+      }
+      this.todos[pick].value = this.todo_title,
+      this.todos[pick].exp = this.todo_exp,
+      this.todos[pick].initialExp = this.todo_exp
     },
     // [x]ボタンを押すとtodoを消す
     deleteItem: function(index) {
@@ -91,7 +118,10 @@ export default {
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
     deleteCheckedItem: function() {
-      this.todos = this.remaining;
+     if (!confirm('完了タスクをけしますか？')) {
+        return;
+      }
+       this.todos = this.remaining;
     },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
@@ -103,14 +133,39 @@ export default {
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
+    },
+    // 経験値の回復。将来的には時間トリガーみたいな感じにしたい。
+    hoimi: function() {
+      if (!confirm('けいけんちをかいふくしますか？')) {
+        return;
+      }
+
+      this.todos.forEach(todo=>{
+        todo.exp = todo.initialExp
+      })
+    },
+    // インプットに必要項目が入っているかをチェックする。
+    checkInput: function() {
+      this.isInputTitle = false;
+      this.isInputExp = false;
+      
+      if (this.todo_title == '') {
+        this.isInputTitle = true;
+      }
+
+      if (this.todo_exp == '') {
+        this.isInputExp = true;
+      }
+
+      if (this.isInputTitle || this.isInputExp) {
+        return true;
+      }
+
     }
   },
   computed: {
     // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
-      if (!confirm('完了タスクをけしますか？')) {
-        return;
-      }
       return this.todos.filter(function(todo){
         return !todo.checked;
       })
@@ -125,8 +180,7 @@ export default {
         }
       })
       return totalExp;
-    }
-    
+    },
   },
 }
 </script>
@@ -141,11 +195,4 @@ export default {
   font-size: 50%;
 }
 
-.finished {
-  color:lightseagreen;
-  font-style: italic;
-  font-family: 'Times New Roman', 'ＭＳ Ｐゴシック', serif;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-}
 </style>
