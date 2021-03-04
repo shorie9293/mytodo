@@ -2,13 +2,18 @@
 <template>
   <div class="mst-box">
     <transition name="mst">
-      <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" />
+      <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" v-if="status.enemyStatus.name!=''"/>
     </transition>
   </div>
     <div v-if="status.enemyStatus.name!=''">
       {{status.enemyStatus.name}}があらわれた
     </div>
-    <input type="number" max=4 min=0 v-model="stageNum">
+    <select name="monster" id="monst">
+      <option v-for="(m,index) in enemyDatabase" 
+          :key="index"
+          :value="m.name"> {{ m.name }}
+      </option>
+    </select>
 
   <!-- 問題表記の画面はもう少し工夫したい。 -->
   <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
@@ -76,9 +81,9 @@ export default {
         enemyStatus: {
           name: '',
           img: '',
-          hp: 10,
-          attack: 3,
-          diffence: 2
+          hp: 0,
+          attack: 0,
+          diffence: 0
         }
       },
       sts: [
@@ -116,7 +121,10 @@ export default {
       
       var mysts = this.status.myStatus
       var ensts = this.status.enemyStatus
-
+      if (this.status.enemyStatus.name=='') {
+        alert('てきをせんたくしてください')
+        return;
+      }
       if (this.winner != 0) {
         return;
       }
@@ -170,7 +178,7 @@ export default {
         return;
       }
 
-      if (this.winner == 0) {
+      if (this.winner == 0 && this.status.enemyStatus.name != '') {
         if (!confirm("たいせんとちゅうですがよいですか？")) return;
       }
 

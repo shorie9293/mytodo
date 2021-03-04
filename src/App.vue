@@ -5,13 +5,14 @@
     <div>
       <div v-if="firstSetting">
         なまえ<input type="text" v-model="parsonal.name">
-        しょくぎょう<input type="text" list="myjob" v-model="parsonal.job">
-        <datalist id="myjob">
-          <div v-for="job in jobs" :key="job">
-              <option :value="job"></option>
-          </div>
+        しょくぎょう
+        <select size="1" v-model="parsonal.job">
+          <option v-for="job in jobs" 
+              :key="job"
+              :value="job"> {{ job }}
+          </option>
 
-        </datalist>
+        </select>
         <Button title="ゲームスタート" @click="setNameandJob" />
       </div>
       <div v-else-if="show==true">
