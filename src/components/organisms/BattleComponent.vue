@@ -8,7 +8,7 @@
     <div v-if="status.enemyStatus.name!=''">
       {{status.enemyStatus.name}}があらわれた
     </div>
-    <select name="monster" id="monst">
+    <select name="monster" id="monst" @change="onChange">
       <option v-for="(m,index) in enemyDatabase" 
           :key="index"
           :value="m.name"> {{ m.name }}
@@ -208,6 +208,9 @@ export default {
       this.status.enemyStatus.hp = this.enemyDatabase[this.stageNum].hp
       this.status.enemyStatus.attack = this.enemyDatabase[this.stageNum].at
       this.status.enemyStatus.diffence = this.enemyDatabase[this.stageNum].df
+    },
+    onChange: function(e) {
+      this.stageNum = e.target.selectedIndex;
     }
   },
   computed: {
