@@ -38,5 +38,7 @@ export default {
     display: table-cell;
     cursor: pointer;
     user-select: none;
+    border-radius: 4pt;
+    margin: 0px 2px;
   }
 </style>

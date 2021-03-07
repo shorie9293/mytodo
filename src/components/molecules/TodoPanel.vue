@@ -1,7 +1,13 @@
 <!-- Todoの内容を表示するパーツ -->
 <template>
   <label :for="forid">
-    <span :class="classofvalue">{{ value }}</span>: {{ exp }} / {{ initialExp }}
+    <div>
+      <div class="val" :class="classofvalue">{{ value }}</div>
+      <div class="tasks-detail">
+        <div class="task-d">{{ exp }} / {{ initialExp }}</div>
+        <div class="task-d">{{ taskType }}</div>
+      </div>
+    </div>
   </label>
 
 </template>
@@ -14,7 +20,8 @@ export default {
     value: String,
     exp: Number,
     initialExp: Number,
-    classofvalue: Object
+    classofvalue: Object,
+    taskType: String
   }
 }
 </script>
@@ -27,5 +34,25 @@ export default {
   font-family: 'Times New Roman', 'ＭＳ Ｐゴシック', serif;
   font-weight: bold;
   letter-spacing: 0.2em;
+}
+
+.tasks-detail {
+  display: flex;
+  width: 100%;
+}
+
+.task-d {
+  background: white;
+  margin: 1px;
+  padding: 1px;
+  width: 100%;
+  border: .1mm solid;
+}
+
+.val {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 1px;
+  padding: 1px;
+  width: 100%;
 }
 </style>

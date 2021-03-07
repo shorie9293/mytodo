@@ -149,17 +149,32 @@ export default {
 
 .box1 {
   width: 100%;
-  background-color: orange;
+  background: hsl(40, 100%, 50%);
+  transition: background 0.3s;
 }
 
 .box2 {
   width: 100%;
-  background-color: lightblue;
+  background: hsl(200, 100%, 70%);
+  transition: background 0.3s;
 }
 
 .box3 {
   width: 100%;
-  background-color: lightgreen;
+  background: hsl(100, 100%, 60%);
+  transition: background 0.3s;
+}
+
+.box1:hover {
+  background: hsl(40, 100%, 60%);
+}
+
+.box2:hover {
+  background: hsl(200, 100%, 80%);
+}
+
+.box3:hover {
+  background: hsl(100, 100%, 70%);
 }
 
 .status-block {

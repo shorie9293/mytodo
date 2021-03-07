@@ -34,7 +34,7 @@ export default {
   },
   data: function() {
     return{
-      display: 0,
+      display: 2,
       comp: 3
     }
   },
@@ -54,16 +54,18 @@ export default {
   .component {
     margin-right: auto;
     margin-left: auto;
+
   }
 
   .display-panel {
+    border-radius: 10px;
+    box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin-right: auto;
     margin-left: auto;
     width: 80%;
-    height: 500px;
-    background-color: bisque;
-
+    height: 100%;
+    background-color: rgb(196, 227, 255);
   }
 
   .btns {

@@ -1,44 +1,69 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-  <div class="component">
-    <div v-for="(todo, index) in todos" :key="todo.id">
-      <input :id="todo.id" type="checkbox" v-model="todo.checked">
-      <!-- <label :for="todo.id" ><span :class="{ finished : todo.checked }">{{ todo.value }}</span>: {{ todo.exp }}</label><span @click="deleteItem(index)"> [x]</span> -->
-      <TodoPanel :forid="todo.id"
-       :value="todo.value"
-       :exp="Number(todo.exp)"
-       :initialExp="Number(todo.initialExp)"
-       :classofvalue="{'finished' : todo.checked}"
-       />
-       <span @click="deleteItem(index)"> [x]</span>
-       <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
-       <input :id="todo.id"  type="radio" name="todoitems" v-model="pick" :value="index">
-    </div>
-  </div>
-  <dl>
-  <dt>タイトル<span v-show="isInputTitle" class="inputError"> あたいをいれてね</span></dt>
-  <dd><input type="text" v-model="todo_title"/></dd>
-  <dt>けいけんち<span v-show="isInputExp" class="inputError"> あたいをいれてね</span></dt>
-  <dd><input type="number" min=0 max=5 v-model="todo_exp"/></dd>
-  </dl>
-  <Button @click="addTodo" title="くわえる"/>
-  <Button @click="changeTodo(pick)" title="へんこうする"/>
-  <Button @click="enhanceExp" title="けいけんちアップ"/>
-  <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-  <Button @click="hoimi" title="けいけんちかいふく"/>
 
+  <swiper ref="mainSwiper"
+    :slides-per-view="2" 
+    :space-between="10"
+    :scrollbar= "{ draggable: true }"
+    class="swiper"
+    >
+      <swiper-slide v-for="(todo, key) in todos" :key="key">
+        <h3>{{ project_name[key] }}</h3>
+        <div v-for="(t, index) in todo" :key="t.id">
+          <div class="container">
+            <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked">
+            <TodoPanel :forid="t.id"
+            :value="t.value"
+            :exp="Number(t.exp)"
+            :initialExp="Number(t.initialExp)"
+            :taskType="t.type"
+            :classofvalue="{'finished' : t.checked}"
+            />
+            <div class="todo-btn">
+              <div @click="deleteItem(index, key)" class="peke"> [x]</div>
+              <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
+              <input :id="t.id"  type="radio" name="todoitems" v-model="pick" :value="index">
+            </div>
+          </div>
+
+        </div>
+      </swiper-slide>
+
+  </swiper>
+  <todo-input-panel @get-todo-info="setTodo"></todo-input-panel>
+
+  <Button @click="enhanceExp" title="けいけんちアップ"/>
+  <div class="delete-task">
+    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+    <select name="project" id="pr" v-model="deleteproject">
+        <option v-for="(p, key) in project_name"
+          :key="key" 
+          :value="key">{{ p }}
+          </option>
+    </select>
+  </div>
+  <Button @click="hoimi" title="けいけんちかいふく"/>
 </template>
 
 <script>
 import Button from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
+import {Swiper, SwiperSlide} from 'swiper/vue'
+import 'swiper/swiper.scss';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import 'swiper/components/scrollbar/scrollbar.scss';
+import TodoInputPanel from './TodoInputPanel.vue';
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 export default {
   name: "todo-panel",
   components: {
     Button,
-    TodoPanel
+    TodoPanel,
+    Swiper,
+    SwiperSlide,
+    TodoInputPanel
   },
   props: {
     class: String
@@ -46,82 +71,112 @@ export default {
   data() {
     return {
       leveldata: [],
-      todos: [],
+      todos: {
+        "main": [],
+        "rep": [],
+        "sub": []
+        },
       todo_title: '',
       todo_exp: '',
       id_number: 0,
       isInputTitle: false,
+      isInputPro: false,
       isInputExp: false,
-      pick: 'none'
+      pick: 'none',
+      project: "",
+      project_name: {
+        "main" : "メイン",
+        "rep" : "繰り返し",
+        "sub" : "サブ"
+      },
+      currenttodo: 'hoge',
+      deleteproject: ''
     }
   },
   mounted: function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
-    this.todos = JSON.parse(localStorage.getItem('todos')) || [];
+    this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
+    this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
+    this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
+    // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     todos: {
       handler: function() {
-        localStorage.setItem('todos', JSON.stringify(this.todos));
+        localStorage.setItem('todos_main', JSON.stringify(this.todos["main"]));
+        localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
+        localStorage.setItem('todos_rep', JSON.stringify(this.todos.rep));
         localStorage.setItem('todoid', JSON.stringify(this.id_number));
       },
       deep: true
     }
   },
   methods: {
-    // todoを加える
-    addTodo: function() {
-      // !!task!! ここにあとから全部入ってないと入力できないようにする
-
-      if (this.checkInput()) {
-        return;
-      }
-
-      this.todos.push({id: this.id_number,
-       value: this.todo_title,
-       exp: this.todo_exp,
-       initialExp: this.todo_exp,
-       checked: false});
-      this.id_number++;
-      this.todo_title = '';
-      this.todo_exp = '';
-    },
-    changeTodo(pick) {
+    
+    // todoを加える。変更かどうかで場合分けしている。
+    setTodo: function(todoinfo){
       
-      if (pick == 'none') {
-        return;
+      let v = todoinfo
+      let vm = this
+
+      if (todoinfo.e == 0) {
+        addTodo(vm, v)
+      } else if (todoinfo.e == 1) {
+        changeTodo(vm, v, this.pick)
       }
 
-      if (this.checkInput()) {
-        return;
+      function addTodo(vm, v) {
+        let proj
+        if (todoinfo.project == "main") {
+          proj = vm.todos.main
+        } else if (todoinfo.project == "repeat") {
+          proj = vm.todos.rep
+        } else if (todoinfo.project == "sub") {
+          proj = vm.todos.sub
+        }
+        proj.push({id: vm.id_number,
+          value: v.value,
+          exp: v.exp,
+          initialExp: v.exp,
+          type: v.type,
+          checked: false});
+         vm.id_number++;
+         vm.todo_title = '';
+         vm.todo_exp = '';
       }
-
-      if(!confirm`タスクをへんこうしますか？`) {
-        return;
+      function changeTodo(vm, v, pick) {
+        vm.todos[pick].main.value = v.value,
+        vm.todos[pick].main.exp = v.exp,
+        vm.todos[pick].main.initialExp = v.exp
+        vm.todos[pick].main.project = v.project
+        vm.todos[pick].main.type = v.type
       }
-      this.todos[pick].value = this.todo_title,
-      this.todos[pick].exp = this.todo_exp,
-      this.todos[pick].initialExp = this.todo_exp
     },
     // [x]ボタンを押すとtodoを消す
-    deleteItem: function(index) {
+    deleteItem: function(index, key) {
       if (!confirm('けしますか？')) {
         return;
       }
-      this.todos.splice(index, 1);
+      this.todos[key].splice(index, 1);
       this.todo_title = '';
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
     deleteCheckedItem: function() {
-     if (!confirm('完了タスクをけしますか？')) {
+      if (!confirm('完了タスクをけしますか？')) {
         return;
       }
-       this.todos = this.remaining;
+
+      if (this.deleteproject == '') {
+        alert('プロジェクトをえらんでください');
+        return;
+      }
+
+      this.todos[this.deleteproject] = this.remaining;
     },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
@@ -136,48 +191,35 @@ export default {
     },
     // 経験値の回復。将来的には時間トリガーみたいな感じにしたい。
     hoimi: function() {
-      if (!confirm('けいけんちをかいふくしますか？')) {
+      if (!confirm('くりかえしタスクのけいけんちをかいふくしますか？')) {
         return;
       }
 
-      this.todos.forEach(todo=>{
+      this.todos.rep.forEach(todo=>{
         todo.exp = todo.initialExp
       })
-    },
-    // インプットに必要項目が入っているかをチェックする。
-    checkInput: function() {
-      this.isInputTitle = false;
-      this.isInputExp = false;
-      
-      if (this.todo_title == '') {
-        this.isInputTitle = true;
-      }
-
-      if (this.todo_exp == '') {
-        this.isInputExp = true;
-      }
-
-      if (this.isInputTitle || this.isInputExp) {
-        return true;
-      }
-
     }
   },
   computed: {
     // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
-      return this.todos.filter(function(todo){
+
+      return this.todos[this.deleteproject].filter((todo) => {
         return !todo.checked;
       })
     },
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
-      this.todos.forEach(function(todo){
-        if (todo.checked) {
-          totalExp += Number(todo.exp);
-          todo.exp = 0;
-        }
+      let a = ['main', 'rep', 'sub'];
+      let v = this.todos
+      a.forEach(function(p){
+        v[p].forEach(function(todo){
+          if (todo.checked) {
+            totalExp += Number(todo.exp);
+            todo.exp = 0;
+          }
+        })
       })
       return totalExp;
     },
@@ -186,8 +228,14 @@ export default {
 </script>
 
 <style scoped>
-.component {
-  text-align: left;
+
+h3 {
+  margin: 5px;
+}
+
+.swiper {
+  height: 100%;
+  padding: 10px;
 }
 
 .inputError {
@@ -195,4 +243,36 @@ export default {
   font-size: 50%;
 }
 
+.peke {
+  color: blue;
+  cursor: pointer;
+}
+
+.delete-task{
+  display: flex;
+}
+
+.container {
+  text-align: left;
+  background: lightblue;
+  margin: 5px;
+  display: flex;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
+
+}
+
+.todo-btn {
+  display: block;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.checkbox {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+}
 </style>
