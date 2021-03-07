@@ -3,7 +3,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
 <template>
 
   <swiper ref="mainSwiper"
-    :slides-per-view="2" 
+    :slides-per-view="1" 
     :space-between="10"
     :scrollbar= "{ draggable: true }"
     class="swiper"

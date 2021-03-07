@@ -34,7 +34,7 @@ export default {
   },
   data: function() {
     return{
-      display: 2,
+      display: 0,
       comp: 3
     }
   },
