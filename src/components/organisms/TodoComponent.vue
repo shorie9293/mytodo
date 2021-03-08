@@ -11,13 +11,13 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       <swiper-slide v-for="(todo, key) in todos" :key="key">
         <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
-          <div class="container">
+          <div :class="['container', t.type]">
             <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked">
             <TodoPanel :forid="t.id"
             :value="t.value"
             :exp="Number(t.exp)"
             :initialExp="Number(t.initialExp)"
-            :taskType="t.type"
+            :taskType="tasktype[t.type]"
             :classofvalue="{'finished' : t.checked}"
             />
             <div class="todo-btn">
@@ -89,6 +89,12 @@ export default {
         "rep" : "繰り返し",
         "sub" : "サブ"
       },
+      tasktype: {
+        "nexttask" : "次の行動",
+        "otherperson" : "連絡待ち",
+        "wait" : "待機",
+        
+      },
       currenttodo: 'hoge',
       deleteproject: ''
     }
@@ -145,15 +151,24 @@ export default {
           type: v.type,
           checked: false});
          vm.id_number++;
-         vm.todo_title = '';
-         vm.todo_exp = '';
+         todoinfo.value = '';
+         todoinfo.exp = '';
+         todoinfo.type = '';
       }
       function changeTodo(vm, v, pick) {
-        vm.todos[pick].main.value = v.value,
-        vm.todos[pick].main.exp = v.exp,
-        vm.todos[pick].main.initialExp = v.exp
-        vm.todos[pick].main.project = v.project
-        vm.todos[pick].main.type = v.type
+        let proj
+        if (todoinfo.project == "main") {
+          proj = vm.todos.main
+        } else if (todoinfo.project == "repeat") {
+          proj = vm.todos.rep
+        } else if (todoinfo.project == "sub") {
+          proj = vm.todos.sub
+        }
+        proj[pick].value = v.value,
+        proj[pick].exp = v.exp,
+        proj[pick].initialExp = v.exp
+        proj[pick].project = v.project
+        proj[pick].type = v.type
       }
     },
     // [x]ボタンを押すとtodoを消す
@@ -254,7 +269,7 @@ h3 {
 
 .container {
   text-align: left;
-  background: lightblue;
+  background: rgba(150, 150, 255, 1);
   margin: 5px;
   display: flex;
   padding: 5px;
@@ -274,5 +289,16 @@ h3 {
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 10px;
+}
+
+
+.otherperson {
+  color: rgb(160, 160, 160);
+  background: rgb(200, 200, 255);
+}
+
+.wait {
+  color: rgb(210, 210, 210);
+  background: rgba(200, 227, 255, 1);
 }
 </style>

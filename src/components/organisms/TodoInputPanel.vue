@@ -2,7 +2,7 @@
   <div class="component">
     <div class="input-box">
       <dl>
-        <input-box-title :class="dt-box" :title="'プロジェクト'" :isshow="isProject"/>
+        <input-box-title class="dt-box" :title="'プロジェクト'" :isshow="isProject"/>
         <dd>
           <select class="inp-b" name="project" id="pr" v-model="todoinfo.project">
             <option value="main">メイン</option>
@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     addTodo: function(e){
+      // ここのところを変更する！！
       if (!this.checkInput()) {
         this.todoinfo.e = e
         this.$emit('get-todo-info', this.todoinfo)

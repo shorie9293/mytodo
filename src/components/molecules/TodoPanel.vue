@@ -4,8 +4,8 @@
     <div>
       <div class="val" :class="classofvalue">{{ value }}</div>
       <div class="tasks-detail">
-        <div class="task-d">{{ exp }} / {{ initialExp }}</div>
-        <div class="task-d">{{ taskType }}</div>
+        <div class="task-d exp">{{ exp }} / {{ initialExp }}</div>
+        <div class="task-d type">{{ taskType }}</div>
       </div>
     </div>
   </label>
@@ -45,8 +45,16 @@ export default {
   background: white;
   margin: 1px;
   padding: 1px;
-  width: 100%;
   border: .1mm solid;
+  text-align: center;
+}
+
+.exp {
+  width: 60px;
+}
+
+.type {
+  width: 80px;
 }
 
 .val {
