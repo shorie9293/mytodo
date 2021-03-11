@@ -61,7 +61,11 @@ export default {
   methods: {
     addTodo: function(e){
       // ここのところを変更する！！
-      if (!this.checkInput()) {
+      let b = false
+      if (e == 0) {
+        b = this.checkInput()
+      }
+      if (!b) {
         this.todoinfo.e = e
         this.$emit('get-todo-info', this.todoinfo)
       }

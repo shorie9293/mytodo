@@ -6,6 +6,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :slides-per-view="1" 
     :space-between="10"
     :scrollbar= "{ draggable: true }"
+    :realIndex="realIndex"
+    :options="setOptions"
     class="swiper"
     >
       <swiper-slide v-for="(todo, key) in todos" :key="key">
@@ -32,7 +34,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
 
   </swiper>
   <todo-input-panel @get-todo-info="setTodo"></todo-input-panel>
-
   <Button @click="enhanceExp" title="けいけんちアップ"/>
   <div class="delete-task">
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
@@ -63,10 +64,10 @@ export default {
     TodoPanel,
     Swiper,
     SwiperSlide,
-    TodoInputPanel
+    TodoInputPanel,
   },
   props: {
-    class: String
+    class: String,
   },
   data() {
     return {
@@ -96,7 +97,11 @@ export default {
         
       },
       currenttodo: 'hoge',
-      deleteproject: ''
+      deleteproject: '',
+      realIndex: 1,
+      setOptions: {
+        loop: true
+      }
     }
   },
   mounted: function() {
@@ -164,11 +169,10 @@ export default {
         } else if (todoinfo.project == "sub") {
           proj = vm.todos.sub
         }
-        proj[pick].value = v.value,
-        proj[pick].exp = v.exp,
-        proj[pick].initialExp = v.exp
-        proj[pick].project = v.project
-        proj[pick].type = v.type
+        v.value != '' ? proj[pick].value = v.value : ''
+        v.exp != '' ? proj[pick].exp = v.exp : ''
+        v.exp != '' ? proj[pick].initialExp = v.exp : ''
+        v.type != '' ? proj[pick].type = v.type : ''
       }
     },
     // [x]ボタンを押すとtodoを消す
@@ -212,6 +216,7 @@ export default {
 
       this.todos.rep.forEach(todo=>{
         todo.exp = todo.initialExp
+        todo.checked = false
       })
     }
   },
