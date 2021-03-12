@@ -1,27 +1,26 @@
 <template>
   <div class="component">
-    <div class="input-box">
-      <table>
-        <tr>
-          <input-box-title class="dt" :title="'タイトル'" :isshow="isInputTitle"/>
-          <td><input class="inp-b" type="text" v-model="todoinfo.value"/></td>
-        </tr>
-        <tr>
-          <input-box-title class="dt" :title="'けいけんち'" :isshow="isInputExp"/>
-          <td><input class="inp-b" type="number" min=0 max=5 v-model="todoinfo.exp"/></td>
-        </tr>
-        <tr>
-          <input-box-title class="dt" :title="'しゅるい'" :isshow="isType"/>
-          <td>
-            <select class="inp-b" name="type" id="ty" v-model="todoinfo.type">
-              <option value="nexttask">次の行動</option>
-              <option value="otherperson">連絡待ち</option>
-              <option value="wait">待機</option>
-            </select>
-          </td>
-        </tr>
-      </table>
-    </div>
+    <table>
+      <tr>
+        <input-box-title :title="'タイトル'" :isshow="isInputTitle"/>
+        <td><input class="inp-box" type="text" v-model="todoinfo.value"/></td>
+      </tr>
+      <tr>
+        <input-box-title :title="'けいけんち'" :isshow="isInputExp"/>
+        <td><input class="inp-box" type="number" min=0 max=5 v-model="todoinfo.exp"/></td>
+      </tr>
+      <tr>
+        <input-box-title :title="'しゅるい'" :isshow="isType"/>
+        <td>
+          <select class="select-box" name="type" id="ty" v-model="todoinfo.type">
+            <option value="nexttask">次の行動</option>
+            <option value="otherperson">連絡待ち</option>
+            <option value="wait">待機</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+
     <div class="btn-box">
       <Button @click="addTodo(0)" title="くわえる"/>
       <Button @click="addTodo(1)" title="へんこうする"/>
@@ -95,19 +94,13 @@ export default {
 
 <style scoped>
   table {
-    text-align: left;
-    font-size: 12pt;
+    width: 100%;
   }
 
   tr {
     height: 2em;
   }
-  .input-box {
-    width: 60%;
-    margin-top: auto;
-    margin-bottom: auto;
-  }
-  
+
   .dt-box {
     padding: 100px;
     width: 30%;
@@ -118,20 +111,28 @@ export default {
   .btn-box {
     margin-top: auto;
     margin-bottom: auto;
-
+    margin-left: auto;
+    width: 100%;
   }
 
-  .inp-b {
-    width: 100%;
+  .inp-box {
+    width: 100px;
     height: 100%;
     margin: 2px;
-    padding: 0;
+    padding: 2px;
   }
 
+  .select-box {
+    width: 108px;
+    height: 100%;
+    margin: 2px;
+    padding: 2px;
+
+  }
   .component {
     display: flex;
     background: rgb(198, 198, 248);
-    margin: 10px;
+    margin: 5px;
     padding: 5px;
   }
 </style>

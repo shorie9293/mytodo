@@ -259,9 +259,10 @@ h3 {
 .container {
   text-align: left;
   background: rgba(150, 150, 255, 1);
-  margin: 5px;
+  margin-top: 3px;
+  margin-bottom: 4px;
   display: flex;
-  padding: 5px;
+  padding: 2px;
   border-radius: 4px;
   box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
 

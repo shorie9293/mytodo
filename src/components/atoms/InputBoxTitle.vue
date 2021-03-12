@@ -1,6 +1,6 @@
 <template>
   <td :title="title">
-    {{ title }}<span v-show="isshow" class="errorMsg">あたいをいれてね</span>
+    {{ title }} <br> <span v-show="isshow" class="errorMsg">あたいをいれてね</span>
   </td>
 </template>
 
@@ -21,12 +21,9 @@ export default {
   font-size: 50%;
 }
 
-.box {
+td {
   text-align: left;
   margin: 1px;
-  width: 40%;
-  float: left;
-  height: 1.5em;
-  font-size: 10pt;
+  width: 100%;
 }
 </style>
