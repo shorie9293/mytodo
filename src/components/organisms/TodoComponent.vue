@@ -9,6 +9,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :realIndex="realIndex"
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
+    @slideChange="getRealIndex"
     class="swiper"
     >
       <swiper-slide v-for="(todo, key) in todos" :key="key">
@@ -99,7 +100,7 @@ export default {
       },
       currenttodo: 'hoge',
       deleteproject: '',
-      realIndex: 1,
+      realIndex: 0,
       controlledSwiper: null
     }
   },
@@ -220,7 +221,9 @@ export default {
     },
     setControlledSwiper(swiper) {
       this.controlledSwiper = swiper;
-      alert(this.controlledSwiper.realIndex)
+    },
+    function: getRealIndex {
+      this.realIndex = this.controlledSwiper.realIndex
     }
   },
   computed: {
