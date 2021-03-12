@@ -222,7 +222,7 @@ export default {
     setControlledSwiper(swiper) {
       this.controlledSwiper = swiper;
     },
-    function: getRealIndex {
+    getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
       alert(this.realIndex);
     }
