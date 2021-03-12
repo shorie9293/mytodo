@@ -63,15 +63,15 @@ export default {
     padding: 10px;
     margin-right: auto;
     margin-left: auto;
-    width: 80%;
+    width: 95%;
     height: 100%;
     background-color: rgb(196, 227, 255);
   }
 
   .btns {
     display: flex;
-    padding: 10px;
-    width: 80%;
+    padding: 5px;
+    width: 95%;
     margin-right: auto;
     margin-left: auto;
   }
