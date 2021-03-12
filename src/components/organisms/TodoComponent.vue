@@ -224,6 +224,7 @@ export default {
     },
     function: getRealIndex {
       this.realIndex = this.controlledSwiper.realIndex
+      alert(this.realIndex);
     }
   },
   computed: {
