@@ -1,28 +1,26 @@
 <template>
   <div class="component">
     <div class="input-box">
-      <dl>
-        <input-box-title class="dt-box" :title="'プロジェクト'" :isshow="isProject"/>
-        <dd>
-          <select class="inp-b" name="project" id="pr" v-model="todoinfo.project">
-            <option value="main">メイン</option>
-            <option value="repeat">くりかえし</option>
-            <option value="sub">サブ</option>
-          </select>
-        </dd>
-        <input-box-title class="dt" :title="'タイトル'" :isshow="isInputTitle"/>
-        <dd><input class="inp-b" type="text" v-model="todoinfo.value"/></dd>
-        <input-box-title class="dt" :title="'けいけんち'" :isshow="isInputExp"/>
-        <dd><input class="inp-b" type="number" min=0 max=5 v-model="todoinfo.exp"/></dd>
-        <input-box-title class="dt" :title="'しゅるい'" :isshow="isType"/>
-        <dd>
-          <select class="inp-b" name="type" id="ty" v-model="todoinfo.type">
-            <option value="nexttask">次の行動</option>
-            <option value="otherperson">連絡待ち</option>
-            <option value="wait">待機</option>
-          </select>
-        </dd>
-      </dl>
+      <table>
+        <tr>
+          <input-box-title class="dt" :title="'タイトル'" :isshow="isInputTitle"/>
+          <td><input class="inp-b" type="text" v-model="todoinfo.value"/></td>
+        </tr>
+        <tr>
+          <input-box-title class="dt" :title="'けいけんち'" :isshow="isInputExp"/>
+          <td><input class="inp-b" type="number" min=0 max=5 v-model="todoinfo.exp"/></td>
+        </tr>
+        <tr>
+          <input-box-title class="dt" :title="'しゅるい'" :isshow="isType"/>
+          <td>
+            <select class="inp-b" name="type" id="ty" v-model="todoinfo.type">
+              <option value="nexttask">次の行動</option>
+              <option value="otherperson">連絡待ち</option>
+              <option value="wait">待機</option>
+            </select>
+          </td>
+        </tr>
+      </table>
     </div>
     <div class="btn-box">
       <Button @click="addTodo(0)" title="くわえる"/>
@@ -47,20 +45,18 @@ export default {
     return {
       isInputTitle: false,
       isType: false,
-      isProject: false,
       isInputExp: false,
       todoinfo: {
         value: "",
         exp: 0,
         type: "",
-        project: "",
         e: 0
       }
     }
   },
   methods: {
+    // ボタンを押すとイベントをとばす
     addTodo: function(e){
-      // ここのところを変更する！！
       let b = false
       if (e == 0) {
         b = this.checkInput()
@@ -74,7 +70,6 @@ export default {
       this.isInputTitle = false;
       this.isInputExp = false;
       this.isType = false;
-      this.isProject = false;
       
       if (this.todoinfo.value == '') {
         this.isInputTitle = true;
@@ -84,15 +79,11 @@ export default {
         this.isInputExp = true;
       }
 
-      if (this.todoinfo.project == '') {
-        this.isProject = true;
-      }
-
       if (this.todoinfo.type == '') {
         this.isType = true;
       }
 
-      if (this.isInputTitle || this.isInputExp || this.isProject || this.isType) {
+      if (this.isInputTitle || this.isInputExp || this.isType) {
         return true;
       }
 
@@ -103,7 +94,14 @@ export default {
 </script>
 
 <style scoped>
+  table {
+    text-align: left;
+    font-size: 12pt;
+  }
 
+  tr {
+    height: 2em;
+  }
   .input-box {
     width: 60%;
     margin-top: auto;
@@ -124,10 +122,10 @@ export default {
   }
 
   .inp-b {
-    float: left;
-    width: 100px;
-    height: 1.5em;
+    width: 100%;
+    height: 100%;
     margin: 2px;
+    padding: 0;
   }
 
   .component {

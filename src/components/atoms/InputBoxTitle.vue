@@ -1,7 +1,7 @@
 <template>
-  <dt class="box" :title="title">{{ title }}
-    <span v-show="isshow" class="errorMsg">あたいをいれてね</span>
-  </dt>
+  <td :title="title">
+    {{ title }}<span v-show="isshow" class="errorMsg">あたいをいれてね</span>
+  </td>
 </template>
 
 <script>

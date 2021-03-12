@@ -6,7 +6,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :slides-per-view="1" 
     :space-between="10"
     :scrollbar= "{ draggable: true }"
-    :realIndex="realIndex"
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
@@ -37,15 +36,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   </swiper>
   <todo-input-panel @get-todo-info="setTodo"></todo-input-panel>
   <Button @click="enhanceExp" title="けいけんちアップ"/>
-  <div class="delete-task">
-    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-    <select name="project" id="pr" v-model="deleteproject">
-        <option v-for="(p, key) in project_name"
-          :key="key" 
-          :value="key">{{ p }}
-          </option>
-    </select>
-  </div>
+  <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
   <Button @click="hoimi" title="けいけんちかいふく"/>
 </template>
 
@@ -54,10 +45,10 @@ import Button from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Controller } from 'swiper';
+import SwiperCore, { Scrollbar, Controller } from 'swiper';
 import 'swiper/components/scrollbar/scrollbar.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Controller]);
+SwiperCore.use([Scrollbar, Controller]);
 
 export default {
   name: "todo-panel",
@@ -92,6 +83,11 @@ export default {
         "rep" : "繰り返し",
         "sub" : "サブ"
       },
+      project_no: [
+        "main",
+        "rep",
+        "sub"
+      ],
       tasktype: {
         "nexttask" : "次の行動",
         "otherperson" : "連絡待ち",
@@ -118,7 +114,7 @@ export default {
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     todos: {
       handler: function() {
-        localStorage.setItem('todos_main', JSON.stringify(this.todos["main"]));
+        localStorage.setItem('todos_main', JSON.stringify(this.todos.main));
         localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
         localStorage.setItem('todos_rep', JSON.stringify(this.todos.rep));
         localStorage.setItem('todoid', JSON.stringify(this.id_number));
@@ -141,14 +137,8 @@ export default {
       }
 
       function addTodo(vm, v) {
-        let proj
-        if (todoinfo.project == "main") {
-          proj = vm.todos.main
-        } else if (todoinfo.project == "repeat") {
-          proj = vm.todos.rep
-        } else if (todoinfo.project == "sub") {
-          proj = vm.todos.sub
-        }
+        let proj = vm.todos[vm.project_no[vm.realIndex]]
+
         proj.push({id: vm.id_number,
           value: v.value,
           exp: v.exp,
@@ -161,14 +151,7 @@ export default {
          todoinfo.type = '';
       }
       function changeTodo(vm, v, pick) {
-        let proj
-        if (todoinfo.project == "main") {
-          proj = vm.todos.main
-        } else if (todoinfo.project == "repeat") {
-          proj = vm.todos.rep
-        } else if (todoinfo.project == "sub") {
-          proj = vm.todos.sub
-        }
+        let proj = vm.todos[vm.project_no[vm.realIndex]]
         v.value != '' ? proj[pick].value = v.value : ''
         v.exp != '' ? proj[pick].exp = v.exp : ''
         v.exp != '' ? proj[pick].initialExp = v.exp : ''
@@ -190,12 +173,7 @@ export default {
         return;
       }
 
-      if (this.deleteproject == '') {
-        alert('プロジェクトをえらんでください');
-        return;
-      }
-
-      this.todos[this.deleteproject] = this.remaining;
+      this.todos[this.project_no[this.realIndex]] = this.remaining;
     },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
@@ -230,7 +208,7 @@ export default {
     // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
 
-      return this.todos[this.deleteproject].filter((todo) => {
+      return this.todos[this.project_no[this.realIndex]].filter((todo) => {
         return !todo.checked;
       })
     },
