@@ -7,7 +7,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :space-between="10"
     :scrollbar= "{ draggable: true }"
     :realIndex="realIndex"
-    :options="setOptions"
+    :controller="{ control: controlledSwiper }"
+    @swiper="setControlledSwiper"
     class="swiper"
     >
       <swiper-slide v-for="(todo, key) in todos" :key="key">
@@ -52,10 +53,10 @@ import Button from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
-import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y, Controller } from 'swiper';
 import 'swiper/components/scrollbar/scrollbar.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
-SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Controller]);
 
 export default {
   name: "todo-panel",
@@ -99,9 +100,7 @@ export default {
       currenttodo: 'hoge',
       deleteproject: '',
       realIndex: 1,
-      setOptions: {
-        loop: true
-      }
+      controlledSwiper: null
     }
   },
   mounted: function() {
@@ -218,6 +217,10 @@ export default {
         todo.exp = todo.initialExp
         todo.checked = false
       })
+    },
+    setControlledSwiper(swiper) {
+      this.controlledSwiper = swiper;
+      alert(this.controlledSwiper.realIndex)
     }
   },
   computed: {
