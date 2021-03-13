@@ -23,8 +23,8 @@
     </table>
 
     <div class="btn-box">
-      <Button @click="addTodo(0)" title="くわえる"/>
-      <Button @click="addTodo(1)" title="へんこうする"/>
+      <Button class="btn" @click="addTodo(0)" title="くわえる"/>
+      <Button class="btn" @click="addTodo(1)" title="へんこうする"/>
     </div>
 
   </div>
@@ -52,7 +52,8 @@ export default {
         exp: 0,
         type: "",
         e: 0
-      }
+      },
+      btn: '.btn'
     }
   },
   methods: {
@@ -99,11 +100,17 @@ export default {
 
 <style scoped>
   table {
-    width: 50%;
+    width: 70%;
   }
 
   tr {
     height: 2em;
+    width: auto;
+    margin: 0px;
+  }
+
+  td {
+    width: auto;
   }
 
   .smalltext {
@@ -111,29 +118,22 @@ export default {
     color: red;
   }
 
-  .dt-box {
-    padding: 100px;
-    width: 30%;
-    text-emphasis:inherit;
-    background: honeydew;
-  }
-  
   .btn-box {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
-    width: 50%;
+    width: 30%;
   }
 
   .inp-box {
-    width: 40%;
+    width: 60%;
     height: 100%;
     margin: 2px;
     padding: 2px;
   }
 
   .select-box {
-    width: 40%;
+    width: 60%;
     height: 100%;
     margin: 2px;
     padding: 2px;
@@ -144,5 +144,9 @@ export default {
     background: rgb(198, 198, 248);
     margin: 5px;
     padding: 5px;
+  }
+
+  .btn {
+    padding: 5px 1px;
   }
 </style>

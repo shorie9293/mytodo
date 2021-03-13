@@ -1,14 +1,14 @@
 <!-- //ボタンの再定義 -->
 <template>
-  <div class="bt">{{ title }}</div>
+  <div class="bt" >{{ title }}</div>
 </template>
 
 <script>
 export default {
   name: "Button",
   props: {
-    title: String
-  }  
+    title: String,
+  },  
 }
 </script>
 
