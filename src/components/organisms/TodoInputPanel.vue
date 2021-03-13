@@ -116,14 +116,14 @@ export default {
   }
 
   .inp-box {
-    width: 100px;
+    width: 80px;
     height: 100%;
     margin: 2px;
     padding: 2px;
   }
 
   .select-box {
-    width: 108px;
+    width: 88px;
     height: 100%;
     margin: 2px;
     padding: 2px;

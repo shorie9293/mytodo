@@ -24,6 +24,6 @@ export default {
 td {
   text-align: left;
   margin: 1px;
-  width: 100%;
+  width: 100px;
 }
 </style>
