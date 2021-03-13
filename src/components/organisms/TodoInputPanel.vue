@@ -7,7 +7,8 @@
       </tr>
       <tr>
         <input-box-title :title="'けいけんち'" :isshow="isInputExp"/>
-        <td><input class="inp-box" type="number" min=0 max=5 v-model="todoinfo.exp"/></td>
+        <td><input class="inp-box" type="number" min=0 max=5 v-model="todoinfo.exp"/>
+        <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span></td>
       </tr>
       <tr>
         <input-box-title :title="'しゅるい'" :isshow="isType"/>
@@ -45,6 +46,7 @@ export default {
       isInputTitle: false,
       isType: false,
       isInputExp: false,
+      isNumber: false,
       todoinfo: {
         value: "",
         exp: 0,
@@ -69,6 +71,7 @@ export default {
       this.isInputTitle = false;
       this.isInputExp = false;
       this.isType = false;
+      this.isNumber = false;
       
       if (this.todoinfo.value == '') {
         this.isInputTitle = true;
@@ -76,13 +79,15 @@ export default {
 
       if (this.todoinfo.exp == '') {
         this.isInputExp = true;
+      } else if (this.todoinfo.exp > 5) {
+        this.isNumber =true;
       }
 
       if (this.todoinfo.type == '') {
         this.isType = true;
       }
 
-      if (this.isInputTitle || this.isInputExp || this.isType) {
+      if (this.isInputTitle || this.isInputExp || this.isType || this.isNumber) {
         return true;
       }
 
@@ -94,11 +99,16 @@ export default {
 
 <style scoped>
   table {
-    width: 100%;
+    width: 50%;
   }
 
   tr {
     height: 2em;
+  }
+
+  .smalltext {
+    font-size: 5pt;
+    color: red;
   }
 
   .dt-box {
@@ -112,18 +122,18 @@ export default {
     margin-top: auto;
     margin-bottom: auto;
     margin-left: auto;
-    width: 100%;
+    width: 50%;
   }
 
   .inp-box {
-    width: 80px;
+    width: 40%;
     height: 100%;
     margin: 2px;
     padding: 2px;
   }
 
   .select-box {
-    width: 88px;
+    width: 40%;
     height: 100%;
     margin: 2px;
     padding: 2px;
