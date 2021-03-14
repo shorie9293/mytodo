@@ -35,7 +35,7 @@ export default {
   data: function() {
     return{
       display: 2,
-      comp: 3
+      comp: 3,
     }
   },
   methods: {
@@ -69,6 +69,7 @@ export default {
   }
 
   .btns {
+
     display: flex;
     padding: 5px;
     width: 95%;
@@ -77,6 +78,7 @@ export default {
   }
 
   .btn {
+    padding: 5px 5px;
     width: 100%;
     margin-left: 5px;
     margin-right: 5px;

@@ -3,6 +3,7 @@
   <dl class="data">
     <StatusData item="じぶんのHP" :value="myHp"/>
     <StatusData item="てきのHP" :value="enHp"/>
+    <StatusData item="おかね" :value="money"/>
   </dl>
 
 </template>
@@ -17,7 +18,8 @@ export default {
   },
   props: {
     myHp: Number,
-    enHp: Number
+    enHp: Number,
+    money: Number
   }  
 }
 </script>

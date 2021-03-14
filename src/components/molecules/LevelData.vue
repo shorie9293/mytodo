@@ -4,6 +4,7 @@
     <StatusData item="レベル" :value="level"/>
     <StatusData item="けいけんち" :value="exp"/>
     <StatusData item="ポイント" :value="point"/>
+    <StatusData item="おかね" :value="money"/>
   </dl>
 </template>
 
@@ -18,7 +19,8 @@ export default {
   props: {
     level: Number,
     exp: Number,
-    point: Number
+    point: Number,
+    money: Number
   }  
 }
 </script>

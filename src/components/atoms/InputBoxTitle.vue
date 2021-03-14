@@ -1,5 +1,5 @@
 <template>
-  <td :title="title">
+  <td class="text-size" :title="title">
     {{ title }} <br> <span v-show="isshow" class="errorMsg">あたいをいれてね</span>
   </td>
 </template>
@@ -19,6 +19,10 @@ export default {
 .errorMsg {
   color: rgb(255, 50, 50);
   font-size: 50%;
+}
+
+.text-size {
+  font-size: 12pt;
 }
 
 td {

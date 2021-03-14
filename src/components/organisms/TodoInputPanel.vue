@@ -2,11 +2,11 @@
   <div class="component">
     <table>
       <tr>
-        <input-box-title :title="'タイトル'" :isshow="isInputTitle"/>
+        <input-box-title class="input-title" :title="'タイトル'" :isshow="isInputTitle"/>
         <td><input class="inp-box" type="text" v-model="todoinfo.value"/></td>
       </tr>
       <tr>
-        <input-box-title :title="'けいけんち'" :isshow="isInputExp"/>
+        <input-box-title class="input-title" :title="'けいけんち'" :isshow="isInputExp"/>
         <td><input class="inp-box" type="number" min=0 max=5 v-model="todoinfo.exp"/>
         <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span></td>
       </tr>
@@ -109,10 +109,6 @@ export default {
     margin: 0px;
   }
 
-  td {
-    width: auto;
-  }
-
   .smalltext {
     font-size: 5pt;
     color: red;
@@ -149,4 +145,5 @@ export default {
   .btn {
     padding: 5px 1px;
   }
+
 </style>

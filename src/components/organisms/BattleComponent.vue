@@ -19,7 +19,11 @@
   <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
   <!-- そうすれば問題がどんな問題にも関わらず正解判定できるはず -->
   <MathCal @updateAnswer="judgeAnswer"/>
-  <BattleStatusData class="hp-box" :myHp="status.myStatus.hp" :enHp="status.enemyStatus.hp"/>
+  <BattleStatusData class="hp-box" 
+    :myHp="status.myStatus.hp" 
+    :enHp="status.enemyStatus.hp"
+    :money="leveldata.money"
+    />
   <!-- 対戦状態を表記する -->
   <div v-if="winner == 0" class="state wait">たいせん中</div>
   <div v-else-if="winner == 1" class="state win">あなたのかち!!</div>
@@ -83,7 +87,8 @@ export default {
           img: '',
           hp: 0,
           attack: 0,
-          diffence: 0
+          diffence: 0,
+          money: 0,
         }
       },
       sts: [
@@ -91,6 +96,13 @@ export default {
         {itm: "AT", vl: 0, pt: 0, cl:"box2"},
         {itm: "DF", vl: 0, pt: 0, cl:"box3"}
       ],
+      leveldata: {        
+        lv: 1,
+        exp: 0,
+        pt: 0,
+        stexp: 0,
+        money: 0
+      },
       defetCounter: 0,
       isEnemyData: false,
       stageNum: 0,
@@ -109,6 +121,7 @@ export default {
       this.sts = JSON.parse(localStorage.getItem('status'))
       this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
       this.stageNum = JSON.parse(localStorage.getItem('stageNumber')) || 0
+      this.leveldata = JSON.parse(localStorage.getItem('leveldata'))
       this.status.myStatus.hp = this.sts[0].vl
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
@@ -141,12 +154,19 @@ export default {
           new Audio(require(`@/assets/media/straight_punch.mp3`)).play()
           v.isShake = true;
         }
-        ensts.hp -= dam > 0 ? dam : 0;  
+        ensts.hp -= dam > 0 ? dam : 0;
+        // 勝利！！  
         if (ensts.hp <= 0) {
           v.show = false;
           v.winner = 1;
           v.defetCounter++;
+          if (!v.leveldata.money) {
+            v.leveldata.money = v.status.enemyStatus.money; 
+          } else {
+            v.leveldata.money += v.status.enemyStatus.money; 
+          }
           new Audio(require(`@/assets/media/chorus_of_angels1.mp3`)).play()
+          localStorage.setItem('leveldata', JSON.stringify(v.leveldata))
           return
         } else {
           setTimeout(function(){ 
@@ -160,6 +180,7 @@ export default {
         function atkFromEnemy(v) {
           new Audio(require(`@/assets/media/kick2.mp3`)).play()
           v.isAttack = true;
+          // 敗北…
           if (mysts.hp <= 0) {
             v.winner = 2;
             new Audio(require(`@/assets/media/surprising_shock2.mp3`)).play()
@@ -208,6 +229,7 @@ export default {
       this.status.enemyStatus.hp = this.enemyDatabase[this.stageNum].hp
       this.status.enemyStatus.attack = this.enemyDatabase[this.stageNum].at
       this.status.enemyStatus.diffence = this.enemyDatabase[this.stageNum].df
+      this.status.enemyStatus.money = this.enemyDatabase[this.stageNum].money
     },
     onChange: function(e) {
       this.stageNum = e.target.selectedIndex;

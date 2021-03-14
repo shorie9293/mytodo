@@ -4,7 +4,7 @@
     <div style="height: 150px;">
       <MonsterView :imgs="img"/>
     </div>
-    <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" style="margin-bottom: 10px;"/>
+    <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
     <div class="status-block">
       <StatusPanel v-for="(item,index) in sts"
         :key="index"
@@ -52,9 +52,12 @@ export default {
         lv: 1,
         exp: 0,
         pt: 0,
-        stexp: 0
+        stexp: 0,
+        money: 0
       },
-      img: require('@/assets/imgs/yuusya_game.png')
+      img: require(`@/assets/imgs/yuusya_game.png`),
+      personal: {}
+
     }
   },
   watch: {
@@ -91,7 +94,17 @@ export default {
       {itm: "AT", vl: 4, pt: 0, cl:"box2"},
       {itm: "DF", vl: 1, pt: 0, cl:"box3"}
     ];
-    this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0};
+    this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0, money: 0};
+    this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
+    if (this.parsonal.job == "ゆうしゃ") {
+      this.img = require(`@/assets/imgs/yuusya_game.png`)
+    } else if (this.parsonal.job == "まほうつかい") {
+      this.img = require(`@/assets/imgs/magic.png`)
+    } else if (this.parsonal.job == "せんし") {
+      this.img = require(`@/assets/imgs/senshi.png`)
+    } else {
+      this.img = require(`@/assets/imgs/rpg.png`)
+    }
 
   },
   methods: {
