@@ -1,5 +1,11 @@
 <!-- 戦闘画面 -->
 <template>
+  <select name="monster" id="monst" @change="onChange">
+    <option v-for="(m,index) in enemyDatabase" 
+        :key="index"
+        :value="m.name"> {{ m.name }}
+    </option>
+  </select>
   <div class="mst-box">
     <transition name="mst">
       <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" v-if="status.enemyStatus.name!=''"/>
@@ -8,28 +14,52 @@
     <div v-if="status.enemyStatus.name!=''">
       {{status.enemyStatus.name}}があらわれた
     </div>
-    <select name="monster" id="monst" @change="onChange">
-      <option v-for="(m,index) in enemyDatabase" 
-          :key="index"
-          :value="m.name"> {{ m.name }}
-      </option>
-    </select>
 
   <!-- 問題表記の画面はもう少し工夫したい。 -->
   <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
   <!-- そうすれば問題がどんな問題にも関わらず正解判定できるはず -->
-  <MathCal @updateAnswer="judgeAnswer"/>
+
   <BattleStatusData class="hp-box" 
     :myHp="status.myStatus.hp" 
     :enHp="status.enemyStatus.hp"
     :money="leveldata.money"
     />
-  <!-- 対戦状態を表記する -->
+  <!-- あたりとはずれの表示をする。一回目だけたたかいの始まりを表示する -->
   <div v-if="winner == 0" class="state wait">たいせん中</div>
   <div v-else-if="winner == 1" class="state win">あなたのかち!!</div>
   <div v-else-if="winner == 2" class="state lose">あなたのまけ...</div>
   <div v-else>Error</div>
-  <Button title="さいせん" @click="reset"/>
+
+  <div class="answer" :class="{'ok' : judge, 'ng' : !(judge)}">
+    <div v-if="judge=='たたかいのはじまり'">
+      {{ judge }}
+    </div>
+    <div v-else>
+      {{judge ? "あたり！" : "はずれ…"}}
+    </div>
+  </div>
+
+  <div class="select-question">
+    <select name="question" id="q" v-model="pickQuestion">
+      <option v-for="(question, index) in questionType"
+        name="question"
+        :key="index"
+        :value="question">{{ question }}</option>
+        <!-- <input type="radio" :id="index" name="question" :value="question" v-model="pickQuestion">
+        <label :for="index">{{ question }}{{ pickQuestion }}</label> -->
+      <!-- </div> -->
+    </select>
+  </div>
+  <span v-if="pickQuestion == 'さんすう'">
+    <MathCal ref="math" @updateAnswer="judgeAnswer"/>
+    <Button title="こうげき" @click="$refs.math.judge_answer()"/>
+  </span>
+  <span v-else>
+    <word-q ref="word" @updateAnswer="judgeAnswer"/>
+    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
+  </span>
+  <!-- 対戦状態を表記する -->
+  <Button title="てきをせんたくする" @click="reset"/>
   <div style="width: 100px;">
       勝利数: {{defetCounter}}
       <Button title="reset" @click="resetCounter"/>
@@ -51,7 +81,8 @@
 import Button from '../atoms/Button'
 import MonsterView from '../atoms/MonsterView'
 import BattleStatusData from '../molecules/BattleStatusData'
-import MathCal from '../molecules/MathCal'
+import MathCal from '../molecules/question/MathCal'
+import WordQ from '../molecules/question/WordQ.vue'
 
 export default {
   name: "BattleComponent",
@@ -59,7 +90,8 @@ export default {
     MonsterView,
     BattleStatusData,
     Button,
-    MathCal
+    MathCal,
+    WordQ
   },
   props: {
     class: String
@@ -74,7 +106,7 @@ export default {
       isAttack: false,
       winner: 0,
       anser: '',
-      judge: false,
+      judge: 'たたかいのはじまり',
       enemyDatabase: [],
       status: {
         myStatus :{
@@ -103,10 +135,16 @@ export default {
         stexp: 0,
         money: 0
       },
+      questionType: {
+        math: "さんすう",
+        word: "たんご",
+        custom: "カスタム"
+      },
       defetCounter: 0,
       isEnemyData: false,
-      stageNum: 0,
-      index: 0
+      stageNum: '',
+      index: '',
+      pickQuestion: 'さんすう',
     }
   },
   watch: {
@@ -234,13 +272,6 @@ export default {
     onChange: function(e) {
       this.stageNum = e.target.selectedIndex;
     }
-  },
-  computed: {
-    monsterImage() {
-      const fileName = "hae.gif"
-      return require(`@/assets/${fileName}`)
-
-    }
   }
 }
 </script>
@@ -328,16 +359,21 @@ export default {
   opacity: 0;
 }
 
-.state {
-  font-size: 20pt;
+.state, .answer {
+  font-size: 16pt;
   font-weight: bolder;
 }
 
-.win {
+.win, .ok {
   color: blue;
 }
 
-.lose {
+.lose, .ng {
   color: red;
 }
+
+.select-question {
+  text-align: left;
+}
+
 </style>

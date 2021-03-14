@@ -16,27 +16,12 @@
     <input type="Number" v-model="myAnswer" class="ans">
   </div>
 
-  <!-- あたりとはずれの表示をする。一回目だけたたかいの始まりを表示する -->
-  <div class="answer" :class="{'ok' : judge, 'ng' : !(judge)}">
-    <div v-if="judge=='たたかいのはじまり'">
-      {{ judge }}
-    </div>
-    <div v-else>
-      {{judge ? "あたり！" : "はずれ…"}}
-    </div>
-  </div>
-  <Button title="こうげき" @click="judge_answer"/>
-  <Button title="つぎのもんだい" @click="nextQuestion"/>
 </template>
 
 <script>
-import Button from '../atoms/Button'
 
 export default {
 name: "MathCal",
-  components: {
-    Button
-  },
   props: {
     },
   data: function(){
@@ -110,17 +95,5 @@ name: "MathCal",
     font-size: 20pt;
     height: 100%;
     text-align: right;
-  }
-  .answer {
-    font-size: 20pt;
-    font-weight: bolder;
-  }
-
-  .ok {
-    color: blue;
-  }
-
-  .ng {
-    color: red;
   }
 </style>
