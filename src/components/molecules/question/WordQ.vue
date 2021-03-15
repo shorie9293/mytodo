@@ -1,13 +1,16 @@
 <template>
-  <p>Coming Soon...</p>
-  <span v-show="false">
-    <p>{{q1[qIndex].question}}</p>
-    <div v-for="(answer,index) in q1[qIndex].answers"
-      :key="index">
-      <input :id="index" type="radio" name="answer" :value="index" v-model="myAnswer">
-      <label :for="index">{{ answer }}{{ index }}</label>
+  <h3>お試し運用中</h3>
+  <span v-show="true">
+    <p class="question">{{q1[qIndex].theme}}</p>
+    <p class="question qes">{{q1[qIndex].question}}</p>
+    <div class="answer-box">
+      <div v-for="(answer,index) in q1[qIndex].answers"
+        :key="index">
+        <input :id="index" type="radio" name="answer" :value="index" v-model="myAnswer">
+        <label :for="index">{{ answer }}</label>
+      </div>
     </div>
-    <p>{{ myAnswer }} : {{ q1[qIndex].trueAnswer }}</p>
+    <!-- <p>{{ myAnswer }} : {{ q1[qIndex].trueAnswer - 1 }}</p> -->
   </span>
 
 </template>
@@ -16,24 +19,7 @@
 export default {
   data: function() {
     return {
-      q1: [{ question: 'hoge?',
-        answers: [
-        "hoge",
-        "hage",
-        "hige",
-        "hege"
-       ],
-       trueAnswer: 0
-      },
-      { question: 'hage?',
-        answers: [
-        "hoge",
-        "hage",
-        "hige",
-        "hege"
-       ],
-       trueAnswer: 1
-      }],
+      q1: require(`@/assets/data/chinese1013.json`),
       myAnswer : '',
       judge : 'たたかいのはじまり',
       qIndex: 0
@@ -42,24 +28,38 @@ export default {
   emits: ["updateAnswer"],
   methods: {
     judge_answer: function() {
-      this.judge = this.q1[this.qIndex].trueAnswer == this.myAnswer ? true : false;
+      this.judge = this.q1[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
       if (this.judge) {
-        if (this.qIndex == 1) {
-          this.qIndex = 0;
-
-        } else {
-          this.qIndex++;
-        }
+        this.myAnswer = '';
+        this.qIndex = Math.floor(Math.random() * (this.size(this.q1)));
       }
       this.$emit("updateAnswer", this.judge);
       // this.myAnswer = ''
+    },
+    size(obj) {
+      return Object.keys(obj).length;
     }
 
-  } 
+  },
 
 }
 </script>
 
 <style scoped>
+
+.question {
+  text-align: left;
+  margin: 5px;
+}
+
+.qes {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.answer-box {
+  background: lightblue;
+  display: flex;
+}
 
 </style>
