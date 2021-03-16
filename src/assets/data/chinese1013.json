@@ -53,6 +53,115 @@
       "超市"
     ],
     "trueAnswer":"2"
+  },
+  {
+    "theme": "正しいピンイン表記を選ぼう",
+    "question":"眼前",
+    "answers":[
+      "yǎngqián",
+      "yǎnqián",
+      "yǎngjián",
+      "yǎnjián"
+    ],
+    "trueAnswer":"2"
+  },
+  {
+    "theme": "正しいピンイン表記を選ぼう",
+    "question":"交通",
+    "answers":[
+      "jiāotōng",
+      "zhāodōng",
+      "jiàodōng",
+      "zhàotōng"
+    ],
+    "trueAnswer":"1"
+  },
+  {
+    "theme": "正しいピンイン表記を選ぼう",
+    "question":"体育",
+    "answers":[
+      "díyì",
+      "tíyì",
+      "dǐyù",
+      "tǐyù"
+    ],
+    "trueAnswer":"4"
+  },
+  {
+    "theme": "正しいピンイン表記を選ぼう",
+    "question":"少数",
+    "answers":[
+      "shǎoshù",
+      "xiǎoshǔ",
+      "shǎosù",
+      "xiǎosǔ"
+    ],
+    "trueAnswer":"2"
+  },
+  {
+    "theme": "正しいピンイン表記を選ぼう",
+    "question":"电灯",
+    "answers":[
+      "diǎndōng",
+      "diàndēng",
+      "diǎntóu",
+      "tiàntēng"
+    ],
+    "trueAnswer":"2"
+  },
+  {
+    "theme": "空欄を埋めよう。",
+    "question":"我一看见中国菜（  ）想吃",
+    "answers":[
+      "再",
+      "就",
+      "在",
+      "又"
+    ],
+    "trueAnswer":"2"
+  },
+  {
+    "theme": "空欄を埋めよう。",
+    "question":"（  ）下星期一开始，我去食堂吃午饭",
+    "answers":[
+      "从",
+      "在",
+      "对",
+      "离"
+    ],
+    "trueAnswer":"1"
+  },
+  {
+    "theme": "空欄を埋めよう。",
+    "question":"外面正下（  ）雨呢",
+    "answers":[
+      "了",
+      "过",
+      "着",
+      "得"
+    ],
+    "trueAnswer":"3"
+  },
+  {
+    "theme": "空欄を埋めよう。",
+    "question":"请大家（  ）行李放在这边",
+    "answers":[
+      "被",
+      "把",
+      "要",
+      "叫"
+    ],
+    "trueAnswer":"2"
+  },
+  {
+    "theme": "空欄を埋めよう。",
+    "question":"大家都是老朋友，你（  ）客气",
+    "answers":[
+      "应该",
+      "不会",
+      "不想",
+      "不用"
+    ],
+    "trueAnswer":"4"
   }
-
 ]
