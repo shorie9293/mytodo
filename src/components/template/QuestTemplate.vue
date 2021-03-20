@@ -1,5 +1,11 @@
 <!-- 各コンポーネント表示用 -->
 <template>
+  <div class="btns">
+    <Button title="ステータス" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
+    <Button title="バトル" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
+    <Button title="やること" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
+    <Button title="オプション" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
+  </div>
   <div class="display-panel">
     <template v-if="display==0">
       <status-component class="component"/>
@@ -7,14 +13,12 @@
     <template v-else-if="display==1">
       <battle-component class="component"/>
     </template>
-    <template v-else>
+    <template v-else-if="display==2">
       <todo-component class="component"/>
     </template>
-  </div>
-  <div class="btns">
-    <Button title="ステータス" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
-    <Button title="バトル" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
-    <Button title="やること" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
+    <template v-else>
+      <Option class="component"/>
+    </template>
   </div>
 </template>
 
@@ -23,6 +27,7 @@ import Button from '../atoms/Button'
 import TodoComponent from '../organisms/TodoComponent.vue'
 import StatusComponent from '../organisms/StatusComponent.vue'
 import BattleComponent from '../organisms/BattleComponent.vue'
+import Option from '../pages/Option'
 
 export default {
   name: 'QuestTemplate',
@@ -31,6 +36,7 @@ export default {
     StatusComponent,
     BattleComponent,
     TodoComponent,
+    Option,
   },
   data: function() {
     return{

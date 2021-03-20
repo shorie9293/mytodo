@@ -28,7 +28,7 @@
 <script>
 import Button from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate'
-import Readme from './components/organisms/Readme';
+import Readme from './components/pages/Readme';
 
 export default {
   name: 'App',
@@ -64,8 +64,9 @@ export default {
   },
   methods:{
     setNameandJob: function(){
-      if (confirm('なまえとしょくぎょうはこれでいいですか？')) {
-        localStorage.setItem('parsonal', JSON.stringify(this.parsonal));
+      if (confirm`なまえとしょくぎょうはこれでいいですか？
+                ※なまえはあとからかえられます`) {
+        localStorage.setItem('parsonal', JSON.stringify(this.parsonal))
         localStorage.setItem('firstSetting', false);
         this.firstSetting = false
       } else {

@@ -17,7 +17,6 @@
     </div>
     <Button @click=ptToVl title="ポイント反映"></Button>
     <Button @click=ptToSkpt title="キャンセル"></Button>
-    <Button @click=clear title="clear"></Button>
     <!-- デバッグ用。うつしてないがとりあえず保存しておくが消しても良い 21/2/27。 -->
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"></Button>
@@ -142,18 +141,7 @@ export default {
       this.lvdata.exp += Number(this.lvdata.stexp);
       this.lvdata.stexp = 0;
     },
-    // 全データのリセット。デバッグ用。
-    clear: function() {
-      if (confirm("OK!?")) {
-        if (confirm('ほんとに!?')) {
-          if (confirm("真的吗？")) {
-            localStorage.clear();
-            alert('ぼうけんのしょがきえました')
-          }
-        }
-      }
-    }
-  }
+   }
 
 }
 </script>

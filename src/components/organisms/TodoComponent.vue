@@ -70,8 +70,6 @@ export default {
         "rep": [],
         "sub": []
         },
-      todo_title: '',
-      todo_exp: '',
       id_number: 0,
       isInputTitle: false,
       isInputPro: false,
@@ -120,6 +118,8 @@ export default {
         localStorage.setItem('todoid', JSON.stringify(this.id_number));
       },
       deep: true
+    },
+    pick: function() {
     }
   },
   methods: {
@@ -164,7 +164,6 @@ export default {
         return;
       }
       this.todos[key].splice(index, 1);
-      this.todo_title = '';
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
@@ -183,6 +182,13 @@ export default {
       }
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
+
+      this.todos.rep.forEach( todo => {
+          if (todo.checked) {
+            todo.checked = false;
+          }
+        }
+      )
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },

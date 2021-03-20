@@ -26,6 +26,9 @@ export default {
     }
   },
   emits: ["updateAnswer"],
+  mounted: function() {
+    this.qIndex = Math.floor(Math.random() * (this.size(this.q1)));
+  },
   methods: {
     judge_answer: function() {
       this.judge = this.q1[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;

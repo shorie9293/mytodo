@@ -15,10 +15,6 @@
       {{status.enemyStatus.name}}があらわれた
     </div>
 
-  <!-- 問題表記の画面はもう少し工夫したい。 -->
-  <!-- 答えの入力画面はこっちにしてもとの問題コンポーネントからは解答だけ投げるようにするとか -->
-  <!-- そうすれば問題がどんな問題にも関わらず正解判定できるはず -->
-
   <BattleStatusData class="hp-box" 
     :myHp="status.myStatus.hp" 
     :enHp="status.enemyStatus.hp"
@@ -160,6 +156,7 @@ export default {
       this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
       this.stageNum = JSON.parse(localStorage.getItem('stageNumber')) || 0
       this.leveldata = JSON.parse(localStorage.getItem('leveldata'))
+      this.pickQuestion = JSON.parse(localStorage.getItem('initq')) || "さんすう"
       this.status.myStatus.hp = this.sts[0].vl
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
