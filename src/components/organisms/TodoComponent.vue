@@ -34,7 +34,11 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       </swiper-slide>
 
   </swiper>
-  <todo-input-panel @get-todo-info="setTodo"></todo-input-panel>
+  <todo-input-panel @add-todo="addTodo" @change-todo="changeTodo"
+    v-model:msg="pmsg"
+    v-model:todotitle="ptitle"
+    v-model:todoexp="pexp"
+    v-model:todotype="ptype" />
   <Button @click="enhanceExp" title="けいけんちアップ"/>
   <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
   <Button @click="hoimi" title="けいけんちかいふく"/>
@@ -69,13 +73,9 @@ export default {
         "main": [],
         "rep": [],
         "sub": []
-        },
+      },
       id_number: 0,
-      isInputTitle: false,
-      isInputPro: false,
-      isInputExp: false,
       pick: 'none',
-      project: "",
       project_name: {
         "main" : "メイン",
         "rep" : "繰り返し",
@@ -90,12 +90,13 @@ export default {
         "nexttask" : "次の行動",
         "otherperson" : "連絡待ち",
         "wait" : "待機",
-        
       },
-      currenttodo: 'hoge',
-      deleteproject: '',
       realIndex: 0,
-      controlledSwiper: null
+      controlledSwiper: null,
+      pmsg: '',
+      ptitle: '',
+      pexp: 0,
+      ptype: 'nexttask'
     }
   },
   mounted: function() {
@@ -120,43 +121,31 @@ export default {
       deep: true
     },
     pick: function() {
+      this.ptitle = this.todos[this.project_no[this.realIndex]][this.pick].value;
+      this.pexp = this.todos[this.project_no[this.realIndex]][this.pick].exp;
+      this.ptype = this.todos[this.project_no[this.realIndex]][this.pick].type;
     }
   },
   methods: {
-    
-    // todoを加える。変更かどうかで場合分けしている。
-    setTodo: function(todoinfo){
-      
-      let v = todoinfo
-      let vm = this
-
-      if (todoinfo.e == 0) {
-        addTodo(vm, v)
-      } else if (todoinfo.e == 1) {
-        changeTodo(vm, v, this.pick)
-      }
-
-      function addTodo(vm, v) {
-        let proj = vm.todos[vm.project_no[vm.realIndex]]
-
-        proj.push({id: vm.id_number,
-          value: v.value,
-          exp: v.exp,
-          initialExp: v.exp,
-          type: v.type,
-          checked: false});
-         vm.id_number++;
-         todoinfo.value = '';
-         todoinfo.exp = '';
-         todoinfo.type = '';
-      }
-      function changeTodo(vm, v, pick) {
-        let proj = vm.todos[vm.project_no[vm.realIndex]]
-        v.value != '' ? proj[pick].value = v.value : ''
-        v.exp != '' ? proj[pick].exp = v.exp : ''
-        v.exp != '' ? proj[pick].initialExp = v.exp : ''
-        v.type != '' ? proj[pick].type = v.type : ''
-      }
+    // todoを加える。
+    addTodo: function() {
+      this.todos[this.project_no[this.realIndex]].push({id: this.id_number,
+        value: this.ptitle,
+        exp: this.pexp,
+        initialExp: this.pexp,
+        type: this.ptype,
+        checked: false});
+        this.id_number++;
+        this.ptitle = '';
+        this.pexp = 0;
+    },
+    // todoを変更する。
+    changeTodo: function() {
+      let proj = this.todos[this.project_no[this.realIndex]][this.pick]
+      this.value != '' ? proj.value = this.ptitle : ''
+      this.exp != '' ? proj.exp = this.pexp : ''
+      this.exp != '' ? proj.initialExp = this.pexp : ''
+      this.type != '' ? proj.type = this.ptype : ''
     },
     // [x]ボタンを押すとtodoを消す
     deleteItem: function(index, key) {
@@ -203,9 +192,11 @@ export default {
         todo.checked = false
       })
     },
+    // swiperのインスタンスを登録
     setControlledSwiper(swiper) {
       this.controlledSwiper = swiper;
     },
+    // 現在のスライダーを取得
     getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
     }

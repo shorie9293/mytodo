@@ -3,17 +3,19 @@
     <table>
       <tr>
         <input-box-title class="input-title" :title="'タイトル'" :isshow="isInputTitle"/>
-        <td><input class="inp-box" type="text" v-model="todoinfo.value"/></td>
+        <td><input class="inp-box"
+         type="text" :value="todotitle" @input.prevent="$emit('update:todotitle', $event.target.value)" /></td>
       </tr>
       <tr>
         <input-box-title class="input-title" :title="'けいけんち'" :isshow="isInputExp"/>
-        <td><input class="inp-box" type="number" min=0 max=5 v-model="todoinfo.exp"/>
+        <td><input class="inp-box" type="number" min=0 max=5
+         :value="todoexp" @input.prevent="$emit('update:todoexp', Number($event.target.value))"/>
         <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span></td>
       </tr>
       <tr>
         <input-box-title :title="'しゅるい'" :isshow="isType"/>
         <td>
-          <select class="select-box" name="type" id="ty" v-model="todoinfo.type">
+          <select class="select-box" name="type" id="ty" :title="todotype" @input="$emit('update:todotype', $event.target.value)">
             <option value="nexttask">次の行動</option>
             <option value="otherperson">連絡待ち</option>
             <option value="wait">待機</option>
@@ -23,8 +25,8 @@
     </table>
 
     <div class="btn-box">
-      <Button class="btn" @click="addTodo(0)" title="くわえる"/>
-      <Button class="btn" @click="addTodo(1)" title="へんこうする"/>
+      <Button class="btn" @click="addTodo" title="くわえる"/>
+      <Button class="btn" @click="changeTodo" title="へんこうする"/>
     </div>
 
   </div>
@@ -41,6 +43,12 @@ export default {
     InputBoxTitle,
     Button
   },
+  props: {
+    msg: String,
+    todotitle: String,
+    todoexp: Number,
+    todotype: String 
+  },
   data: function(){
     return {
       isInputTitle: false,
@@ -53,47 +61,40 @@ export default {
         type: "",
         e: 0
       },
-      btn: '.btn'
+      btn: '.btn',
     }
   },
   methods: {
     // ボタンを押すとイベントをとばす
-    addTodo: function(e){
-      let b = false
-      if (e == 0) {
-        b = this.checkInput()
+    addTodo: function(){
+      if (!this.checkInput()) {
+        this.$emit('add-todo')
       }
-      if (!b) {
-        this.todoinfo.e = e
-        this.$emit('get-todo-info', this.todoinfo)
-      }
+      
+    },
+    changeTodo: function() {
+      this.$emit('change-todo')
     },
     checkInput: function() {
       this.isInputTitle = false;
       this.isInputExp = false;
-      this.isType = false;
       this.isNumber = false;
       
-      if (this.todoinfo.value == '') {
+      if (this.todotitle == '') {
         this.isInputTitle = true;
       }
 
-      if (this.todoinfo.exp == '') {
+      if (this.todoexp == '') {
         this.isInputExp = true;
-      } else if (this.todoinfo.exp > 5) {
+      } else if (this.todoexp > 5) {
         this.isNumber =true;
       }
 
-      if (this.todoinfo.type == '') {
-        this.isType = true;
-      }
-
-      if (this.isInputTitle || this.isInputExp || this.isType || this.isNumber) {
+      if (this.isInputTitle || this.isInputExp || this.isNumber) {
         return true;
       }
 
     },
-
   }
 }
 </script>
