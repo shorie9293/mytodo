@@ -13,14 +13,22 @@
   </div>
   <Button @click="setOptions" title="オプション反映"/>
   <Button @click=clear title="全てのデータを消去する"></Button>
+  <Button @click="show=true" title="ReadMe"/>
+  <div v-show="show">
+    <Readme></Readme>
+    <Button title="とじる" @click="show=false"></Button>
+  </div>
+
 </template>
 
 <script>
 import Button from "../atoms/Button"
+import Readme from '../pages/Readme';
 
 export default {
   components: {
-    Button
+    Button,
+    Readme
   },
   props: {
     class: String
@@ -34,7 +42,7 @@ export default {
         word: "たんご",
         custom: "カスタム"
       },
- 
+      show: false
     }
   },
   mounted: function() {

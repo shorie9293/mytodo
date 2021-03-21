@@ -1,5 +1,4 @@
 <template>
-  <h3>お試し運用中</h3>
   <span v-show="true">
     <p class="question">{{q1[qIndex].theme}}</p>
     <p class="question qes">{{q1[qIndex].question}}</p>

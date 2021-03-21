@@ -1,10 +1,10 @@
 <!-- 各コンポーネント表示用 -->
 <template>
   <div class="btns">
-    <Button title="ステータス" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
-    <Button title="バトル" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
-    <Button title="やること" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
-    <Button title="オプション" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
+    <Button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
+    <Button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
+    <Button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
+    <Button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
   </div>
   <div class="display-panel">
     <template v-if="display==0">
@@ -75,7 +75,6 @@ export default {
   }
 
   .btns {
-
     display: flex;
     padding: 5px;
     width: 95%;
@@ -84,10 +83,11 @@ export default {
   }
 
   .btn {
+    vertical-align: center;
     padding: 5px 5px;
     width: 100%;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 1px;
+    margin-right: 1px;
   }
 
   .selected {

@@ -19,11 +19,22 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/03/20</td>
+  <td>ver 0.5.2</td>
+  <td>
+    <ul>
+      <li>タスク変更時にBOXにタスク情報が入る</li>
+      <li>UIの変更</li>
+      <li>その他微小な修正</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 
 <p>
-  実装してほしい要望があれば @sholliencohol (twitter) までご連絡を！
+  実装してほしい要望があれば <br> <a href="https://twtter.com/sholliencohol">@sholliencohol (twitter)</a> までご連絡を！
 </p>
 </div>
 

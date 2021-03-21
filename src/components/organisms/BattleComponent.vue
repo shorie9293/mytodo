@@ -1,11 +1,5 @@
 <!-- 戦闘画面 -->
 <template>
-  <select name="monster" id="monst" @change="onChange">
-    <option v-for="(m,index) in enemyDatabase" 
-        :key="index"
-        :value="m.name"> {{ m.name }}
-    </option>
-  </select>
   <div class="mst-box">
     <transition name="mst">
       <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" v-if="status.enemyStatus.name!=''"/>
@@ -55,7 +49,15 @@
     <Button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
   <!-- 対戦状態を表記する -->
-  <Button title="てきをせんたくする" @click="reset"/>
+  <div class="enemy-select">
+    <Button title="てきをせんたくする" @click="reset" class="select-btn"/>
+    <select name="monster" id="monst" @change="onChange">
+      <option v-for="(m,index) in enemyDatabase" 
+          :key="index"
+          :value="m.name"> {{ m.name }}
+      </option>
+    </select>
+  </div>
   <div style="width: 100px;">
       勝利数: {{defetCounter}}
       <Button title="reset" @click="resetCounter"/>
@@ -371,6 +373,16 @@ export default {
 
 .select-question {
   text-align: left;
+}
+
+.enemy-select {
+  display: flex;
+}
+
+.select-btn {
+  width: 100%;
+  align-content: left;
+  margin-right: 5px;
 }
 
 </style>

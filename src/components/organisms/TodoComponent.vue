@@ -5,13 +5,12 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
-    :scrollbar= "{ draggable: true }"
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper"
     >
-      <swiper-slide v-for="(todo, key) in todos" :key="key">
+      <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
         <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
           <div :class="['container', t.type]">
@@ -34,14 +33,19 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       </swiper-slide>
 
   </swiper>
-  <todo-input-panel @add-todo="addTodo" @change-todo="changeTodo"
-    v-model:msg="pmsg"
-    v-model:todotitle="ptitle"
-    v-model:todoexp="pexp"
-    v-model:todotype="ptype" />
-  <Button @click="enhanceExp" title="けいけんちアップ"/>
-  <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-  <Button @click="hoimi" title="けいけんちかいふく"/>
+  <div class="footer">
+    <todo-input-panel 
+      @add-todo="addTodo" 
+      @change-todo="changeTodo"
+      @clear-input="clearInput"
+      v-model:msg="pmsg"
+      v-model:todotitle="ptitle"
+      v-model:todoexp="pexp"
+      v-model:todotype="ptype" />
+    <Button @click="enhanceExp" title="けいけんちアップ"/>
+    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+    <Button @click="hoimi" title="けいけんちかいふく"/>
+  </div>
 </template>
 
 <script>
@@ -49,10 +53,10 @@ import Button from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
-import SwiperCore, { Scrollbar, Controller } from 'swiper';
-import 'swiper/components/scrollbar/scrollbar.scss';
+import SwiperCore, { Navigation, Controller } from 'swiper';
+import 'swiper/components/navigation/navigation.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
-SwiperCore.use([Scrollbar, Controller]);
+SwiperCore.use([Navigation, Controller]);
 
 export default {
   name: "todo-panel",
@@ -95,7 +99,7 @@ export default {
       controlledSwiper: null,
       pmsg: '',
       ptitle: '',
-      pexp: 0,
+      pexp: '',
       ptype: 'nexttask'
     }
   },
@@ -129,6 +133,7 @@ export default {
   methods: {
     // todoを加える。
     addTodo: function() {
+      if (this.pexp > 5) this.pexp = 5
       this.todos[this.project_no[this.realIndex]].push({id: this.id_number,
         value: this.ptitle,
         exp: this.pexp,
@@ -137,15 +142,22 @@ export default {
         checked: false});
         this.id_number++;
         this.ptitle = '';
-        this.pexp = 0;
+        this.pexp = '';
     },
     // todoを変更する。
     changeTodo: function() {
+      if (this.pexp > 5) this.pexp = 5
       let proj = this.todos[this.project_no[this.realIndex]][this.pick]
       this.value != '' ? proj.value = this.ptitle : ''
       this.exp != '' ? proj.exp = this.pexp : ''
       this.exp != '' ? proj.initialExp = this.pexp : ''
       this.type != '' ? proj.type = this.ptype : ''
+      this.ptitle = '';
+      this.pexp = '';
+    },
+    clearInput: function() {
+      this.ptitle = '';
+      this.pexp = '';
     },
     // [x]ボタンを押すとtodoを消す
     deleteItem: function(index, key) {
@@ -231,17 +243,17 @@ export default {
 <style scoped>
 
 h3 {
-  margin: 5px;
+  margin-top: 0px;
+  margin-bottom: 5px;
 }
 
 .swiper {
-  height: 100%;
-  padding: 10px;
-}
-
-.inputError {
-  color: red;
-  font-size: 50%;
+  align-content: center;
+  padding-left: auto;
+  padding-right: auto;
+  padding-bottom: 10px;
+  overflow: scroll;
+  height: 300px;
 }
 
 .peke {
@@ -288,4 +300,12 @@ h3 {
   color: rgb(210, 210, 210);
   background: rgba(200, 227, 255, 1);
 }
+/* 
+.footer {
+  position: fixed;
+  width: 100%;
+  bottom: 5px;
+  left: 10px;
+  right: 10px;
+} */
 </style>

@@ -1,19 +1,26 @@
 <template>
   <div class="component">
     <table>
-      <tr>
-        <input-box-title class="input-title" :title="'タイトル'" :isshow="isInputTitle"/>
+      <tr >
         <td><input class="inp-box"
-         type="text" :value="todotitle" @input.prevent="$emit('update:todotitle', $event.target.value)" /></td>
+          type="text"
+          placeholder="タスク名" 
+          :value="todotitle"
+          @input.prevent="$emit('update:todotitle', $event.target.value)" />
+          <!-- <span v-show="isInputTitle" class="smalltext"><br>あたいをいれてね</span> -->
+        </td>
       </tr>
       <tr>
-        <input-box-title class="input-title" :title="'けいけんち'" :isshow="isInputExp"/>
-        <td><input class="inp-box" type="number" min=0 max=5
-         :value="todoexp" @input.prevent="$emit('update:todoexp', Number($event.target.value))"/>
-        <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span></td>
+        <td><input class="inp-box"
+          type="number" min=0 max=5
+          placeholder="経験値 (1-5)"
+          :value="todoexp"
+          @input.prevent="$emit('update:todoexp', Number($event.target.value))"/>
+        <!-- <span v-show="isInputExp" class="smalltext"><br>あたいをいれてね</span> -->
+        <!-- <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span> -->
+        </td>
       </tr>
-      <tr>
-        <input-box-title :title="'しゅるい'" :isshow="isType"/>
+      <tr class="select-tr">
         <td>
           <select class="select-box" name="type" id="ty" :title="todotype" @input="$emit('update:todotype', $event.target.value)">
             <option value="nexttask">次の行動</option>
@@ -26,7 +33,8 @@
 
     <div class="btn-box">
       <Button class="btn" @click="addTodo" title="くわえる"/>
-      <Button class="btn" @click="changeTodo" title="へんこうする"/>
+      <Button class="btn" @click="changeTodo" title="へんこう"/>
+      <Button class="btn" @click="clearInput" title="入力クリア"/>
     </div>
 
   </div>
@@ -34,13 +42,11 @@
 </template>
 
 <script>
-import InputBoxTitle from '../atoms/InputBoxTitle.vue'
 import Button from '../atoms/Button'
 
 export default {
   name: 'todo-input-panel',
   components: {
-    InputBoxTitle,
     Button
   },
   props: {
@@ -55,46 +61,43 @@ export default {
       isType: false,
       isInputExp: false,
       isNumber: false,
-      todoinfo: {
-        value: "",
-        exp: 0,
-        type: "",
-        e: 0
-      },
       btn: '.btn',
     }
   },
   methods: {
     // ボタンを押すとイベントをとばす
     addTodo: function(){
-      if (!this.checkInput()) {
-        this.$emit('add-todo')
-      }
-      
+      // if (!this.checkInput()) {
+      //   this.$emit('add-todo')
+      // }
+      this.$emit('add-todo')
     },
     changeTodo: function() {
       this.$emit('change-todo')
     },
-    checkInput: function() {
-      this.isInputTitle = false;
-      this.isInputExp = false;
-      this.isNumber = false;
-      
-      if (this.todotitle == '') {
-        this.isInputTitle = true;
-      }
-
-      if (this.todoexp == '') {
-        this.isInputExp = true;
-      } else if (this.todoexp > 5) {
-        this.isNumber =true;
-      }
-
-      if (this.isInputTitle || this.isInputExp || this.isNumber) {
-        return true;
-      }
-
+    clearInput: function() {
+      this.$emit('clear-input')
     },
+    // checkInput: function() {
+      // this.isInputTitle = false;
+      // this.isInputExp = false;
+      // this.isNumber = false;
+      
+      // if (this.todotitle == '') {
+      //   this.isInputTitle = true;
+      // }
+
+      // if (this.todoexp === '') {
+      //   this.isInputExp = true;
+      // } else if (this.todoexp > 5) {
+      //   this.isNumber =true;
+      // }
+
+      // if (this.isInputTitle || this.isInputExp || this.isNumber) {
+      //   return true;
+      // }
+
+    // },
   }
 }
 </script>
@@ -106,15 +109,20 @@ export default {
 
   tr {
     height: 2em;
-    width: auto;
+    width: 100%;
     margin: 0px;
   }
 
-  .smalltext {
+  td {
+    text-align: left;
+    vertical-align: top;
+  }
+
+  /* .smalltext {
     font-size: 5pt;
     color: red;
   }
-
+ */
   .btn-box {
     margin-top: auto;
     margin-bottom: auto;
@@ -123,24 +131,26 @@ export default {
   }
 
   .inp-box {
-    width: 60%;
+    width: calc(100% - 44px);
     height: 100%;
-    margin: 2px;
-    padding: 2px;
+    margin-left: 0;
+
   }
 
   .select-box {
-    width: 60%;
+    width: calc(100% - 26px);
     height: 100%;
-    margin: 2px;
     padding: 2px;
+    padding-left: 0px;
 
   }
   .component {
     display: flex;
     background: rgb(198, 198, 248);
-    margin: 5px;
     padding: 5px;
+    border-radius: 4px;
+    box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
+
   }
 
   .btn {

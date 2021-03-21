@@ -15,27 +15,20 @@
         </select>
         <Button title="ゲームスタート" @click="setNameandJob" />
       </div>
-      <div v-else-if="show==true">
-        <Button title="とじる" @click="show=false"></Button>
-        <Readme></Readme>
-      </div>
-      <QuestTemplate v-else/>
+    <QuestTemplate v-else/>
     </div>
-    <span @click="show=true" style="margin-right: 0;">読んでね</span>
   </div>
 </template>
 
 <script>
 import Button from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate'
-import Readme from './components/pages/Readme';
 
 export default {
   name: 'App',
   components: {
     QuestTemplate,
     Button,
-    Readme
   },
   data() {
     return {
@@ -92,9 +85,11 @@ export default {
 
 h1 {
   margin: 0px;
+  font-size: 16pt;
 }
 h2 {
   margin: 0px;
+  font-size: 14pt;
 }
 
 </style>
