@@ -34,7 +34,7 @@
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 
 <p>
-  実装してほしい要望があれば <br> <a href="https://twtter.com/sholliencohol">@sholliencohol (twitter)</a> までご連絡を！
+  実装してほしい要望があれば <br> <a href="https://twitter.com/sholliencohol">@sholliencohol (twitter)</a> までご連絡を！
 </p>
 </div>
 

@@ -1,16 +1,24 @@
 <template>
-  <div>
-    なまえ: <input type="text" v-model="parsonal.name">
-  </div>
-  <div>
-    もんだい: 
-    <select name="question" id="q" v-model="initialQuestion">
-      <option v-for="(question, index) in questionType"
-        name="question"
-        :key="index"
-        :value="question">{{ question }}</option>
-    </select>
-  </div>
+  <table>
+    <tr>
+      <th>なまえ: </th>
+      <th><input class="inputarea" type="text" v-model="parsonal.name"></th>
+    </tr>
+    <tr>
+      <th>
+        もんだい:
+      </th>
+      <th>
+        <select  class="inputarea" name="question" id="q" v-model="initialQuestion">
+          <option v-for="(question, index) in questionType"
+            name="question"
+            :key="index"
+            :value="question">{{ question }}</option>
+        </select>
+      </th>
+    </tr>
+  </table>
+
   <Button @click="setOptions" title="オプション反映"/>
   <Button @click=clear title="全てのデータを消去する"></Button>
   <Button @click="show=true" title="ReadMe"/>
@@ -74,5 +82,10 @@ export default {
 </script>
 
 <style scoped>
-
+  tr {
+    text-align: left;
+  }
+  .inputarea {
+    width: 100%;
+  }
 </style>

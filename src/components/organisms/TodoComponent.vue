@@ -178,9 +178,6 @@ export default {
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
     enhanceExp: function() {
-      if (!confirm('けいけんちをはんえいしますか？')) {
-        return;
-      }
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 

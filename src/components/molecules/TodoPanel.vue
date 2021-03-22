@@ -39,18 +39,22 @@ export default {
 .tasks-detail {
   display: flex;
   width: 100%;
+  vertical-align: middle;
+  position: relative;
 }
 
 .task-d {
   background: white;
-  margin: 1px;
-  padding: 1px;
+  padding: 2px;
+  margin: 2px;
   border: .1mm solid;
   text-align: center;
+  border-radius: 4px;
 }
 
 .exp {
   width: 60px;
+  padding-top: 5px;
 }
 
 .type {
