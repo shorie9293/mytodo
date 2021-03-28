@@ -20,7 +20,7 @@
   {"theme": "正しいピンイン表記を選ぼう",
     "question":"电灯","answers":["diǎndōng","diàndēng","diǎntóu","tiàntēng"],"trueAnswer":"2", "comment": ""},
   {"theme": "空欄を埋めよう。",
-    "question":"我一看见中国菜（  ）想吃","answers":["再","就","在","又","a","b","c"],"trueAnswer":"2", "comment": ""},
+    "question":"我一看见中国菜（  ）想吃","answers":["再","就","在","又"],"trueAnswer":"2", "comment": ""},
   {"theme": "空欄を埋めよう。",
     "question":"（  ）下星期一开始，我去食堂吃午饭","answers":["从","在","对","离"],"trueAnswer":"1", "comment": ""},
   {"theme": "空欄を埋めよう。",
@@ -38,7 +38,6 @@
   {"theme": "空欄を埋めよう。",
     "question":"我爷爷（  ）70岁了，但是还在工作","answers":["虽然","因为","只有","不管"],"trueAnswer":"1", "comment": ""},
   {"theme": "空欄を埋めよう。",
-    "question":"我快要去中国留学（  ）","answers":["着","到","了","过"],"trueAnswer":"3", "comment": ""}
-        
-        
+    "question":"我快要去中国留学（  ）","answers":["着","到","了","过"],"trueAnswer":"3", "comment": ""},
+  {"theme": "日本語の意味に合う中国語を， 1 つ選びましょう", "question": "わたしは 1 週間に 3 日アルバイトをします。", "answers": ["我一星期打工三个天。", "我打三天工一个星期。", "我一个星期打三天工。", "我三天打工一个星期。"], "trueAnswer": "3", "comment": ""}
 ]

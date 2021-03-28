@@ -22,7 +22,7 @@
       </tr>
       <tr class="select-tr">
         <td>
-          <select class="select-box" name="type" id="ty" :title="todotype" @input="$emit('update:todotype', $event.target.value)">
+          <select class="select-box" name="type" id="ty" :title="todotype" @change="$emit('update:todotype', $event.target.value)">
             <option value="nexttask">次の行動</option>
             <option value="otherperson">連絡待ち</option>
             <option value="wait">待機</option>
@@ -32,9 +32,9 @@
     </table>
 
     <div class="btn-box">
-      <Button class="btn" @click="addTodo" title="くわえる"/>
-      <Button class="btn" @click="changeTodo" title="へんこう"/>
-      <Button class="btn" @click="clearInput" title="入力クリア"/>
+      <standard-button class="btn" @click="addTodo" title="くわえる"/>
+      <standard-button class="btn" @click="changeTodo" title="へんこう"/>
+      <standard-button class="btn" @click="clearInput" title="入力クリア"/>
     </div>
 
   </div>
@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import Button from '../atoms/Button'
+import StandardButton from '../atoms/Button'
 
 export default {
   name: 'todo-input-panel',
   components: {
-    Button
+    StandardButton
   },
   props: {
     msg: String,

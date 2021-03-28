@@ -2,11 +2,11 @@
 <template>
   <div style="width: 100%;">
     <div style="height: 150px;">
-      <MonsterView :imgs="img"/>
+      <monster-view :imgs="img"/>
     </div>
-    <LevelData :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
+    <level-data :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
     <div class="status-block">
-      <StatusPanel v-for="(item,index) in sts"
+      <status-panel v-for="(item,index) in sts"
         :key="index"
         :item="item.itm"
         :value="item.vl"
@@ -15,11 +15,11 @@
         @click="countUp(index)"
         />
     </div>
-    <Button @click=ptToVl title="ポイント反映"></Button>
-    <Button @click=ptToSkpt title="キャンセル"></Button>
+    <standard-button @click=ptToVl title="ポイント反映"></standard-button>
+    <standard-button @click=ptToSkpt title="キャンセル"></standard-button>
     <!-- デバッグ用。うつしてないがとりあえず保存しておくが消しても良い 21/2/27。 -->
     <div v-show=false>
-      <Button @click=expstockToExp title="経験値反映"></Button>
+      <standard-button @click=expstockToExp title="経験値反映"></standard-button>
       <input id="inputexp" type="number" v-model="lvdata.stexp">
       <label for="inputexp"></label>
     </div>
@@ -28,17 +28,17 @@
 
 <script>
 import StatusPanel from '../molecules/StatusPanel'
-import LevelData from '../molecules/LevelData'
-import Button from '../atoms/Button'
-import MonsterView from '../atoms/MonsterView'
+import StandardButton from '../atoms/Button'
+import MonsterView from '../atoms/MonsterView.vue'
+import LevelData from '../molecules/LevelData.vue'
 
 export default {
   name: "StatusComponent",
   components: {
     StatusPanel,
     LevelData,
-    Button,
-    MonsterView,
+    StandardButton,
+    MonsterView
   },
   data: function(){
     return {

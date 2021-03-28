@@ -13,7 +13,7 @@
           </option>
 
         </select>
-        <Button title="ゲームスタート" @click="setNameandJob" />
+        <standard-button title="ゲームスタート" @click="setNameandJob" />
       </div>
     <QuestTemplate v-else/>
     </div>
@@ -21,14 +21,14 @@
 </template>
 
 <script>
-import Button from './components/atoms/Button';
+import StandardButton from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate'
 
 export default {
   name: 'App',
   components: {
     QuestTemplate,
-    Button,
+    StandardButton,
   },
   data() {
     return {

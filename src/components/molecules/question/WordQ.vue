@@ -1,9 +1,9 @@
 <template>
   <span v-show="true">
-    <p class="question">{{q1[qIndex].theme}}</p>
-    <p class="question qes">{{q1[qIndex].question}}</p>
+    <p class="question">{{question[qIndex].theme}}</p>
+    <p class="question qes">{{question[qIndex].question}}</p>
     <div class="answer-box">
-      <div v-for="(answer,index) in q1[qIndex].answers"
+      <div v-for="(answer,index) in question[qIndex].answers"
         :key="index">
         <input :id="index" type="radio" name="answer" :value="index" v-model="myAnswer">
         <label :for="index">{{ answer }}</label>
@@ -16,9 +16,12 @@
 
 <script>
 export default {
+  props: {
+    question: Object 
+  },
   data: function() {
     return {
-      q1: require(`@/assets/data/chinese1013.json`),
+      // question: require(`@/assets/data/chinese1013.json`),
       myAnswer : '',
       judge : 'たたかいのはじまり',
       qIndex: 0
@@ -26,14 +29,14 @@ export default {
   },
   emits: ["updateAnswer"],
   mounted: function() {
-    this.qIndex = Math.floor(Math.random() * (this.size(this.q1)));
+    this.qIndex = Math.floor(Math.random() * (this.size(this.question)));
   },
   methods: {
     judge_answer: function() {
-      this.judge = this.q1[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
+      this.judge = this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
       if (this.judge) {
         this.myAnswer = '';
-        this.qIndex = Math.floor(Math.random() * (this.size(this.q1)));
+        this.qIndex = Math.floor(Math.random() * (this.size(this.question)));
       }
       this.$emit("updateAnswer", this.judge);
       // this.myAnswer = ''
@@ -55,13 +58,13 @@ export default {
 }
 
 .qes {
-  font-size: 16pt;
+  /* font-size: 16pt; */
   font-weight: bold;
 }
 
 .answer-box {
   background: lightblue;
-  display: flex;
+  text-align: left;
 }
 
 </style>

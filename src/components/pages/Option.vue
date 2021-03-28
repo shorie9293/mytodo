@@ -19,24 +19,28 @@
     </tr>
   </table>
 
-  <Button @click="setOptions" title="オプション反映"/>
-  <Button @click=clear title="全てのデータを消去する"></Button>
-  <Button @click="show=true" title="ReadMe"/>
+  <read-custom-q v-show="false"></read-custom-q>
+
+  <standard-button @click="setOptions" title="オプション反映"/>
+  <standard-button @click=clear title="全てのデータを消去する"></standard-button>
+  <standard-button @click="show=true" title="ReadMe"/>
   <div v-show="show">
     <Readme></Readme>
-    <Button title="とじる" @click="show=false"></Button>
+    <standard-button title="とじる" @click="show=false"></standard-button>
   </div>
 
 </template>
 
 <script>
-import Button from "../atoms/Button"
+import StandardButton from "../atoms/Button";
 import Readme from '../pages/Readme';
+import ReadCustomQ from '../organisms/ReadCustomQ';
 
 export default {
   components: {
-    Button,
-    Readme
+    StandardButton,
+    Readme,
+    ReadCustomQ
   },
   props: {
     class: String

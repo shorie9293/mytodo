@@ -42,14 +42,15 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
-    <Button @click="enhanceExp" title="けいけんちアップ"/>
-    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-    <Button @click="hoimi" title="けいけんちかいふく"/>
+    <standard-button @click="enhanceExp" title="けいけんちアップ"/>
+    <standard-button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+    <standard-button @click="hoimi" title="けいけんちかいふく"/>
   </div>
+  {{ ptype }}
 </template>
 
 <script>
-import Button from '../atoms/Button';
+import StandardButton from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
@@ -61,7 +62,7 @@ SwiperCore.use([Navigation, Controller]);
 export default {
   name: "todo-panel",
   components: {
-    Button,
+    StandardButton,
     TodoPanel,
     Swiper,
     SwiperSlide,
@@ -99,7 +100,7 @@ export default {
       controlledSwiper: null,
       pmsg: '',
       ptitle: '',
-      pexp: '',
+      pexp: 0,
       ptype: 'nexttask'
     }
   },
@@ -142,7 +143,7 @@ export default {
         checked: false});
         this.id_number++;
         this.ptitle = '';
-        this.pexp = '';
+        this.pexp = 0;
     },
     // todoを変更する。
     changeTodo: function() {
@@ -153,11 +154,11 @@ export default {
       this.exp != '' ? proj.initialExp = this.pexp : ''
       this.type != '' ? proj.type = this.ptype : ''
       this.ptitle = '';
-      this.pexp = '';
+      this.pexp = 0;
     },
     clearInput: function() {
       this.ptitle = '';
-      this.pexp = '';
+      this.pexp = 0;
     },
     // [x]ボタンを押すとtodoを消す
     deleteItem: function(index, key) {

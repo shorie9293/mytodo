@@ -1,10 +1,10 @@
 <!-- 各コンポーネント表示用 -->
 <template>
   <div class="btns">
-    <Button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
-    <Button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
-    <Button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
-    <Button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
+    <standard-button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
+    <standard-button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
+    <standard-button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
+    <standard-button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
   </div>
   <div class="display-panel">
     <template v-if="display==0">
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import Button from '../atoms/Button'
+import StandardButton from '../atoms/Button'
 import TodoComponent from '../organisms/TodoComponent.vue'
 import StatusComponent from '../organisms/StatusComponent.vue'
 import BattleComponent from '../organisms/BattleComponent.vue'
@@ -32,7 +32,7 @@ import Option from '../pages/Option'
 export default {
   name: 'QuestTemplate',
   components: {
-    Button,
+    StandardButton,
     StatusComponent,
     BattleComponent,
     TodoComponent,

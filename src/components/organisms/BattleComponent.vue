@@ -42,15 +42,19 @@
   </div>
   <span v-if="pickQuestion == 'さんすう'">
     <MathCal ref="math" @updateAnswer="judgeAnswer"/>
-    <Button title="こうげき" @click="$refs.math.judge_answer()"/>
+    <standard-button title="こうげき" @click="$refs.math.judge_answer()"/>
   </span>
-  <span v-else>
-    <word-q ref="word" @updateAnswer="judgeAnswer"/>
-    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
+  <span v-else-if="pickQuestion == 'たんご'">
+    <word-q ref="word" :question="require(`@/assets/data/chinese1013.json`)" @updateAnswer="judgeAnswer"/>
+    <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
+  </span>
+  <span v-else-if="pickQuestion == 'カスタム'">
+    <word-q ref="word" :question="customQ[1]" @updateAnswer="judgeAnswer"/>
+    <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
   <!-- 対戦状態を表記する -->
   <div class="enemy-select">
-    <Button title="てきをせんたくする" @click="reset" class="select-btn"/>
+    <standard-button title="てきをせんたくする" @click="reset" class="select-btn"/>
     <select name="monster" id="monst" @change="onChange">
       <option v-for="(m,index) in enemyDatabase" 
           :key="index"
@@ -60,8 +64,9 @@
   </div>
   <div style="width: 100px;">
       勝利数: {{defetCounter}}
-      <Button title="reset" @click="resetCounter"/>
+      <standard-button title="reset" @click="resetCounter"/>
   </div>
+
   <div v-show=false>
     <div>
       <input type="number" v-model="status.enemyStatus.hp">
@@ -76,7 +81,7 @@
 </template>
 
 <script>
-import Button from '../atoms/Button'
+import StandardButton from '../atoms/Button'
 import MonsterView from '../atoms/MonsterView'
 import BattleStatusData from '../molecules/BattleStatusData'
 import MathCal from '../molecules/question/MathCal'
@@ -87,7 +92,7 @@ export default {
   components: {
     MonsterView,
     BattleStatusData,
-    Button,
+    StandardButton,
     MathCal,
     WordQ
   },
@@ -143,6 +148,7 @@ export default {
       stageNum: '',
       index: '',
       pickQuestion: 'さんすう',
+      customQ: []
     }
   },
   watch: {
@@ -163,6 +169,9 @@ export default {
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
       this.enemyDatabase = this.datafile
+      this.customQ = JSON.parse(localStorage.getItem('customQuestion')) || [{"title":""},
+  [{"theme": "", "question": "", "answers": ["", "", "", ""], "trueAnswer": "", "comment": ""}]
+]
     },
   methods: {
     // 一連の攻撃画面。アニメーションを表記するためにsetTimeoutを入れ子にしているのと、内部関数使ってる
