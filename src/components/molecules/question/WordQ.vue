@@ -1,6 +1,6 @@
 <template>
   <span v-show="true">
-    <p class="question">{{question[qIndex].theme}}</p>
+    <p class="question"><span v-html="question[qIndex].theme" ></span></p>
     <p class="question qes">{{question[qIndex].question}}</p>
     <div class="answer-box">
       <div v-for="(answer,index) in question[qIndex].answers"
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style scoped>
+
+.question, .answer-box {
+  font-family: 'Segoe UI',SegoeUI,'Microsoft YaHei',微软雅黑,"Helvetica Neue", Helvetica,Arial,sans-serif;
+}
 
 .question {
   text-align: left;
