@@ -46,7 +46,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <standard-button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <standard-button @click="hoimi" title="けいけんちかいふく"/>
   </div>
-  {{ ptype }}
 </template>
 
 <script>
