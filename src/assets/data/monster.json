@@ -1,6 +1,6 @@
 [
   {"id":1, "name":"ほね","hp":10,"at":3,"df":2,"img":"bone_ape.png", "money":1},
-  {"id":2, "name":"いぬ","hp":13,"at":6,"df":6,"img":"dog.png", "money":2},
+  {"id":2, "name":"いぬ","hp":13,"at":6,"df":6,"img":"dog.webp", "money":2},
   {"id":3, "name":"あり","hp":17,"at":10,"df":9,"img":"ari.gif", "money":3},
   {"id":4, "name":"はえ","hp":21,"at":13,"df":12,"img":"hae.gif", "money":4},
   {"id":5, "name":"おっさん","hp":26,"at":18,"df":15,"img":"ossan.gif", "money":5}

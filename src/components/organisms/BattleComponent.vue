@@ -1,13 +1,29 @@
 <!-- 戦闘画面 -->
 <template>
-  <div class="mst-box">
-    <transition name="mst">
-      <MonsterView :imgs="status.enemyStatus.img" :class="{shake : isShake, attack : isAttack}" v-show="show" v-if="status.enemyStatus.name!=''"/>
-    </transition>
-  </div>
-    <div v-if="status.enemyStatus.name!=''">
-      {{status.enemyStatus.name}}があらわれた
+  <div class="battle-field">
+
+    <!-- 敵キャラ表示コンポーネント。 -->
+
+    <div class="battle-stage">
+      <div class="mst-box">
+        <transition name="mst">
+          <MonsterView :imgs="status.enemyStatus.img" 
+            :class="{shake : isShake, attack : isAttack}" 
+            v-show="show" 
+            v-if="status.enemyStatus.name!=''"/>
+        </transition>
+      </div>
+      <div v-if="status.enemyStatus.name!=''">
+        {{status.enemyStatus.name}}があらわれた
+      </div>
     </div>
+
+    <!-- バトルマップ。選択されたインデックスをうけとって、selectStageで処理。  -->
+    <battle-stage class="battle-map"
+      @get-stage-index="selectStage"></battle-stage>
+
+  </div>  
+
 
   <BattleStatusData class="hp-box" 
     :myHp="status.myStatus.hp" 
@@ -29,15 +45,14 @@
     </div>
   </div>
 
+  <!-- 問題の選択。本当は選択だけをこの画面でやって、投げると表記は別コンポーネントでやるようにしたい。 -->
+
   <div class="select-question">
     <select name="question" id="q" v-model="pickQuestion">
       <option v-for="(question, index) in questionType"
         name="question"
         :key="index"
         :value="question">{{ question }}</option>
-        <!-- <input type="radio" :id="index" name="question" :value="question" v-model="pickQuestion">
-        <label :for="index">{{ question }}{{ pickQuestion }}</label> -->
-      <!-- </div> -->
     </select>
   </div>
   <span v-if="pickQuestion == 'さんすう'">
@@ -52,20 +67,15 @@
     <word-q ref="word" :question="customQ[1]" @updateAnswer="judgeAnswer"/>
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
-  <!-- 対戦状態を表記する -->
-  <div class="enemy-select">
-    <standard-button title="てきをせんたくする" @click="reset" class="select-btn"/>
-    <select name="monster" id="monst" @change="onChange">
-      <option v-for="(m,index) in enemyDatabase" 
-          :key="index"
-          :value="m.name"> {{ m.name }}
-      </option>
-    </select>
-  </div>
+
+  <!-- マップに織り込んで、各対戦相手にどれだけ勝ったかを折り込みたい。 -->
+
   <div style="width: 100px;">
       勝利数: {{defetCounter}}
       <standard-button title="reset" @click="resetCounter"/>
   </div>
+
+  <!-- 敵キャラのステータスデバッグ用。 -->
 
   <div v-show=false>
     <div>
@@ -86,6 +96,7 @@ import MonsterView from '../atoms/MonsterView'
 import BattleStatusData from '../molecules/BattleStatusData'
 import MathCal from '../molecules/question/MathCal'
 import WordQ from '../molecules/question/WordQ.vue'
+import BattleStage from '../molecules/BattleStage.vue'
 
 export default {
   name: "BattleComponent",
@@ -94,7 +105,8 @@ export default {
     BattleStatusData,
     StandardButton,
     MathCal,
-    WordQ
+    WordQ,
+    BattleStage
   },
   props: {
     class: String
@@ -145,7 +157,6 @@ export default {
       },
       defetCounter: 0,
       isEnemyData: false,
-      stageNum: '',
       index: '',
       pickQuestion: 'さんすう',
       customQ: []
@@ -162,7 +173,6 @@ export default {
       // 自分のステータスを読み込む。
       this.sts = JSON.parse(localStorage.getItem('status'))
       this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
-      this.stageNum = JSON.parse(localStorage.getItem('stageNumber')) || 0
       this.leveldata = JSON.parse(localStorage.getItem('leveldata'))
       this.pickQuestion = JSON.parse(localStorage.getItem('initq')) || "さんすう"
       this.status.myStatus.hp = this.sts[0].vl
@@ -239,9 +249,8 @@ export default {
       }
 
     },
-    // 勝負状態をリセットして再戦する
-    reset: function() {
-      if (!confirm(this.enemyDatabase[this.stageNum].name + "とたたかいますか？")) {
+    selectStage: function(index) {
+      if (!confirm(this.enemyDatabase[index].name + "とたたかいますか？")) {
         return;
       }
 
@@ -253,11 +262,11 @@ export default {
       this.isShake = false;
       this.isAttack = false;
       this.winner = 0;
-      this.index = this.stageNum;
+      this.index = index;
       this.status.myStatus.hp = this.sts[0].vl
       this.status.myStatus.attack = this.sts[1].vl
       this.status.myStatus.diffence = this.sts[2].vl
-      this.setStage()
+      this.setStage(index)
     },
     // 別にjudgeしているわけではないが、将来的にここで判定したい
     judgeAnswer: function(value) {
@@ -269,18 +278,16 @@ export default {
       this.defetCounter = 0;
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     },
-    setStage: function() {
-      this.status.enemyStatus.img = require(`@/assets/imgs/${this.enemyDatabase[this.stageNum].img}`)
-      this.status.enemyStatus.name = this.enemyDatabase[this.stageNum].name
-      this.status.enemyStatus.hp = this.enemyDatabase[this.stageNum].hp
-      this.status.enemyStatus.attack = this.enemyDatabase[this.stageNum].at
-      this.status.enemyStatus.diffence = this.enemyDatabase[this.stageNum].df
-      this.status.enemyStatus.money = this.enemyDatabase[this.stageNum].money
+    setStage: function(index) {
+      this.status.enemyStatus.img = require(`@/assets/imgs/${this.enemyDatabase[index].img}`)
+      this.status.enemyStatus.name = this.enemyDatabase[index].name
+      this.status.enemyStatus.hp = this.enemyDatabase[index].hp
+      this.status.enemyStatus.attack = this.enemyDatabase[index].at
+      this.status.enemyStatus.diffence = this.enemyDatabase[index].df
+      this.status.enemyStatus.money = this.enemyDatabase[index].money
     },
-    onChange: function(e) {
-      this.stageNum = e.target.selectedIndex;
-    }
-  }
+  },
+
 }
 </script>
 
@@ -293,7 +300,6 @@ export default {
   backface-visibility: hidden;
   perspective: 1000px;
   background-color: orange;
-  
 }
 
 @keyframes shake {
@@ -339,12 +345,59 @@ export default {
   }
 }
 
+.battle-field {
+  display: flex;
+  height: 130px;
+  width: 100%;
+}
+
+.battle-stage{
+  width: 50%;
+}
+
+.battle-map {
+  width: 50%;
+}
+
+.stg {
+  height: 25px;
+  width: 85%;
+  margin-right: auto;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.stg1 {
+  width: 72%;
+  background: rgb(200, 170, 170);
+}
+
+.stg2 {
+  width: 66%;
+  background: rgb(200, 150, 150);
+}
+
+.stg3 {
+  width: 60%;
+  background: rgb(200, 130, 130);
+}
+
+.stg4 {
+  width: 57%;
+  background: rgb(200, 110, 110);
+}
+.stg5 {
+  width: 54%;
+  background: rgb(200, 90, 90);
+}
+
 .mst-box {
   display: flexbox;
   width: auto;
   height: 100px;
   margin-right: auto;
   margin-left: auto;
+  padding: 2px
 }
 
 .hp-box {
