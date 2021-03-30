@@ -6,6 +6,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :slides-per-view="1" 
     :space-between="10"
     :controller="{ control: controlledSwiper }"
+    :short-swipes="false"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper"
