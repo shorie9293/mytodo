@@ -1,7 +1,7 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-
+  
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
@@ -33,8 +33,9 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       </swiper-slide>
 
   </swiper>
-  <div class="footer">
-    <todo-input-panel 
+
+  <div>
+    <TodoInputPanel 
       @add-todo="addTodo" 
       @change-todo="changeTodo"
       @clear-input="clearInput"
@@ -42,10 +43,11 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
-    <standard-button @click="enhanceExp" title="けいけんちアップ"/>
-    <standard-button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-    <standard-button @click="hoimi" title="けいけんちかいふく"/>
+    <StandardButton @click="enhanceExp" title="けいけんちアップ"/>
+    <StandardButton @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+    <StandardButton @click="hoimi" title="けいけんちかいふく"/>
   </div>
+
 </template>
 
 <script>
@@ -297,12 +299,5 @@ h3 {
   color: rgb(210, 210, 210);
   background: rgba(200, 227, 255, 1);
 }
-/* 
-.footer {
-  position: fixed;
-  width: 100%;
-  bottom: 5px;
-  left: 10px;
-  right: 10px;
-} */
+
 </style>
