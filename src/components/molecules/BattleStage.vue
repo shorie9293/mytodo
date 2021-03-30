@@ -1,26 +1,30 @@
 <template>
 
   <div class="battle-map">
-    <div v-for="stage in reverseItems"
+    <div v-for="(stage,index) in reverseStages"
       :key="stage.id"
       :class="stage.cls"
       @click="selectStage(stage.id)">
-      {{ stage.stg }}
+      {{ stage.stg }} : {{ wins[index] }}
     </div>
+    最初の塔
   </div>
   
 </template>
 
 <script>
 export default {
+  props: {
+    wins: Array
+  },
   data: function() {
     return {
       stages: [
-        {id:0, stg:"stage1", cls:"stg stg1"},
-        {id:1, stg:"stage2", cls:"stg stg2"},
-        {id:2, stg:"stage3", cls:"stg stg3"},
-        {id:3, stg:"stage4", cls:"stg stg4"},
-        {id:4, stg:"stage5", cls:"stg stg5"}        
+        {id:0, stg:"F1", cls:"stg stg1"},
+        {id:1, stg:"F2", cls:"stg stg2"},
+        {id:2, stg:"F3", cls:"stg stg3"},
+        {id:3, stg:"F4", cls:"stg stg4"},
+        {id:4, stg:"F5", cls:"stg stg5"}        
       ],
     }
   },
@@ -31,7 +35,7 @@ export default {
   },
   computed: {
     // 配列の要素順番を逆順にする
-    reverseItems() {
+    reverseStages() {
       return this.stages.slice().reverse();
     },
   }

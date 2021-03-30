@@ -13,14 +13,15 @@
             v-if="status.enemyStatus.name!=''"/>
         </transition>
       </div>
-      <div v-if="status.enemyStatus.name!=''">
+      <div  v-show="show" v-if="status.enemyStatus.name!=''">
         {{status.enemyStatus.name}}があらわれた
       </div>
     </div>
 
     <!-- バトルマップ。選択されたインデックスをうけとって、selectStageで処理。  -->
     <battle-stage class="battle-map"
-      @get-stage-index="selectStage"></battle-stage>
+      @get-stage-index="selectStage"
+      :wins="reverseWins"></battle-stage>
 
   </div>  
 
@@ -68,16 +69,15 @@
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
 
-  <!-- マップに織り込んで、各対戦相手にどれだけ勝ったかを折り込みたい。 -->
-
-  <div style="width: 100px;">
-      勝利数: {{defetCounter}}
-      <standard-button title="reset" @click="resetCounter"/>
-  </div>
 
   <!-- 敵キャラのステータスデバッグ用。 -->
 
   <div v-show=false>
+    <div style="width: 100px;">
+        勝利数: {{defetCounter}}
+        <standard-button title="reset" @click="resetCounter"/>
+    </div>
+
     <div>
       <input type="number" v-model="status.enemyStatus.hp">
     </div>
@@ -155,15 +155,15 @@ export default {
         word: "たんご",
         custom: "カスタム"
       },
-      defetCounter: 0,
+      defetCounter: [0,0,0,0,0],
       isEnemyData: false,
-      index: '',
+      index: 0,
       pickQuestion: 'さんすう',
       customQ: []
     }
   },
   watch: {
-    // 勝った回数を記録する。今の所使用予定はない。
+    // 勝った回数を記録して、各階を何回クリアしたか記録する。
     'winner': function() {
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     }
@@ -172,7 +172,7 @@ export default {
     function() {
       // 自分のステータスを読み込む。
       this.sts = JSON.parse(localStorage.getItem('status'))
-      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
+      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter')) || [0,0,0,0,0]
       this.leveldata = JSON.parse(localStorage.getItem('leveldata'))
       this.pickQuestion = JSON.parse(localStorage.getItem('initq')) || "さんすう"
       this.status.myStatus.hp = this.sts[0].vl
@@ -215,7 +215,7 @@ export default {
         if (ensts.hp <= 0) {
           v.show = false;
           v.winner = 1;
-          v.defetCounter++;
+          v.defetCounter[v.index]++;
           if (!v.leveldata.money) {
             v.leveldata.money = v.status.enemyStatus.money; 
           } else {
@@ -275,7 +275,7 @@ export default {
     },
     // 対戦回数リセット
     resetCounter: function() {
-      this.defetCounter = 0;
+      this.defetCounter = [0,0,0,0,0];
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     },
     setStage: function(index) {
@@ -287,7 +287,12 @@ export default {
       this.status.enemyStatus.money = this.enemyDatabase[index].money
     },
   },
+  computed: {
+    reverseWins() {
+      return this.defetCounter.slice().reverse();
+    },
 
+  }
 }
 </script>
 
@@ -347,7 +352,7 @@ export default {
 
 .battle-field {
   display: flex;
-  height: 130px;
+  height: 140px;
   width: 100%;
 }
 
