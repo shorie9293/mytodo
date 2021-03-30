@@ -30,6 +30,16 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/03/30</td>
+  <td>ver 0.6.0</td>
+  <td>
+    <ul>
+      <li>敵の選択を塔にして、各階の対戦回数を記録する。</li>
+      <li>その他微小な修正</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

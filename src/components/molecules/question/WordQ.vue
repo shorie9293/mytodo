@@ -34,11 +34,11 @@ export default {
   methods: {
     judge_answer: function() {
       this.judge = this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
+      this.$emit("updateAnswer", this.judge);
       if (this.judge) {
         this.myAnswer = '';
         this.qIndex = Math.floor(Math.random() * (this.size(this.question)));
       }
-      this.$emit("updateAnswer", this.judge);
       // this.myAnswer = ''
     },
     size(obj) {
