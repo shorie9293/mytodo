@@ -1,5 +1,6 @@
 <template>
-  <span v-show="true">
+
+  <div v-show="true">
     <p class="question"><span v-html="question[qIndex].theme" ></span></p>
     <p class="question qes">{{question[qIndex].question}}</p>
     <div class="answer-box">
@@ -9,8 +10,7 @@
         <label :for="index">{{ answer }}</label>
       </div>
     </div>
-    <!-- <p>{{ myAnswer }} : {{ q1[qIndex].trueAnswer - 1 }}</p> -->
-  </span>
+  </div>
 
 </template>
 
@@ -19,33 +19,42 @@ export default {
   props: {
     question: Object 
   },
+  emits: ["updateAnswer"],
   data: function() {
     return {
-      // question: require(`@/assets/data/chinese1013.json`),
       myAnswer : '',
-      judge : 'たたかいのはじまり',
+      // judge : 'たたかいのはじまり',
       qIndex: 0
     }
   },
-  emits: ["updateAnswer"],
   mounted: function() {
-    this.qIndex = Math.floor(Math.random() * (this.size(this.question)));
+    this.qIndex = Math.floor(Math.random() * (this.size));
   },
   methods: {
     judge_answer: function() {
       this.judge = this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
       this.$emit("updateAnswer", this.judge);
+
       if (this.judge) {
         this.myAnswer = '';
-        this.qIndex = Math.floor(Math.random() * (this.size(this.question)));
+        this.qIndex = Math.floor(Math.random() * (this.size));
       }
-      // this.myAnswer = ''
+
     },
-    size(obj) {
-      return Object.keys(obj).length;
-    }
+    // size(obj) {
+    //   return Object.keys(obj).length;
+    // }
 
   },
+  computed: {
+    size() {
+      return Object.keys(this.question).length
+    },
+    judge() {
+      return this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
+    }
+
+  }
 
 }
 </script>
@@ -62,7 +71,6 @@ export default {
 }
 
 .qes {
-  /* font-size: 16pt; */
   font-weight: bold;
 }
 

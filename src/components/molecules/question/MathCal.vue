@@ -26,13 +26,13 @@ name: "MathCal",
     },
   data: function(){
     return {
-      symbol: ["+", "-", "x", "÷"],
+      symbol: ["+", "-", "x"],
       value1: 1,
       value2: 2,
       myAnswer: '',
       answer: 3,
       index: 0,
-      judge: 'たたかいのはじまり'
+      judge: 'たたかいのはじまり',
     }
   },
   mounted: 
@@ -43,23 +43,37 @@ name: "MathCal",
   methods: {
     //問題更新
     nextQuestion: function() {
-      //足し算、引き算、掛け算を割り振る
-      this.index = Math.floor(Math.random() * 3);
+      let temp = this
 
-      //足し算は二桁、掛け算は一桁、引き算は正の整数になるようにしている
-      if (this.symbol[this.index] == "x") {
-        this.value1 = Math.floor(Math.random() * 9) + 1;
-        this.value2 = Math.floor(Math.random() * 9) + 1;
-        this.answer = this.value1 * this.value2
-      } else if (this.symbol[this.index] == "+") {
-        this.value1 = Math.floor(Math.random() * 99) + 1;
-        this.value2 = Math.floor(Math.random() * 99) + 1;
-        this.answer = this.value1 + this.value2
-      } else if (this.symbol[this.index] == "-") {
-        this.value1 = Math.floor(Math.random() * 99) + 1;
-        this.value2 = Math.floor(Math.random() * this.value1) + 1;
-        this.answer = this.value1 - this.value2
+      let plus = {
+        getInfo: function() {
+          temp.value1 = Math.floor(Math.random() * 99) + 1;
+          temp.value2 = Math.floor(Math.random() * 99) + 1;
+          temp.answer = temp.value1 + temp.value2
+        }
       }
+
+      let minus = {
+        getInfo: function() {
+          temp.value1 = Math.floor(Math.random() * 99) + 1;
+          temp.value2 = Math.floor(Math.random() * temp.value1) + 1;
+          temp.answer = temp.value1 - temp.value2
+        }
+      }
+
+      let times = {
+        getInfo: function() {
+          temp.value1 = Math.floor(Math.random() * 9) + 1;
+          temp.value2 = Math.floor(Math.random() * 9) + 1;
+          temp.answer = temp.value1 * temp.value2
+        }
+      }
+  
+      let symbols = [plus, minus, times];
+      
+      //足し算、引き算、掛け算を割り振る
+      this.index= Math.floor(Math.random() * 3);
+      symbols[this.index].getInfo();
     },
     // こたえがあっているかどうか確認する
     judge_answer: function() {

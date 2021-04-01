@@ -30,6 +30,5 @@ export default {
 
   .bt:hover {
     background: hsl(0, 0%, 60%);
-
   }
 </style>

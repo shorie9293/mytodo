@@ -56,15 +56,15 @@
         :value="question">{{ question }}</option>
     </select>
   </div>
-  <span v-if="pickQuestion == 'さんすう'">
+  <span v-if="pickQuestion == questionType.math">
     <MathCal ref="math" @updateAnswer="judgeAnswer"/>
     <standard-button title="こうげき" @click="$refs.math.judge_answer()"/>
   </span>
-  <span v-else-if="pickQuestion == 'たんご'">
+  <span v-else-if="pickQuestion == questionType.word">
     <word-q ref="word" :question="require(`@/assets/data/chinese1013.json`)" @updateAnswer="judgeAnswer"/>
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
-  <span v-else-if="pickQuestion == 'カスタム'">
+  <span v-else-if="pickQuestion == questionType.custom">
     <word-q ref="word" :question="customQ[1]" @updateAnswer="judgeAnswer"/>
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
