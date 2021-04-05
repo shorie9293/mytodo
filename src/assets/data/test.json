@@ -1,0 +1,5 @@
+[{"theme": "声調の組み合わせが同じものを1つ選ぼう",
+  "question":"课文","answers":{"父母": false,"茶叶": false,"放学": true,"毕业": false}, "comment": ""},
+  {"theme": "声調の組み合わせが同じものを1つ選ぼう",
+  "question":"留学","answers":{"人口": false, "服务": false,"离开": false,"回答": true}, "comment": ""}
+]

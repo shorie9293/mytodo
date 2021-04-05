@@ -4,10 +4,10 @@
     <p class="question"><span v-html="question[qIndex].theme" ></span></p>
     <p class="question qes">{{question[qIndex].question}}</p>
     <div class="answer-box">
-      <div v-for="(answer,index) in question[qIndex].answers"
+      <div v-for="(answer,index) in randomAnswer"
         :key="index">
         <input :id="index" type="radio" name="answer" :value="index" v-model="myAnswer">
-        <label :for="index">{{ answer }}</label>
+        <label :for="index"> {{answer.key}} </label>
       </div>
     </div>
   </div>
@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     judge_answer: function() {
-      this.judge = this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
       this.$emit("updateAnswer", this.judge);
 
       if (this.judge) {
@@ -41,9 +40,6 @@ export default {
       }
 
     },
-    // size(obj) {
-    //   return Object.keys(obj).length;
-    // }
 
   },
   computed: {
@@ -51,7 +47,22 @@ export default {
       return Object.keys(this.question).length
     },
     judge() {
-      return this.question[this.qIndex].trueAnswer - 1 == this.myAnswer ? true : false;
+      return this.randomAnswer[this.myAnswer].value;
+    },
+    // 選択肢をランダムで表記
+    randomAnswer() {
+      // 選択肢をKeyとValue(当たり判定)に分解
+      var arr = Object.entries(this.question[this.qIndex].answers).map(([key, value]) => ({'key': key, 'value': value}));
+      let num = arr.length;
+      
+      while (num) {
+        let i = Math.floor(Math.random() * num);
+        let obj = arr[--num];
+        arr[num] = arr[i];
+        arr[i] = obj;
+      }
+
+      return arr
     }
 
   }
@@ -77,6 +88,10 @@ export default {
 .answer-box {
   background: lightblue;
   text-align: left;
+  border-radius: 4px;
+  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
+
 }
+
 
 </style>

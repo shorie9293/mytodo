@@ -101,7 +101,7 @@ name: "MathCal",
     height: 100%;
     vertical-align: center;
     width: 100px;
-    background-color: whitesmoke;
+    background-color: rgba(242,244, 246, 1);
   }
   .ans {
     width: 3.5em;

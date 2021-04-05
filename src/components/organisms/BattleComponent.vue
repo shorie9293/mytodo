@@ -65,7 +65,7 @@
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
   <span v-else-if="pickQuestion == questionType.custom">
-    <word-q ref="word" :question="customQ[1]" @updateAnswer="judgeAnswer"/>
+    <word-q ref="word" :question="require(`@/assets/data/test.json`)" @updateAnswer="judgeAnswer"/>
     <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
 
@@ -374,26 +374,26 @@ export default {
 
 .stg1 {
   width: 72%;
-  background: rgb(200, 170, 170);
+  background: rgba(102, 45, 26,1);
 }
 
 .stg2 {
   width: 66%;
-  background: rgb(200, 150, 150);
+  background: rgba(175, 67, 36,1);
 }
 
 .stg3 {
   width: 60%;
-  background: rgb(200, 130, 130);
+  background:rgba(200, 165, 105, 1);
 }
 
 .stg4 {
   width: 57%;
-  background: rgb(200, 110, 110);
+  background:rgba(234, 218, 176, 1);
 }
 .stg5 {
   width: 54%;
-  background: rgb(200, 90, 90);
+  background: rgba(252, 224, 20,1);
 }
 
 .mst-box {

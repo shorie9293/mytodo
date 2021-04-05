@@ -29,7 +29,7 @@ export default {
 <style scoped>
 
 .finished {
-  color:lightseagreen;
+  color:gold;
   font-style: italic;
   font-family: 'Times New Roman', 'ＭＳ Ｐゴシック', serif;
   font-weight: bold;
@@ -44,7 +44,7 @@ export default {
 }
 
 .task-d {
-  background: white;
+  background:rgba(242, 244, 246, 1);
   padding: 2px;
   margin: 2px;
   border: .1mm solid;

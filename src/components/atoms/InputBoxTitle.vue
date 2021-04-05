@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 .errorMsg {
-  color: rgb(255, 50, 50);
+  color: rgba(255, 80, 47,1);
   font-size: 50%;
 }
 
