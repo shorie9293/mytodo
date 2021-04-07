@@ -2,20 +2,22 @@
   <div class="component">
     <table>
       <tr >
-        <td><input class="inp-box"
+        <td><input id="taskname" class="inp-box"
           type="text"
           placeholder="タスク名" 
           :value="todotitle"
           @input.prevent="$emit('update:todotitle', $event.target.value)" />
+          <label for="taskname" v-show="false">タスク名</label>
           <!-- <span v-show="isInputTitle" class="smalltext"><br>あたいをいれてね</span> -->
         </td>
       </tr>
       <tr>
-        <td><input class="inp-box"
+        <td><input id="exp" class="inp-box"
           type="number" min=0 max=5
           placeholder="経験値 (1-5)"
           :value="todoexp"
           @input.prevent="$emit('update:todoexp', Number($event.target.value))"/>
+          <label for="exp" v-show="false">経験値</label>
         <!-- <span v-show="isInputExp" class="smalltext"><br>あたいをいれてね</span> -->
         <!-- <span v-show="isNumber" class="smalltext"><br>あたいがおおきい</span> -->
         </td>

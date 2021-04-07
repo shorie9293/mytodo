@@ -13,7 +13,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
         <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
-          <div :class="['container', t.type]">
             <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
             :value="t.value"
@@ -22,19 +21,12 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             :taskType="tasktype[t.type]"
             :classofvalue="{'finished' : t.checked}"
             :keyValue=key
-            :index="index"
+            :index=index
+            :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
             @delete-item="deleteItem"
             />
-            {{key}}
-            <div class="todo-btn">
-              <!-- <div @click="deleteItem(index, key)" class="peke"> [x]</div> -->
-              <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
-              <!-- <input :id="t.id"  type="radio" name="todoitems" v-model="pick" :value="index"> -->
-            </div>
-          </div>
-
         </div>
       </swiper-slide>
 
@@ -87,7 +79,7 @@ export default {
         "sub": []
       },
       id_number: 0,
-      pick: '',
+      pick: 1,
       project_name: {
         "main" : "メイン",
         "rep" : "繰り返し",
