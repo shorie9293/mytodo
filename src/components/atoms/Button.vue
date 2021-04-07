@@ -5,9 +5,9 @@
 
 <script>
 export default {
-  name: "StandardButton",
+  name: "Button",
   props: {
-    title: String,
+    title: String
   },  
 }
 </script>

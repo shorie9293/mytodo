@@ -32,9 +32,9 @@
     </table>
 
     <div class="btn-box">
-      <standard-button class="btn" @click="addTodo" title="くわえる"/>
-      <standard-button class="btn" @click="changeTodo" title="へんこう"/>
-      <standard-button class="btn" @click="clearInput" title="入力クリア"/>
+      <Button class="btn" @click="addTodo" title="くわえる"/>
+      <Button class="btn" @click="changeTodo" title="へんこう"/>
+      <Button class="btn" @click="clearInput" title="入力クリア"/>
     </div>
 
   </div>
@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import StandardButton from '../atoms/Button'
+import Button from '../atoms/Button'
 
 export default {
   name: 'todo-input-panel',
   components: {
-    StandardButton
+    Button
   },
   props: {
     msg: String,

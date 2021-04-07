@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import StatusData from './StatusData'
+import StatusData from '../atoms/StatusData'
 
 export default {
   name: "LevelData",

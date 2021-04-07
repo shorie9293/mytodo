@@ -14,18 +14,24 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
         <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
           <div :class="['container', t.type]">
-            <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked">
+            <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
             :value="t.value"
             :exp="Number(t.exp)"
             :initialExp="Number(t.initialExp)"
             :taskType="tasktype[t.type]"
             :classofvalue="{'finished' : t.checked}"
+            :keyValue=key
+            :index="index"
+            v-model:checked="t.checked"
+            v-model:select="pick"
+            @delete-item="deleteItem"
             />
+            {{key}}
             <div class="todo-btn">
-              <div @click="deleteItem(index, key)" class="peke"> [x]</div>
+              <!-- <div @click="deleteItem(index, key)" class="peke"> [x]</div> -->
               <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
-              <input :id="t.id"  type="radio" name="todoitems" v-model="pick" :value="index">
+              <!-- <input :id="t.id"  type="radio" name="todoitems" v-model="pick" :value="index"> -->
             </div>
           </div>
 
@@ -43,15 +49,15 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
-    <StandardButton @click="enhanceExp" title="けいけんちアップ"/>
-    <StandardButton @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-    <StandardButton @click="hoimi" title="けいけんちかいふく"/>
+    <Button @click="enhanceExp" title="けいけんちアップ"/>
+    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
+    <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
 
 </template>
 
 <script>
-import StandardButton from '../atoms/Button';
+import Button from '../atoms/Button';
 import TodoPanel from '../molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
@@ -63,7 +69,7 @@ SwiperCore.use([Navigation, Controller]);
 export default {
   name: "todo-panel",
   components: {
-    StandardButton,
+    Button,
     TodoPanel,
     Swiper,
     SwiperSlide,
@@ -81,7 +87,7 @@ export default {
         "sub": []
       },
       id_number: 0,
-      pick: 'none',
+      pick: '',
       project_name: {
         "main" : "メイン",
         "rep" : "繰り返し",
@@ -102,7 +108,7 @@ export default {
       pmsg: '',
       ptitle: '',
       pexp: 0,
-      ptype: 'nexttask'
+      ptype: 'nexttask',
     }
   },
   mounted: function() {
@@ -162,11 +168,18 @@ export default {
       this.pexp = 0;
     },
     // [x]ボタンを押すとtodoを消す
-    deleteItem: function(index, key) {
+    // deleteItem: function(index, key) {
+    //   if (!confirm('けしますか？')) {
+    //     return;
+    //   }
+    //   this.todos[key].splice(index, 1);
+    // },
+    deleteItem: function(e) {
+      console.log(e);
       if (!confirm('けしますか？')) {
         return;
       }
-      this.todos[key].splice(index, 1);
+      this.todos[e.key].splice(e.index, 1);
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
@@ -210,7 +223,7 @@ export default {
     // 現在のスライダーを取得
     getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
-    }
+    },
   },
   computed: {
     // 完了していないタスクのみを抽出した配列を返す
