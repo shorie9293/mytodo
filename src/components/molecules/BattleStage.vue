@@ -5,7 +5,9 @@
       :key="stage.id"
       :class="stage.cls"
       @click="selectStage(stage.id)">
-      <StatusData :item="stage.stg" :value="wins[index]"/>
+      <div class="floor">
+        <StatusData :item="stage.stg" :value="wins[index]"/>
+      </div>
     </div>
     最初の塔
   </div>
@@ -49,6 +51,12 @@ export default {
 </script>
 
 <style scoped>
+
+.floor {
+  width: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .battle-map {
   width: 50%;
