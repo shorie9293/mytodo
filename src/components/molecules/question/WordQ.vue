@@ -73,7 +73,7 @@ export default {
 <style scoped>
 
 .question, .answer-box {
-  font-family: 'Segoe UI',SegoeUI,'Microsoft YaHei',微软雅黑,"Helvetica Neue", Helvetica,Arial,sans-serif;
+  font-family: 'Noto Sans SC', sans-serif;
 }
 
 .question {

@@ -1,5 +1,6 @@
 <!-- Todoの内容を表示するパーツ -->
 <template>
+  <input :id="forid" class="checkbox" type="checkbox" :checked="checked" @change="changeChecked($event)">
   <label :for="forid">
     <div>
       <div class="val" :class="classofvalue">{{ value }}</div>
@@ -9,19 +10,40 @@
       </div>
     </div>
   </label>
+  <input :id="forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
+  <div @click="deleteItem" class="peke"> [x]</div>
 
 </template>
 
 <script>
 export default {
   name: 'TodoPanel',
+  emits:[
+    'delete-item',
+    'select'
+  ]
+  ,
   props: {
     forid: Number,
     value: String,
     exp: Number,
     initialExp: Number,
     classofvalue: Object,
-    taskType: String
+    taskType: String,
+    checked: Boolean,
+    keyValue: String,
+    index: Number
+  },
+  methods: {
+    changeChecked: function(e) {
+      this.$emit('update:checked', e.target.checked)
+    },
+    changeRadioButton: function(e) {
+      this.$emit('update:select', e.target.value)
+    },
+    deleteItem: function() {
+      this.$emit('delete-item', {"key": this.keyValue, "index": this.index})
+    }
   }
 }
 </script>
@@ -67,4 +89,11 @@ export default {
   padding: 1px;
   width: 100%;
 }
+
+.checkbox {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+}
+
 </style>

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import StatusData from '../molecules/StatusData'
+import StatusData from '../atoms/StatusData'
 
 export default {
   name: "BattleStatusData",

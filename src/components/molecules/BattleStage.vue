@@ -5,7 +5,7 @@
       :key="stage.id"
       :class="stage.cls"
       @click="selectStage(stage.id)">
-      {{ stage.stg }} : {{ wins[index] }}
+      <StatusData :item="stage.stg" :value="wins[index]"/>
     </div>
     最初の塔
   </div>
@@ -13,7 +13,12 @@
 </template>
 
 <script>
+import StatusData from "../atoms/StatusData"
+
 export default {
+  components: {
+    StatusData
+  },
   props: {
     wins: Array
   },

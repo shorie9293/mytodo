@@ -21,24 +21,24 @@
 
   <read-custom-q v-show="false"></read-custom-q>
 
-  <standard-button @click="setOptions" title="オプション反映"/>
-  <standard-button @click=clear title="全てのデータを消去する"></standard-button>
-  <standard-button @click="show=true" title="ReadMe"/>
+  <Button @click="setOptions" title="オプション反映"/>
+  <Button @click=clear title="全てのデータを消去する"/>
+  <Button @click="show=true" title="ReadMe"/>
   <div v-show="show">
     <Readme></Readme>
-    <standard-button title="とじる" @click="show=false"></standard-button>
+    <Button title="とじる" @click="show=false"/>
   </div>
 
 </template>
 
 <script>
-import StandardButton from "../atoms/Button";
+import Button from "../atoms/Button";
 import Readme from '../pages/Readme';
 import ReadCustomQ from '../organisms/ReadCustomQ';
 
 export default {
   components: {
-    StandardButton,
+    Button,
     Readme,
     ReadCustomQ
   },

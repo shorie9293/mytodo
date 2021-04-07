@@ -7,7 +7,7 @@
     <div class="battle-stage">
       <div class="mst-box">
         <transition name="mst">
-          <MonsterView :imgs="status.enemyStatus.img" 
+          <ImageView :imgs="status.enemyStatus.img" 
             :class="{shake : isShake, attack : isAttack}" 
             v-show="show" 
             v-if="status.enemyStatus.name!=''"/>
@@ -58,15 +58,15 @@
   </div>
   <span v-if="pickQuestion == questionType.math">
     <MathCal ref="math" @updateAnswer="judgeAnswer"/>
-    <standard-button title="こうげき" @click="$refs.math.judge_answer()"/>
+    <Button title="こうげき" @click="$refs.math.judge_answer()"/>
   </span>
   <span v-else-if="pickQuestion == questionType.word">
     <word-q ref="word" :question="require(`@/assets/data/chinese1013.json`)" @updateAnswer="judgeAnswer"/>
-    <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
+    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
   <span v-else-if="pickQuestion == questionType.custom">
     <word-q ref="word" :question="require(`@/assets/data/test.json`)" @updateAnswer="judgeAnswer"/>
-    <standard-button title="こうげき" @click="$refs.word.judge_answer()"/>
+    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
   </span>
 
 
@@ -75,7 +75,7 @@
   <div v-show=false>
     <div style="width: 100px;">
         勝利数: {{defetCounter}}
-        <standard-button title="reset" @click="resetCounter"/>
+        <Button title="reset" @click="resetCounter"/>
     </div>
 
     <div>
@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import StandardButton from '../atoms/Button'
-import MonsterView from '../atoms/MonsterView'
+import Button from '../atoms/Button'
+import ImageView from '../atoms/ImageView'
 import BattleStatusData from '../molecules/BattleStatusData'
 import MathCal from '../molecules/question/MathCal'
 import WordQ from '../molecules/question/WordQ.vue'
@@ -101,9 +101,9 @@ import BattleStage from '../molecules/BattleStage.vue'
 export default {
   name: "BattleComponent",
   components: {
-    MonsterView,
+    ImageView,
     BattleStatusData,
-    StandardButton,
+    Button,
     MathCal,
     WordQ,
     BattleStage

@@ -14,7 +14,7 @@
           @change="readFile" accept=".maguro">
       </td>
       <td>
-        <standard-button title="変更" @click="makeJson"></standard-button>
+        <Button title="変更" @click="makeJson"/>
       </td>
       <td v-show="questionObject[0].title">
         {{questionObject[0].title}}        
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import StandardButton from '../atoms/Button'
+import Button from '../atoms/Button'
 // import InputFile from '../atoms/InputFile'
 
 export default {
   components: {
-    StandardButton
+    Button
   },
   data: function(){
     return {
