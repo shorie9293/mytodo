@@ -5,7 +5,9 @@
       :key="stage.id"
       :class="stage.cls"
       @click="selectStage(stage.id)">
-      <StatusData :item="stage.stg" :value="wins[index]"/>
+      <div class="tower-container">
+        <StatusData :item="stage.stg" :value="wins[index]"/>
+      </div>
     </div>
     最初の塔
   </div>
@@ -84,6 +86,12 @@ export default {
 .stg5 {
   width: 54%;
   background: rgb(200, 90, 90);
+}
+
+.tower-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px
 }
 
 </style>

@@ -1,14 +1,5 @@
 <!-- Todoの内容を表示するパーツ -->
 <template>
-<<<<<<< HEAD
-  <input :id="forid" class="checkbox" type="checkbox" :checked="checked" @change="changeChecked($event)">
-  <label :for="forid">
-    <div>
-      <div class="val" :class="classofvalue">{{ value }}</div>
-      <div class="tasks-detail">
-        <div class="task-d exp">{{ exp }} / {{ initialExp }}</div>
-        <div class="task-d type">{{ taskType }}</div>
-=======
   <div :class="['container', classType]">
     <input :id="'todo' + forid" class="checkbox" type="checkbox" :checked="checked" @change="changeChecked($event)">
     <label :for="'todo' + forid">
@@ -18,7 +9,6 @@
           <div class="task-d exp">{{ exp }} / {{ initialExp }}</div>
           <div class="task-d type">{{ taskType }}</div>
         </div>
->>>>>>> e398778154095e7f3c48dd7ab990435e5e0e9cef
       </div>
     </label>
     <div class="todo-btn">
@@ -26,14 +16,7 @@
       <label :for="'radio' + forid" v-show="false">{{ index }}</label>
       <div @click="deleteItem" class="peke"> [x]</div>
     </div>
-<<<<<<< HEAD
-  </label>
-  <input :id="forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-  <div @click="deleteItem" class="peke"> [x]</div>
-
-=======
   </div>
->>>>>>> e398778154095e7f3c48dd7ab990435e5e0e9cef
 </template>
 
 <script>
@@ -42,12 +25,8 @@ export default {
   name: 'TodoPanel',
   emits:[
     'delete-item',
-<<<<<<< HEAD
-    'select'
-=======
     'update:select',
     'update:checked'
->>>>>>> e398778154095e7f3c48dd7ab990435e5e0e9cef
   ]
   ,
   props: {
@@ -59,12 +38,8 @@ export default {
     taskType: String,
     checked: Boolean,
     keyValue: String,
-<<<<<<< HEAD
-    index: Number
-=======
     index: Number,
     classType: String
->>>>>>> e398778154095e7f3c48dd7ab990435e5e0e9cef
   },
   methods: {
     changeChecked: function(e) {
@@ -128,8 +103,6 @@ export default {
   margin-right: 10px;
 }
 
-<<<<<<< HEAD
-=======
 .todo-btn {
   display: block;
   margin-left: auto;
@@ -170,5 +143,4 @@ export default {
   background: rgba(200, 227, 255, 1);
 }
 
->>>>>>> e398778154095e7f3c48dd7ab990435e5e0e9cef
 </style>
