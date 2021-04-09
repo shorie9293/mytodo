@@ -13,7 +13,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
         <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
-          <div :class="['container', t.type]">
             <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
             :value="t.value"
@@ -22,19 +21,12 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             :taskType="tasktype[t.type]"
             :classofvalue="{'finished' : t.checked}"
             :keyValue=key
-            :index="index"
+            :index=index
+            :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
             @delete-item="deleteItem"
             />
-            {{key}}
-            <div class="todo-btn">
-              <!-- <div @click="deleteItem(index, key)" class="peke"> [x]</div> -->
-              <!-- ラジオボタンで選択。'pick'にindexを格納している。 -->
-              <!-- <input :id="t.id"  type="radio" name="todoitems" v-model="pick" :value="index"> -->
-            </div>
-          </div>
-
         </div>
       </swiper-slide>
 
@@ -87,7 +79,7 @@ export default {
         "sub": []
       },
       id_number: 0,
-      pick: '',
+      pick: 1,
       project_name: {
         "main" : "メイン",
         "rep" : "繰り返し",
@@ -266,51 +258,6 @@ h3 {
   padding-bottom: 10px;
   overflow: scroll;
   height: 300px;
-}
-
-.peke {
-  color: blue;
-  cursor: pointer;
-}
-
-.delete-task{
-  display: flex;
-}
-
-.container {
-  text-align: left;
-  background: rgba(150, 150, 255, 1);
-  margin-top: 3px;
-  margin-bottom: 4px;
-  display: flex;
-  padding: 2px;
-  border-radius: 4px;
-  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
-}
-
-.todo-btn {
-  display: block;
-  margin-left: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.checkbox {
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-}
-
-
-.otherperson {
-  color: rgb(160, 160, 160);
-  background: rgb(200, 200, 255);
-}
-
-.wait {
-  color: rgb(210, 210, 210);
-  background: rgba(200, 227, 255, 1);
 }
 
 </style>
