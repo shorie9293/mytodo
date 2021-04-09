@@ -9,12 +9,12 @@
   "icons": [
     {
       "src": "icon/maguro-192.png",
-      "size": "192x192",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
       "src": "icon/maguro-256.png",
-      "size": "256x256",
+      "sizes": "256x256",
       "type": "image/png"
     }
   ]
