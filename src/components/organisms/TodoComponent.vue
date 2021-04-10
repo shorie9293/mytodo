@@ -260,49 +260,4 @@ h3 {
   height: 300px;
 }
 
-.peke {
-  color: blue;
-  cursor: pointer;
-}
-
-.delete-task{
-  display: flex;
-}
-
-.container {
-  text-align: left;
-  background: rgba(150, 150, 255, 1);
-  margin-top: 3px;
-  margin-bottom: 4px;
-  display: flex;
-  padding: 2px;
-  border-radius: 4px;
-  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
-}
-
-.todo-btn {
-  display: block;
-  margin-left: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.checkbox {
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-}
-
-
-.otherperson {
-  color: rgb(160, 160, 160);
-  background: rgb(200, 200, 255);
-}
-
-.wait {
-  color: rgb(210, 210, 210);
-  background: rgba(200, 227, 255, 1);
-}
-
 </style>

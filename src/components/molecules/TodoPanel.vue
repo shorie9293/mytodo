@@ -121,14 +121,15 @@ export default {
 
 .container {
   text-align: left;
-  background: rgba(150, 150, 255, 1);
+  /* background: rgba(150, 150, 255, 1); */
+  background-image: url(./../../assets/imgs/boarder-3.jpg);
   margin-top: 3px;
   margin-bottom: 4px;
   display: flex;
   padding: 2px;
-  border-radius: 4px;
-  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
+  /* border-radius: 4px; */
+  /* box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1); */
+  background-size: 100% 100%;
 }
 
 
