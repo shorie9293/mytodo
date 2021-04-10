@@ -72,6 +72,8 @@ export default {
     width: 95%;
     height: 100%;
     background-color: rgb(196, 227, 255);
+    background-image: url(./../../assets/imgs/06.jpg);
+    background-repeat: repeat;
   }
 
   .btns {

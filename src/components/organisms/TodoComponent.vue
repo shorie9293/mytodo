@@ -1,7 +1,8 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-  
+
+  <h3>{{ project_name[project_no[realIndex]] }}クエスト</h3>
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
@@ -11,7 +12,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     class="swiper"
     >
       <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
-        <h3>{{ project_name[key] }}</h3>
         <div v-for="(t, index) in todo" :key="t.id">
             <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
@@ -101,6 +101,7 @@ export default {
       ptitle: '',
       pexp: 0,
       ptype: 'nexttask',
+      complete: '達成せよ'
     }
   },
   mounted: function() {
@@ -128,7 +129,7 @@ export default {
       this.ptitle = this.todos[this.project_no[this.realIndex]][this.pick].value;
       this.pexp = this.todos[this.project_no[this.realIndex]][this.pick].exp;
       this.ptype = this.todos[this.project_no[this.realIndex]][this.pick].type;
-    }
+    },
   },
   methods: {
     // todoを加える。

@@ -148,11 +148,14 @@ export default {
   }
   .component {
     display: flex;
-    background: rgb(198, 198, 248);
+    /* background: rgb(198, 198, 248); */
+    background-image: url(./../../assets/imgs/paper.webp);
     padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 4px;
     box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
+    background-size: 100% 100%;
   }
 
   .btn {
