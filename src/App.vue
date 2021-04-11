@@ -77,15 +77,22 @@ export default {
 @import url(https://fonts.googleapis.com/earlyaccess/notosanssc.css);
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: "001Shirokuma", "Avenir", Helvetica, Arial, sans-serif; */
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 10px;
 }
+/* 
+input, select {
+  font-family: "001Shirokuma";
+
+} */
 
 h1 {
+  font-family: "001Shirokuma";
   margin: 0px;
   font-size: 16pt;
 }

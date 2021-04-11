@@ -8,7 +8,7 @@
     <div class="task-area">
       <div class="val">「{{ value }}」<span :class="classofvalue">を{{ comp }}</span></div>
       <div class="tasks-detail">
-        <div class="task-d exp">{{ exp }} / {{ initialExp }}</div>
+        <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
         <div class="task-d type">{{ taskType }}</div>
       </div>
     </div>
@@ -68,7 +68,6 @@ export default {
 .finished {
   color:rgba(255, 217, 0, 0.589);
   text-shadow: 1px 1px 2px silver;
-  font-family: 'Times New Roman', 'ＭＳ Ｐゴシック', serif;
   /* font-style: italic; */
   font-weight: bold;
   /* letter-spacing: 0.2em; */
@@ -186,5 +185,10 @@ export default {
   color: rgb(230, 230, 230);
   /* background: rgba(200, 227, 255, 1); */
 }
+
+/* 
+.val {
+  font-family: "001Shirokuma";
+} */
 
 </style>

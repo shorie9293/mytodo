@@ -91,7 +91,7 @@ export default {
 .tower-container {
   margin-left: auto;
   margin-right: auto;
-  width: 50px
+  width: 80px
 }
 
 </style>

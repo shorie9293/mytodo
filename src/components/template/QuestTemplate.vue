@@ -1,11 +1,5 @@
 <!-- 各コンポーネント表示用 -->
 <template>
-  <div class="btns">
-    <standard-button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
-    <standard-button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
-    <standard-button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
-    <standard-button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
-  </div>
   <div class="display-panel">
     <template v-if="display==0">
       <status-component class="component"/>
@@ -20,6 +14,13 @@
       <Option class="component"/>
     </template>
   </div>
+  <footer class="btns">
+    <standard-button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
+    <standard-button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
+    <standard-button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
+    <standard-button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
+  </footer>
+  <!-- <Footer /> -->
 </template>
 
 <script>
@@ -28,6 +29,7 @@ import TodoComponent from '../organisms/TodoComponent.vue'
 import StatusComponent from '../organisms/StatusComponent.vue'
 import BattleComponent from '../organisms/BattleComponent.vue'
 import Option from '../pages/Option'
+// import Footer from '../organisms/Footer.vue'
 
 export default {
   name: 'QuestTemplate',
@@ -37,6 +39,7 @@ export default {
     BattleComponent,
     TodoComponent,
     Option,
+    // Footer
   },
   data: function() {
     return{
@@ -79,17 +82,19 @@ export default {
   .btns {
     display: flex;
     padding: 5px;
-    width: 95%;
+    width: 98%;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 0px;
   }
 
   .btn {
     vertical-align: center;
     padding: 5px 5px;
-    width: 100%;
-    margin-left: 1px;
-    margin-right: 1px;
+    width: 95%;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 0px;
   }
 
   .selected {
