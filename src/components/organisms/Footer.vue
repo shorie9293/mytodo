@@ -2,36 +2,47 @@
   <div class="btns">
     <div v-for="(menu, index) in displayMenus"
       :key="index"
+      class="btn"
       >
-      <Button :title="menu.title" @click="getDisplay(index)" class="btn" :class="{ selected : menu.display }"/>
-
+      <!-- <ImageButton :title="menu.title" @click="getIndex(index)" :class="{selected: !menu.display}"
+      :src="require(`@/assets/imgs/${menu.img}`)"
+      :art="menu.title" /> -->
+      <Button :title="menu.title" @click="getIndex(index)" :class="{selected: !menu.display}"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Button from '../atoms/Button'
+// import ImageButton from '../atoms/ImageButton'
 
 export default {
   components: {
-    Button
+    Button,
+    // ImageButton
+  },
+  props: {
+    displayMenus: Array,
+    display: Boolean
   },
   data: function() {
     return {
-      displayMenus: [
-        
-      ]
+      img: "todo.png"
     }
   },
   methods: {
-    getDisplay: function(index) {
-      this.displayMenus.forEach( value => {
-        value.display = false;
-      })
-      console.log(this.displayMenus[index].display)
-      this.displayMenus[index].display = true;
-      console.log(this.displayMenus[index].display)
+    getIndex: function(index) {
       this.$emit('setDisplay', index);
+    }
+  },
+  computed: {
+    displayMenuChange: function() {
+      return this.displayMenus.forEach( v => {
+        v.img = require(`@/assets/imgs/${v.img}`);
+        // require(`@/assets/imgs/${this.enemyDatabase[index].img}`)
+      }
+      )
     }
   }
 }
@@ -39,29 +50,33 @@ export default {
 
 <style scoped>
 
-.selected {
-  background-color: lightgray;
-}
-
-
-.btn {
-  vertical-align: center;
-  padding: 5px 5px;
-  /* width: 100%;
-  margin-left: 10px;
-  margin-right: 2px; */
-  margin-top: 0px;
-}
 
 .btns {
   display: flex;
-  padding: 5px;
-  width: 98%;
+  height: auto;
   margin-right: auto;
   margin-left: auto;
   margin-top: 0px;
+  padding: 0pt;
+}
+  
+.btn {
+  padding: 0pt;
+  vertical-align: center;
+  /* width: 100px; */
+  flex: 1;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-top: 0px;
 }
 
+  
+.selected {
+    background: hsl(0, 0%, 70%);
+
+    /* background: rgba(200, 255, 200, 1);
+    border: 3px solid rgb(100, 200, 100,1); */
+}
 
 
 </style>

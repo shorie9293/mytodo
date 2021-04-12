@@ -1,32 +1,41 @@
 <!-- //ボタンの再定義 -->
 <template>
-  <div class="bt ripple">{{ title }}</div>
+  <div class="bt ripple">
+    <img :src="src" :alt="alt" class="image">  
+  </div>
 </template>
 
 <script>
 export default {
-  name: "Button",
+  name: "ImageButton",
   props: {
-    title: String,
-    isselected: Boolean,
+    src: String,
+    alt: String,
   },  
 }
 </script>
 
 <style scoped>
+  .image {
+    width: 60px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   .bt {
     width: auto;
     margin: 1px 1px;
-    background: hsl(0, 0%, 50%);
     color: white;
-    padding: 5px;
-    border-radius: 4px;
-    box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
+    padding: 3px;
+    border-radius: px;
+    /* box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1); */
     transition: background 0.3s;
     cursor: pointer;
     user-select: none;
     margin-right: auto;
     margin-left: auto;
+    background: rgba(200, 255, 200, 0.5);
+    border: 3px solid rgb(100, 200, 100,0.5);
   }
 
   .bt:hover {
@@ -55,7 +64,7 @@ export default {
     /* 1%の大きさで作成された放射グラデーションイメージを背景画像に設定 */
     background-image: radial-gradient(circle, transparent 1%, #7e57c2 1%);
     /* ホバーしたときの背景色を設定 */
-    background: hsl(0, 0%, 50%);
+    background: rgba(200, 255, 200, 0.5);
   }
 
 
