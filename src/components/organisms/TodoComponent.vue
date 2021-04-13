@@ -2,7 +2,7 @@
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
 
-  <h3>{{ project_name[project_no[realIndex]] }}クエスト</h3>
+  <h3>{{ project_name[project_no[realIndex]] }}クエスト(Swiper Test)</h3>
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
@@ -257,7 +257,9 @@ h3 {
   padding-left: auto;
   padding-right: auto;
   padding-bottom: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
   /* overflow: scroll; */
   height: 300px;
 }
