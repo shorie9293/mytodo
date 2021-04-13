@@ -24,7 +24,7 @@
       </tr>
       <tr class="select-tr">
         <td>
-          <select class="select-box" name="type" id="ty" :title="todotype" @change="$emit('update:todotype', $event.target.value)">
+          <select class="select-box" name="type" id="ty" :value="todotype" @change="$emit('update:todotype', $event.target.value)">
             <option value="nexttask">次の行動</option>
             <option value="otherperson">連絡待ち</option>
             <option value="wait">待機</option>

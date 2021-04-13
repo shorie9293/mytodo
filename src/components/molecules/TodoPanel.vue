@@ -130,13 +130,13 @@ export default {
   width: 45px;
   height: 42px;
   /* background: yellow; */
-  background-image: url(./../../assets/imgs/checkbox.png);
+  background-image: url(./../../assets/imgs/todo/checkbox.png);
   background-size: 90%;
   background-repeat: no-repeat;
 }
 
 .check-area input[type="checkbox"]:checked+ label {
-  background-image: url(./../../assets/imgs/finish.png);
+  background-image: url(./../../assets/imgs/todo/finish.png);
 }
 
 .task-area {

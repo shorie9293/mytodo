@@ -54,7 +54,7 @@ export default {
         stexp: 0,
         money: 0
       },
-      img: require(`@/assets/imgs/yuusya_game.webp`),
+      img: require(`@/assets/imgs/player/yuusya_game.webp`),
       personal: {}
 
     }
@@ -96,13 +96,13 @@ export default {
     this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0, money: 0};
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
     if (this.parsonal.job == "ゆうしゃ") {
-      this.img = require(`@/assets/imgs/yuusya_game.webp`)
+      this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
     } else if (this.parsonal.job == "まほうつかい") {
-      this.img = require(`@/assets/imgs/magic.webp`)
+      this.img = require(`@/assets/imgs/player/magic.webp`)
     } else if (this.parsonal.job == "せんし") {
-      this.img = require(`@/assets/imgs/senshi.webp`)
+      this.img = require(`@/assets/imgs/player/senshi.webp`)
     } else {
-      this.img = require(`@/assets/imgs/rpg.webp`)
+      this.img = require(`@/assets/imgs/player/rpg.webp`)
     }
 
   },

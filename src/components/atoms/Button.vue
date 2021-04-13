@@ -16,7 +16,7 @@ export default {
 <style scoped>
   .bt {
     width: auto;
-    margin: 1px 1px;
+    margin: 2px 2px;
     background: hsl(0, 0%, 50%);
     color: white;
     padding: 5px;
@@ -25,8 +25,8 @@ export default {
     transition: background 0.3s;
     cursor: pointer;
     user-select: none;
-    margin-right: auto;
-    margin-left: auto;
+    /* margin-right: auto;
+    margin-left: auto; */
   }
 
   .bt:hover {

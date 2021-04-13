@@ -2,21 +2,19 @@
   <div id="App">
     <h1>マグロクエスト</h1>
     <h2>~{{parsonal.job}} {{parsonal.name}} のぼうけん~</h2>
-    <div>
-      <div v-if="firstSetting">
-        なまえ<input type="text" v-model="parsonal.name">
-        しょくぎょう
-        <select size="1" v-model="parsonal.job">
-          <option v-for="job in jobs" 
-              :key="job"
-              :value="job"> {{ job }}
-          </option>
+    <div v-if="firstSetting">
+      なまえ<input type="text" v-model="parsonal.name">
+      しょくぎょう
+      <select size="1" v-model="parsonal.job">
+        <option v-for="job in jobs" 
+            :key="job"
+            :value="job"> {{ job }}
+        </option>
 
-        </select>
-        <standard-button title="ゲームスタート" @click="setNameandJob" />
-      </div>
-    <QuestTemplate v-else/>
+      </select>
+      <standard-button title="ゲームスタート" @click="setNameandJob" />
     </div>
+    <QuestTemplate v-else/>
   </div>
 </template>
 

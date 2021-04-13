@@ -50,14 +50,14 @@ export default {
 
 <style scoped>
 
-
 .btns {
   display: flex;
   height: auto;
   margin-right: auto;
   margin-left: auto;
-  margin-top: 0px;
+  margin-top: 10px;
   padding: 0pt;
+  width: 100%;
 }
   
 .btn {
@@ -65,8 +65,6 @@ export default {
   vertical-align: center;
   /* width: 100px; */
   flex: 1;
-  margin-left: 2px;
-  margin-right: 2px;
   margin-top: 0px;
 }
 

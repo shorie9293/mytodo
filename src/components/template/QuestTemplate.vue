@@ -13,8 +13,8 @@
     <template v-else>
       <Option class="component"/>
     </template>
+    <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
   </div>
-  <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
 <script>
@@ -75,21 +75,4 @@ export default {
     background-repeat: repeat;
   }
 
-  .btns {
-    display: flex;
-    padding: 5px;
-    width: 98%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 0px;
-  }
-
-  .btn {
-    vertical-align: center;
-    padding: 5px 5px;
-    width: 95%;
-    margin-left: 2px;
-    margin-right: 2px;
-    margin-top: 0px;
-  }
 </style>
