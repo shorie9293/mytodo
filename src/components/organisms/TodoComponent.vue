@@ -2,7 +2,7 @@
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
 
-  <h3>{{ project_name[project_no[realIndex]] }}クエスト(Swiper Test)</h3>
+  <h3>{{ project_name[project_no[realIndex]] }}クエスト</h3>
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
