@@ -257,7 +257,8 @@ h3 {
   padding-left: auto;
   padding-right: auto;
   padding-bottom: 10px;
-  overflow: scroll;
+  overflow-y: scroll;
+  /* overflow: scroll; */
   height: 300px;
 }
 
