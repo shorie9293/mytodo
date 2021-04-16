@@ -40,6 +40,17 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/04/16</td>
+  <td>ver 0.7.0</td>
+  <td>
+    <ul>
+      <li>UIの大幅変更</li>
+      <li>検索機能の追加</li>
+      <li>細かいバグの修正</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

@@ -31,7 +31,8 @@ export default {
     BattleComponent,
     TodoComponent,
     Option,
-    Footer
+    Footer,
+
   },
   data: function() {
     return{

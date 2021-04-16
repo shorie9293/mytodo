@@ -1,8 +1,13 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-
-  <h3>{{ project_name[project_no[realIndex]] }}クエスト</h3>
+  <h3>
+  {{ project_name[project_no[realIndex]] }}クエスト
+  </h3>
+  <div class="searchbox">
+    <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
+    <Button @click="searchtodo" title="SEARCH" />
+  </div>
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
@@ -11,8 +16,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @slideChange="getRealIndex"
     class="swiper"
     >
-      <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
-        <div v-for="(t, index) in todo" :key="t.id">
+      <swiper-slide v-for="(todo, key) in searchResult" :key="key" class="slider">
+        <div v-for="(t, index) in todo" :key="key + t.id">
             <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
             :value="t.value"
@@ -20,8 +25,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             :initialExp="Number(t.initialExp)"
             :taskType="tasktype[t.type]"
             :classofvalue="{'finished' : t.checked}"
-            :keyValue=key
-            :index=index
+            :keyValue="key.toString()"
+            :index="index"
             :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
@@ -101,7 +106,9 @@ export default {
       ptitle: '',
       pexp: 0,
       ptype: 'nexttask',
-      complete: '達成せよ'
+      complete: '達成せよ',
+      searchtext: '',
+      searchResult: []
     }
   },
   mounted: function() {
@@ -111,6 +118,7 @@ export default {
     this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
+    this.searchResult = this.todos
     // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {
@@ -217,6 +225,29 @@ export default {
     getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
     },
+    searchtodo: function() {
+      // this.searchResult = this.todos.main.filter( val => {
+      //   return val.value.match(this.searchtext);
+      // })
+      // this.searchResult.push(Object.keys(this.todos).forEach(key => {
+      //   this.todos[key].filter( v => {
+      //     return v.value.match(this.searchtext);
+      //   });
+      // }))
+      if (this.searchtext == '') {
+        this.searchResult = this.todos
+        return;
+      }
+
+      this.searchResult = [];
+      Object.keys(this.todos).forEach(key => {
+        let v =  this.todos[key].filter( v => {
+          return v.value.match(this.searchtext);
+        });
+        this.searchResult.push(v);
+      })
+    }
+
   },
   computed: {
     // 完了していないタスクのみを抽出した配列を返す
@@ -246,6 +277,13 @@ export default {
 </script>
 
 <style scoped>
+.searchbox {
+  display: flex;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+}
 
 h3 {
   margin-top: 0px;
