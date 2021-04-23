@@ -52,7 +52,6 @@ export default {
     Button
   },
   props: {
-    msg: String,
     todotitle: String,
     todoexp: Number,
     todotype: String 

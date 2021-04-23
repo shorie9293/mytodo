@@ -9,7 +9,7 @@
       <div class="val">「{{ value }}」<span :class="classofvalue">を{{ comp }}</span></div>
       <div class="tasks-detail">
         <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
-        <div class="task-d type">{{ taskType }}</div>
+        <div class="task-d type">{{ task[taskType] }}</div>
       </div>
     </div>
     <div class="todo-btn">
@@ -45,7 +45,12 @@ export default {
   },
   data: function() {
     return {
-      comp : '達成せよ。'
+      comp : '達成せよ。',
+      task : {
+        "nexttask" : "次の行動",
+        "otherperson" : "連絡待ち",
+        "wait" : "待機",
+      },
     }
   },
   methods: {

@@ -2,7 +2,7 @@
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
   <h3>
-  {{ project_name[project_no[realIndex]] }}クエスト
+    {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
   </h3>
   <div class="searchbox">
     <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
@@ -16,25 +16,24 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @slideChange="getRealIndex"
     class="swiper"
     >
-      <swiper-slide v-for="(todo, key) in searchResult" :key="key" class="slider">
-        <div v-for="(t, index) in todo" :key="key + t.id">
-            <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
-            <TodoPanel :forid="t.id"
-            :value="t.value"
-            :exp="Number(t.exp)"
-            :initialExp="Number(t.initialExp)"
-            :taskType="tasktype[t.type]"
-            :classofvalue="{'finished' : t.checked}"
-            :keyValue="key.toString()"
-            :index="index"
-            :classType="t.type"
-            v-model:checked="t.checked"
-            v-model:select="pick"
-            @delete-item="deleteItem"
-            />
-        </div>
-      </swiper-slide>
-
+    <swiper-slide v-for="(todo, key) in searchResult" :key="key" class="slider">
+      <div v-for="(t, index) in todo" :key="key + t.id">
+          <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
+          <TodoPanel :forid="t.id"
+          :value="t.value"
+          :exp="Number(t.exp)"
+          :initialExp="Number(t.initialExp)"
+          :taskType="t.type"
+          :classofvalue="{'finished' : t.checked}"
+          :keyValue="key.toString()"
+          :index="index"
+          :classType="t.type"
+          v-model:checked="t.checked"
+          v-model:select="pick"
+          @delete-item="deleteItem"
+          />
+      </div>
+    </swiper-slide>
   </swiper>
 
   <div>
@@ -42,7 +41,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       @add-todo="addTodo" 
       @change-todo="changeTodo"
       @clear-input="clearInput"
-      v-model:msg="pmsg"
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
@@ -90,19 +88,8 @@ export default {
         "rep" : "繰り返し",
         "sub" : "サブ"
       },
-      project_no: [
-        "main",
-        "rep",
-        "sub"
-      ],
-      tasktype: {
-        "nexttask" : "次の行動",
-        "otherperson" : "連絡待ち",
-        "wait" : "待機",
-      },
       realIndex: 0,
       controlledSwiper: null,
-      pmsg: '',
       ptitle: '',
       pexp: 0,
       ptype: 'nexttask',
@@ -134,16 +121,16 @@ export default {
       deep: true
     },
     pick: function() {
-      this.ptitle = this.todos[this.project_no[this.realIndex]][this.pick].value;
-      this.pexp = this.todos[this.project_no[this.realIndex]][this.pick].exp;
-      this.ptype = this.todos[this.project_no[this.realIndex]][this.pick].type;
+      this.ptitle = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].value;
+      this.pexp = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].exp;
+      this.ptype = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].type;
     },
   },
   methods: {
     // todoを加える。
     addTodo: function() {
       if (this.pexp > 5) this.pexp = 5
-      this.todos[this.project_no[this.realIndex]].push({id: this.id_number,
+      this.todos[Object.keys(this.project_name)[this.realIndex]].push({id: this.id_number,
         value: this.ptitle,
         exp: this.pexp,
         initialExp: this.pexp,
@@ -156,7 +143,7 @@ export default {
     // todoを変更する。
     changeTodo: function() {
       if (this.pexp > 5) this.pexp = 5
-      let proj = this.todos[this.project_no[this.realIndex]][this.pick]
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick]
       this.value != '' ? proj.value = this.ptitle : ''
       this.exp != '' ? proj.exp = this.pexp : ''
       this.exp != '' ? proj.initialExp = this.pexp : ''
@@ -189,7 +176,7 @@ export default {
         return;
       }
 
-      this.todos[this.project_no[this.realIndex]] = this.remaining;
+      this.todos[Object.keys(this.project_name)[this.realIndex]] = this.remaining;
     },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
@@ -226,14 +213,7 @@ export default {
       this.realIndex = this.controlledSwiper.realIndex
     },
     searchtodo: function() {
-      // this.searchResult = this.todos.main.filter( val => {
-      //   return val.value.match(this.searchtext);
-      // })
-      // this.searchResult.push(Object.keys(this.todos).forEach(key => {
-      //   this.todos[key].filter( v => {
-      //     return v.value.match(this.searchtext);
-      //   });
-      // }))
+
       if (this.searchtext == '') {
         this.searchResult = this.todos
         return;
@@ -246,6 +226,7 @@ export default {
         });
         this.searchResult.push(v);
       })
+      this.searchtext = '';
     }
 
   },
@@ -253,16 +234,15 @@ export default {
     // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
 
-      return this.todos[this.project_no[this.realIndex]].filter((todo) => {
+      return this.todos[Object.keys(this.project_name)[this.realIndex]].filter((todo) => {
         return !todo.checked;
       })
     },
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
-      let a = ['main', 'rep', 'sub'];
       let v = this.todos
-      a.forEach(function(p){
+      Object.keys(this.project_name).forEach(function(p){
         v[p].forEach(function(todo){
           if (todo.checked) {
             totalExp += Number(todo.exp);
