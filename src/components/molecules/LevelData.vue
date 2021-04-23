@@ -29,7 +29,7 @@ export default {
 
   dl {
     display: block;
-    width: 50%;
+    width: auto;
   }
 
 </style>

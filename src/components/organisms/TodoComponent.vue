@@ -4,10 +4,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <h3>
     {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
   </h3>
-  <div class="searchbox">
-    <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
-    <Button @click="searchtodo" title="SEARCH" />
-  </div>
   <swiper ref="mainSwiper"
     :slides-per-view="1" 
     :space-between="10"
@@ -44,6 +40,10 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
+    <div class="searchbox">
+      <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
+      <Button @click="searchtodo" title="SEARCH" />
+    </div>
     <Button @click="enhanceExp" title="けいけんちアップ"/>
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>

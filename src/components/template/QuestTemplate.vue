@@ -2,16 +2,16 @@
 <template>
   <div class="display-panel">
     <template v-if="display==0">
-      <status-component class="component"/>
+      <status-component />
     </template>
     <template v-else-if="display==1">
-      <battle-component class="component"/>
+      <battle-component />
     </template>
     <template v-else-if="display==2">
-      <todo-component class="component"/>
+      <todo-component />
     </template>
     <template v-else>
-      <Option class="component"/>
+      <Option />
     </template>
     <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
   </div>
@@ -36,7 +36,7 @@ export default {
   },
   data: function() {
     return{
-      display: 2,
+      display: 0,
       displayMenus: [
         {"title":"HOME", "display": false, "img": "todo.png"},
         {"title":"BTL", "display": false, "img": "todo.png"},
@@ -57,11 +57,6 @@ export default {
 </script>
 
 <style scoped>
-  .component {
-    margin-right: auto;
-    margin-left: auto;
-
-  }
 
   .display-panel {
     border-radius: 10px;

@@ -1,10 +1,21 @@
 <!-- ステータスアップコンポーネント -->
 <template>
-  <div style="width: 100%;">
-    <div style="height: 150px;">
-      <ImageView :imgs="img"/>
+
+    <div class="char-component">
+      <div class="status">
+        <div style="height: 150px;">
+          <ImageView :imgs="img"/>
+        </div>
+        <level-data :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
+      </div>
+      <div class="todos">
+        <div v-for="(t, index) in todos" :key="t.id">
+          <input :id="t.id" type="checkbox">
+          <label :for="t.id" :title="t.value">{{ t.value }} {{ index }}</label>
+        </div>
+      </div>
     </div>
-    <level-data :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
+  
     <div class="status-block">
       <status-panel v-for="(item,index) in sts"
         :key="index"
@@ -23,7 +34,6 @@
       <input id="inputexp" type="number" v-model="lvdata.stexp">
       <label for="inputexp"></label>
     </div>
-  </div>
 </template>
 
 <script>
@@ -31,6 +41,7 @@ import StatusPanel from '../molecules/StatusPanel'
 import Button from '../atoms/Button'
 import ImageView from '../atoms/ImageView.vue'
 import LevelData from '../molecules/LevelData.vue'
+// import TodoPanel from '../molecules/TodoPanel'
 
 export default {
   name: "StatusComponent",
@@ -38,7 +49,8 @@ export default {
     StatusPanel,
     LevelData,
     Button,
-    ImageView
+    ImageView,
+    // TodoPanel
   },
   data: function(){
     return {
@@ -55,8 +67,8 @@ export default {
         money: 0
       },
       img: require(`@/assets/imgs/player/yuusya_game.webp`),
-      personal: {}
-
+      personal: {},
+      todos: []
     }
   },
   watch: {
@@ -95,6 +107,7 @@ export default {
     ];
     this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0, money: 0};
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
+    this.todos = JSON.parse(localStorage.getItem('todos_main')) || [];
     if (this.parsonal.job == "ゆうしゃ") {
       this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
     } else if (this.parsonal.job == "まほうつかい") {
@@ -147,6 +160,24 @@ export default {
 </script>
 
 <style scoped>
+.char-component {
+  display: flex;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.status {
+  background: yellow;
+  width: 40%;
+  margin: 5px;
+  }
+
+.todos {
+  background: red;
+  width: 60%;
+  margin: 5px;
+}
 
 .box1 {
   width: 100%;
