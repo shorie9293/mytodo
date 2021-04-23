@@ -25,11 +25,13 @@
 
   <!-- お試し機能 -->
   <div v-show="show">
-  <read-custom-q v-show="true"></read-custom-q>
-  <SarchTodo />
     <Readme></Readme>
     <Button title="とじる" @click="show=false"/>
   </div>
+  
+    <read-custom-q v-show="false"></read-custom-q>
+    
+    <SarchTodo v-show="false" />
 
 </template>
 

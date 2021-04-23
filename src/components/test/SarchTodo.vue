@@ -1,9 +1,11 @@
 <template>
-  <input type="text" placeholder="TEST CODE" v-model="input">
-  <button @click="sarchtodo">TEST BUTTON</button>
-  <div v-for="todo in sarchResult"
-    :key="todo.index">
-    {{ todo.value }}
+  <div>
+    <input type="text" placeholder="TEST CODE" v-model="input">
+    <button @click="sarchtodo">TEST BUTTON</button>
+    <div v-for="todo in sarchResult"
+      :key="todo.index">
+      {{ todo.value }}
+    </div>
   </div>
 </template>
 
