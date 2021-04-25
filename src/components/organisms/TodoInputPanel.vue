@@ -34,9 +34,14 @@
     </table>
 
     <div class="btn-box">
-      <Button class="btn" @click="addTodo" title="くわえる"/>
-      <Button class="btn" @click="changeTodo" title="へんこう"/>
-      <Button class="btn" @click="clearInput" title="入力クリア"/>
+      <Button class="btn" @click="addTodo" title="ADD"/>
+      <Button class="btn" @click="changeTodo" title="CHG"/>
+      <Button class="btn" @click="clearInput" title="CLA"/>
+    </div>
+    <div class="btn-box">
+      <Button class="btn" @click="addToday" title="TDY"/>
+      <!-- <Button class="btn" @click="changeTodo" title="CHG"/> -->
+      <!-- <Button class="btn" @click="clearInput" title="CLA"/> -->
     </div>
 
   </div>
@@ -79,6 +84,9 @@ export default {
     clearInput: function() {
       this.$emit('clear-input')
     },
+    addToday: function(){
+      this.$emit('add-today')
+    }
     // checkInput: function() {
       // this.isInputTitle = false;
       // this.isInputExp = false;
@@ -125,10 +133,10 @@ export default {
   }
  */
   .btn-box {
-    margin-top: auto;
+    margin-top: 3pt;
     margin-bottom: auto;
     margin-left: auto;
-    width: 30%;
+    width: 20%;
   }
 
   .inp-box {

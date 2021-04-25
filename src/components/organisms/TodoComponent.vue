@@ -21,7 +21,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
           :initialExp="Number(t.initialExp)"
           :taskType="t.type"
           :classofvalue="{'finished' : t.checked}"
-          :keyValue="key.toString()"
           :index="index"
           :classType="t.type"
           v-model:checked="t.checked"
@@ -37,6 +36,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       @add-todo="addTodo" 
       @change-todo="changeTodo"
       @clear-input="clearInput"
+      @add-today="addToday"
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
       v-model:todotype="ptype" />
@@ -81,8 +81,9 @@ export default {
         "rep": [],
         "sub": []
       },
+      doitnow: [],
       id_number: 0,
-      pick: 1,
+      pick: 0,
       project_name: {
         "main" : "メイン",
         "rep" : "繰り返し",
@@ -106,12 +107,13 @@ export default {
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
     this.searchResult = this.todos
+    this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
     // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
-    todos: {
+    'todos': {
       handler: function() {
         localStorage.setItem('todos_main', JSON.stringify(this.todos.main));
         localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
@@ -120,7 +122,13 @@ export default {
       },
       deep: true
     },
-    pick: function() {
+    'doitnow': {
+      handler: function() {
+        localStorage.setItem('doit_now', JSON.stringify(this.doitnow));
+      },
+      deep: true
+    },
+    'pick': function() {
       this.ptitle = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].value;
       this.pexp = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].exp;
       this.ptype = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].type;
@@ -167,7 +175,7 @@ export default {
       if (!confirm('けしますか？')) {
         return;
       }
-      this.todos[e.key].splice(e.index, 1);
+      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(e, 1);
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
@@ -227,6 +235,11 @@ export default {
         this.searchResult.push(v);
       })
       this.searchtext = '';
+    },
+    addToday: function() {
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick]
+      this.doitnow.push(proj);
+      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1)      
     }
 
   },

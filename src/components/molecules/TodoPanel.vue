@@ -6,13 +6,13 @@
       <label :for="'todo' + forid"></label>
     </div>
     <div class="task-area">
-      <div class="val">「{{ value }}」<span :class="classofvalue">を{{ comp }}</span></div>
-      <div class="tasks-detail">
+      <div class="val">「{{ value }}」<span v-if="task[taskType]" :class="classofvalue">を{{ comp }}</span></div>
+      <div v-if="task[taskType]" class="tasks-detail">
         <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
         <div class="task-d type">{{ task[taskType] }}</div>
       </div>
     </div>
-    <div class="todo-btn">
+    <div v-if="task[taskType]" class="todo-btn">
       <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
       <label :for="'radio' + forid" v-show="false">{{ index }}</label>
       <div @click="deleteItem" class="peke"> [x]</div>
@@ -61,8 +61,11 @@ export default {
     changeRadioButton: function(e) {
       this.$emit('update:select', e.target.value)
     },
+    // deleteItem: function() {
+    //   this.$emit('delete-item', {"key": this.keyValue, "index": this.index})
+    // }
     deleteItem: function() {
-      this.$emit('delete-item', {"key": this.keyValue, "index": this.index})
+      this.$emit('delete-item', this.index)
     }
   }
 }

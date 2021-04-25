@@ -36,7 +36,7 @@ export default {
   },
   data: function() {
     return{
-      display: 0,
+      display: 2,
       displayMenus: [
         {"title":"HOME", "display": false, "img": "todo.png"},
         {"title":"BTL", "display": false, "img": "todo.png"},
