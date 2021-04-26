@@ -1,6 +1,6 @@
 <!-- ステータスアップコンポーネント -->
 <template>
-
+  <Flash :show="show"/>
   <transition name="fade">
     <div class="flash" v-if="show">
     やったぜ！
@@ -66,6 +66,7 @@ import Button from '../atoms/Button'
 import ImageView from '../atoms/ImageView.vue'
 import LevelData from '../molecules/LevelData.vue'
 import TodoPanel from '../molecules/TodoPanel'
+import Flash from '../molecules/Flash'
 
 export default {
   name: "StatusComponent",
@@ -74,7 +75,8 @@ export default {
     LevelData,
     Button,
     ImageView,
-    TodoPanel
+    TodoPanel,
+    Flash
   },
   data: function(){
     return {
@@ -229,7 +231,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* aaaaaaaaaaaaaaaaaaaa */
 .flash {
   display: grid;
   place-items: center;
@@ -267,7 +269,7 @@ export default {
   bottom: 0pt;
   width: 100%;
 }
-
+/* aaaaaaaaaaaaaaaaaaaaa */
 .todonow {
   height: 90%;
   margin: 5px;
