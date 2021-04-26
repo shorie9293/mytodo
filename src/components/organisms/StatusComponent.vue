@@ -1,14 +1,9 @@
 <!-- ステータスアップコンポーネント -->
 <template>
   <Flash :show="show"/>
-  <transition name="fade">
-    <div class="flash" v-if="show">
-    やったぜ！
-    </div>
-  </transition>
 
   <div class="char-component">
-    <div class="status">
+    <div class="status" v-show="show_status">
       <div style="height: 150px;">
         <ImageView :imgs="img"/>
       </div>
@@ -18,8 +13,6 @@
 
       <div class="todonow">
         <div v-for="(t, index) in todos" :key="'todo' + t.id">
-          <!-- <input :id="t.id" type="checkbox">
-          <label :for="t.id" :title="t.value">{{ t.value }} {{ index }}</label> -->
           <TodoPanel :forid="t.id"
           :value="t.value"
           :exp="Number(t.exp)"
@@ -52,6 +45,8 @@
     </div>
     <Button @click=ptToVl title="ポイント反映"/>
     <Button @click=ptToSkpt title="キャンセル"/>
+    <Button @click="show_status = !show_status" :title="place"/>
+
     <!-- デバッグ用。うつしてないがとりあえず保存しておくが消しても良い 21/2/27。 -->
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"/>
@@ -97,6 +92,8 @@ export default {
       todos: [],
       pick: 0,
       show: false,
+      place: '@OFFICE',
+      show_status: '',
     }
   },
   watch: {
@@ -133,6 +130,10 @@ export default {
       },
       deep: true
     },
+    'show_status': function() {
+      localStorage.setItem('office_mode', JSON.stringify(!this.show_status));
+      this.place = this.show_status ? "@PARSONAL" : "@OFFICE";
+    }
 
   },
   mounted: function() {
@@ -153,6 +154,8 @@ export default {
     } else {
       this.img = require(`@/assets/imgs/player/rpg.webp`)
     }
+    this.show_status = JSON.parse(localStorage.getItem('office_mode'));
+    this.show_status = !this.show_status;
 
   },
   methods: {
@@ -183,10 +186,15 @@ export default {
       });
     },
     enhanceExp: function() {
+
+      if (this.count_checked === 0) {
+        return;
+      }
+      
       this.lvdata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
-      this.todos = this.remaining;
+      // this.todos = this.remaining;
 
       this.show=true;
 
@@ -224,6 +232,16 @@ export default {
         return !todo.checked;
       })
     },
+    count_checked: function() {
+      
+      let counter = 0;
+      this.todos.forEach(function(todo) {
+        if (todo.checked) {
+          counter++
+        }
+      })
+      return counter;
+    }
 
   },
 
@@ -232,67 +250,6 @@ export default {
 </script>
 
 <style scoped>
-/* aaaaaaaaaaaaaaaaaaaa */
-.flash {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  position: absolute;
-  font-size: 12pt;
-  left: 50%; top: 50%;
-  width:100px; height: 100px;
-  border-radius: 50%;
-  background: rgba(200, 255, 1, 0.8);
-  z-index: 2147483647;
-  animation: flash 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-
-}
-
-@keyframes flash {
-
-  0%
-  {
-    transform: scale(0);
-  }
-
-  60%
-  {
-    transform: scale(2);
-  }
-  
-  100%
-  {
-    transform: scale(50);
-  }
-
-}
-.fade-enter-from {
-  /*開始の状態を指定する*/
-  opacity: 0;
-}
-.fade-enter-to {
-  /*終了の状態を指定する*/
-  opacity: 1;
-}
-.fade-enter-active {
-   /*動作（イージングや時間）を指定する*/
-  transition: opacity 600ms ease-out;
-}
-.fade-leave {
-  opacity: 1;
-}
-.fade-leave-to {
-  opacity: 0;
-}
-.fade-leave-active {
-  transition: opacity 300ms ease-out;
-}
-.finish-button {
-  position: absolute;
-  bottom: 0pt;
-  width: 100%;
-}
-/* aaaaaaaaaaaaaaaaaaaaa */
 .todonow {
   background: rgba(201, 231, 231, 0.6);
   height: 87%;
@@ -317,8 +274,6 @@ export default {
   height: auto;
   margin: 5px;
 }
-
-
 
 .char-component {
   display: flex;

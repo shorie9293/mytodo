@@ -5,10 +5,10 @@
       <status-component />
     </template>
     <template v-else-if="display==1">
-      <battle-component />
+      <todo-component />
     </template>
     <template v-else-if="display==2">
-      <todo-component />
+      <battle-component />
     </template>
     <template v-else>
       <Option />
@@ -36,11 +36,11 @@ export default {
   },
   data: function() {
     return{
-      display: 2,
+      display: 0,
       displayMenus: [
-        {"title":"HOME", "display": false, "img": "todo.png"},
+        {"title":"HOME", "display": true, "img": "todo.png"},
+        {"title":"TODO", "display": false, "img": "todo.png"},
         {"title":"BTL", "display": false, "img": "todo.png"},
-        {"title":"TODO", "display": true, "img": "todo.png"},
         {"title":"OPT", "display": false, "img": "todo.png"}
       ],
 
