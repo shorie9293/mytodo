@@ -194,7 +194,7 @@ export default {
       this.lvdata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
-      // this.todos = this.remaining;
+      this.todos = this.remaining;
 
       this.show=true;
 
