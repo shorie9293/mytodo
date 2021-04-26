@@ -5,6 +5,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
   </h3>
   <swiper ref="mainSwiper"
+    :padding="10"
     :slides-per-view="1" 
     :space-between="10"
     :controller="{ control: controlledSwiper }"
@@ -151,11 +152,11 @@ export default {
     // todoを変更する。
     changeTodo: function() {
       if (this.pexp > 5) this.pexp = 5
-      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick]
-      this.value != '' ? proj.value = this.ptitle : ''
-      this.exp != '' ? proj.exp = this.pexp : ''
-      this.exp != '' ? proj.initialExp = this.pexp : ''
-      this.type != '' ? proj.type = this.ptype : ''
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
+      this.ptitle != '' ? proj.value = this.ptitle : '';
+      this.pexp != '' ? proj.exp = this.pexp : '';
+      this.pexp != '' ? proj.initialExp = this.pexp : '';
+      this.ptype != '' ? proj.type = this.ptype : '';
       this.ptitle = '';
       this.pexp = 0;
     },
@@ -285,14 +286,15 @@ h3 {
 
 .swiper {
   align-content: center;
-  padding-left: auto;
-  padding-right: auto;
   padding-bottom: 10px;
+  margin-bottom: 5px;
   overflow-y: auto;
   overflow-x: hidden;
-  
+  background: rgba(201, 231, 231, 0.6);
   /* overflow: scroll; */
   height: 300px;
+  border-radius: 5px;
+  box-shadow: 2px 2px rgba(0,0,0,0.1);
 }
 
 </style>

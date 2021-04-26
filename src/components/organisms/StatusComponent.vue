@@ -127,6 +127,7 @@ export default {
     'todos': {
       handler: function() {
         localStorage.setItem('doit_now', JSON.stringify(this.todos));
+
       },
       deep: true
     },
@@ -190,7 +191,7 @@ export default {
       let v = this;
       setTimeout(function(){
         v.show=false;
-        },300);
+        },600);
 
       // localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
@@ -235,11 +236,33 @@ export default {
   place-items: center;
   text-align: center;
   position: absolute;
-  font-size: 48pt;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
+  font-size: 12pt;
+  left: 50%; top: 50%;
+  width:100px; height: 100px;
+  border-radius: 50%;
   background: rgba(200, 255, 1, 0.8);
   z-index: 2147483647;
+  animation: flash 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+
+}
+
+@keyframes flash {
+
+  0%
+  {
+    transform: scale(0);
+  }
+
+  60%
+  {
+    transform: scale(2);
+  }
+  
+  100%
+  {
+    transform: scale(50);
+  }
+
 }
 .fade-enter-from {
   /*開始の状態を指定する*/
@@ -251,7 +274,7 @@ export default {
 }
 .fade-enter-active {
    /*動作（イージングや時間）を指定する*/
-  transition: opacity 300ms ease-out;
+  transition: opacity 600ms ease-out;
 }
 .fade-leave {
   opacity: 1;
@@ -269,12 +292,16 @@ export default {
 }
 
 .todonow {
-  height: 90%;
-  margin: 5px;
+  background: rgba(201, 231, 231, 0.6);
+  height: 87%;
+  margin: 1px;
+  padding: 3px;
   position: relative;
   vertical-align: top;
   overflow-y: scroll;
   overflow-x: hidden;
+  border-radius: 5px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.1);;
   scrollbar-width: none;
 }
 
