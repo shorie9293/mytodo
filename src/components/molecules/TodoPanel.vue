@@ -172,12 +172,13 @@ export default {
 .container {
   text-align: left;
   /* background: rgba(150, 150, 255, 1); */
+  width: 98%;
   margin-top: 3px;
   margin-bottom: 4px;
   display: flex;
   padding: 2px;
   border-radius: 4px;
-  /* box-shadow: 2px 2px rgba(0, 0, 0, 0.5); */
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
   background-color: white;
   background-image: url(./../../assets/imgs/hisui-1.jpg);
   background-size: 400px auto;
