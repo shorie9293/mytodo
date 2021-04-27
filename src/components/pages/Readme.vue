@@ -32,6 +32,15 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/04/27</td>
+  <td>ver 0.8.1</td>
+  <td>
+    <ul>
+      <li>フッターの固定</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

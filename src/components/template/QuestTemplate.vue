@@ -13,8 +13,8 @@
     <template v-else>
       <Option />
     </template>
-    <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
   </div>
+  <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
 <script>
@@ -65,10 +65,13 @@ export default {
     margin-right: auto;
     margin-left: auto;
     width: 95%;
-    height: 100%;
+    height: 78vh;
     background-color: rgb(196, 227, 255);
     background-image: url(./../../assets/imgs/06.jpg);
     background-repeat: repeat;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
   }
 
 </style>
