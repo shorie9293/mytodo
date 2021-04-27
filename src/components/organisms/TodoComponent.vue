@@ -4,6 +4,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <h3>
     {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
   </h3>
+  <Flash :show="show"/>
+
   <swiper ref="mainSwiper"
     :padding="10"
     :slides-per-view="1" 
@@ -60,6 +62,7 @@ import 'swiper/swiper.scss';
 import SwiperCore, { Navigation, Controller } from 'swiper';
 import 'swiper/components/navigation/navigation.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
+import Flash from '../molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
 
 export default {
@@ -70,6 +73,7 @@ export default {
     Swiper,
     SwiperSlide,
     TodoInputPanel,
+    Flash
   },
   props: {
     class: String,
@@ -97,7 +101,8 @@ export default {
       ptype: 'nexttask',
       complete: '達成せよ',
       searchtext: '',
-      searchResult: []
+      searchResult: [],
+      show: false
     }
   },
   mounted: function() {
@@ -190,6 +195,11 @@ export default {
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
     enhanceExp: function() {
+      
+      if (!this.calExp) {
+        return;
+      }
+
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
@@ -199,6 +209,13 @@ export default {
           }
         }
       )
+
+      this.show=true;
+
+      let v = this;
+      setTimeout(function(){
+        v.show=false;
+        },600);
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
