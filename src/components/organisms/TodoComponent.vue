@@ -177,7 +177,6 @@ export default {
     //   this.todos[key].splice(index, 1);
     // },
     deleteItem: function(e) {
-      console.log(e);
       if (!confirm('けしますか？')) {
         return;
       }
@@ -255,9 +254,15 @@ export default {
       this.searchtext = '';
     },
     addToday: function() {
-      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick]
+      if (!this.pick) {
+        // console.log("not selected todo");
+        return;
+      }
+
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
       this.doitnow.push(proj);
-      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1)      
+      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1);
+      this.clearInput();
     }
 
   },
