@@ -14,6 +14,7 @@
       <Option />
     </template>
   </div>
+  <FloatingButton />
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
@@ -23,6 +24,7 @@ import StatusComponent from '../organisms/StatusComponent.vue'
 import BattleComponent from '../organisms/BattleComponent.vue'
 import Option from '../pages/Option'
 import Footer from '../organisms/Footer.vue'
+import FloatingButton from '../atoms/FlortingButton'
 
 export default {
   name: 'QuestTemplate',
@@ -32,7 +34,7 @@ export default {
     TodoComponent,
     Option,
     Footer,
-
+    FloatingButton,
   },
   data: function() {
     return{
@@ -69,9 +71,10 @@ export default {
     background-color: rgb(196, 227, 255);
     background-image: url(./../../assets/imgs/06.jpg);
     background-repeat: repeat;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
-    
+    scrollbar-width: none;
+  
   }
 
 </style>

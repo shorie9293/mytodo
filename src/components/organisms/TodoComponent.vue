@@ -51,12 +51,13 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
+  <Button @click="addTodoList" title="TEST"/>
 
 </template>
 
 <script>
-import Button from '../atoms/Button';
-import TodoPanel from '../molecules/TodoPanel.vue';
+import Button from '@/components/atoms/Button';
+import TodoPanel from '@/components/molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
 import SwiperCore, { Navigation, Controller } from 'swiper';
@@ -64,6 +65,7 @@ import 'swiper/components/navigation/navigation.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
 import Flash from '../molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 export default {
   name: "todo-panel",
@@ -102,7 +104,8 @@ export default {
       complete: '達成せよ',
       searchtext: '',
       searchResult: [],
-      show: false
+      show: false,
+      db: Object,
     }
   },
   mounted: function() {
@@ -114,6 +117,9 @@ export default {
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
     this.searchResult = this.todos
     this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
+    this.db = TodoDBAdapter;
+
+    this.db.createDB();
     // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {
@@ -141,6 +147,15 @@ export default {
     },
   },
   methods: {
+    addTodoList: function() {
+      this.db.addTodo({
+        project: 'project',
+        title: 'title',
+        type: 'type', 
+        exp: 0});
+
+    },
+
     // todoを加える。
     addTodo: function() {
       if (this.pexp > 5) this.pexp = 5
