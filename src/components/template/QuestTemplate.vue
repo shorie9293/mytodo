@@ -14,17 +14,25 @@
       <Option />
     </template>
   </div>
-  <FloatingButton />
+  <FloatingButton
+   @click="show=true"
+   />
+
+  <TodoInputBox
+    :show="show"
+    @add-todo="show=false"
+    />
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
 <script>
-import TodoComponent from '../organisms/TodoComponent.vue'
-import StatusComponent from '../organisms/StatusComponent.vue'
-import BattleComponent from '../organisms/BattleComponent.vue'
-import Option from '../pages/Option'
-import Footer from '../organisms/Footer.vue'
-import FloatingButton from '../atoms/FlortingButton'
+import TodoComponent from '@/components/organisms/TodoComponent.vue'
+import StatusComponent from '@/components/organisms/StatusComponent.vue'
+import BattleComponent from '@/components/organisms/BattleComponent.vue'
+import Option from '@/components/pages/Option'
+import Footer from '@/components/organisms/Footer.vue'
+import FloatingButton from '@/components/atoms/FlortingButton'
+import TodoInputBox from '@/components/organisms/TodoInputBox'
 
 export default {
   name: 'QuestTemplate',
@@ -35,6 +43,7 @@ export default {
     Option,
     Footer,
     FloatingButton,
+    TodoInputBox,
   },
   data: function() {
     return{
@@ -45,6 +54,7 @@ export default {
         {"title":"BTL", "display": false, "img": "todo.png"},
         {"title":"OPT", "display": false, "img": "todo.png"}
       ],
+      show: false,
 
     }
   },

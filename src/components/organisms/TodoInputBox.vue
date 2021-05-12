@@ -82,6 +82,8 @@ export default {
 
 .input-box {
   position:relative;
+  margin: auto;
+  margin-top: 40%;
   background: lightgoldenrodyellow;
   width: 250px;
   padding: 5px;
