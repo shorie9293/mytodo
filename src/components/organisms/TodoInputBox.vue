@@ -3,7 +3,7 @@
     <div class="input-box">
       <p>
         <select class="select-box" name="todo-project" id="todo-project" 
-          @change="$emit('update:todo-project', $event.target.value)">
+          v-model="todo.project">
           <option v-for="(project,index) in projects"
             :key="index" 
             :value="todo_project_type[project]">{{ todo_project_type[project] }}</option>
@@ -12,17 +12,17 @@
       <p>
         <label for="todo_title">Title</label>
         <input type="text" name="todo_title" id="todo_title" 
-          @change="$emit('update:todo-title', $event.target.value)">
+          v-model="todo.title">
       </p>
       <p>
         <label for="todo_type">Type</label>
         <input type="text" name="todo_type" id="todo_type" 
-          @change="$emit('update:todo-type', $event.target.value)">
+          v-model="todo.type">
       </p>
       <p>
         <label for="todo_exp">Exp</label>
         <input type="number" name="todo_exp" id="todo_exp" 
-          @change="$emit('update:todo-exp', Number($event.target.value))">
+          v-model="todo.exp">
       </p>
       <p>
         <input type="submit" value="Submit" @click="addData">
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import Todo from '@/assets/js/Todo'
+
 export default {
   name: 'todo-input-box',
   props: {
@@ -51,12 +53,22 @@ export default {
         "main": "メインクエスト",
         "sup": "サブクエスト",
         "repeat": "繰り返し"
-      }
+      },
+      todo: new Todo.Todo(
+        {
+          id: '',
+          project: "選択してください",
+          title: '',
+          type: '',
+          exp: 0,
+        }
+      ),
     }
   },
   methods: {
     addData: function() {
-      this.$emit('add-todo');
+      console.log(this.todo.title);
+      this.$emit('add-todo', this.todo);
     },
   },
   computed: {

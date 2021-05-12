@@ -5,7 +5,8 @@
       <status-component />
     </template>
     <template v-else-if="display==1">
-      <todo-component />
+      <TodoComponent 
+        :hoge="{hage:'hage'}"/>
     </template>
     <template v-else-if="display==2">
       <battle-component />
@@ -20,7 +21,7 @@
 
   <TodoInputBox
     :show="show"
-    @add-todo="show=false"
+    @add-todo="addTodo"
     />
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
@@ -33,6 +34,7 @@ import Option from '@/components/pages/Option'
 import Footer from '@/components/organisms/Footer.vue'
 import FloatingButton from '@/components/atoms/FlortingButton'
 import TodoInputBox from '@/components/organisms/TodoInputBox'
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 export default {
   name: 'QuestTemplate',
@@ -55,14 +57,24 @@ export default {
         {"title":"OPT", "display": false, "img": "todo.png"}
       ],
       show: false,
+      db: Object,
 
     }
+  },
+  mounted: function() {
+    this.db = TodoDBAdapter;
+    this.db.createDB();
   },
   methods: {
     setDisplay: function(index) {
       this.displayMenus[this.display].display = false;
       this.displayMenus[index].display = true;
       this.display = index;
+    },
+    addTodo: function(todo) {
+      console.log(todo);
+      this.db.addTodo(todo);
+      this.show = false;
     }
   }
 }

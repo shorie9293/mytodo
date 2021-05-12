@@ -42,7 +42,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       @add-today="addToday"
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
-      v-model:todotype="ptype" />
+      v-model:todotype="ptype"
+      />
     <div class="searchbox">
       <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
       <Button @click="searchtodo" title="SEARCH" />
@@ -52,7 +53,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
   <Button @click="addTodoList" title="TEST"/>
-
+  {{ hoge }}
 </template>
 
 <script>
@@ -79,6 +80,7 @@ export default {
   },
   props: {
     class: String,
+    hoge: Object,
   },
   data() {
     return {
