@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-// import {uuidv4} from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 let db;
 
@@ -9,7 +9,7 @@ async function createDB() {
   await db.on("populate", function() {
     db.todo_table.bulkPut([
       {
-        // id: uuidv4(),
+        id: uuidv4(),
         project: 'main', 
         title: '最も目に入れておきたいタスクを入れます。例:仕事のことなど', 
         type: 'nexttask',
@@ -17,7 +17,7 @@ async function createDB() {
         checked: false,
       },
       {
-        // id: uuidv4(),
+        id: uuidv4(),
         project: 'repeat', 
         title: '繰り返したいタスクを入れます。', 
         type: 'nexttask',
@@ -25,7 +25,7 @@ async function createDB() {
         checked: false,
       },
       {
-        // id: uuidv4(),
+        id: uuidv4(),
         project: 'sub', 
         title: '通常のタスクを入れます。例:家でのことなど', 
         type: 'nexttask',
@@ -67,13 +67,13 @@ async function changeChecked(todos) {
 
 }
 
-
-async function getQuery(project) {
-  const todos = await db.todo_table.where({'project': project }).toArray(); 
+async function searchTitle(word) {
+  const todos = await db.todo_table.where('title').anyOf(word).toArray();
   return await todos;
 }
 
-async function getQuery2() {
+
+async function getQuery() {
   const todos = await db.todo_table.toArray(); 
   return await todos;
 }
@@ -84,5 +84,5 @@ export default {
   addTodo,
   changeChecked,
   getQuery,
-  getQuery2,
+  searchTitle,
 }

@@ -111,7 +111,7 @@ export default {
 
     this.db = TodoDBAdapter;
     this.db.createDB();
-    this.todos = await this.db.getQuery2();
+    this.todos = await this.db.getQuery();
     console.log(this.todos);
   },
   watch: {
