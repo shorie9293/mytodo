@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from 'uuid';
 import Dexie from 'dexie';
 
 let db;
@@ -29,29 +28,44 @@ async function createDB() {
 
 
 async function addTodo(todo) {
-  const id = uuidv4();
   await db.todo_table.put({
-    id: id, 
+    id: todo.id, 
     project: todo.project,
     title: todo.title,
     type: todo.type, 
     exp: todo.exp,
-    checked: false});
+    checked: todo.checked});
 }
 
-async function deleteTodo(id) {
-  console.log(db.todo_table.where('id').anyOf(id).toArray());
+// async function changeTodo(todo) {
+//   console.log(db.todo_table.where({'id':todo.id}).toArray());
+// }
+
+async function changeChecked(todos) {
+  let oldtodo = await db.todo_table.where({'project':'main'}).toArray();
+  const todo = oldtodo.filter((value,index) => {
+    return value.checked !== todos['main'][index].checked; 
+  });
+
+  if (todo[0]) {
+    console.log(todo[0].index, todo[0].checked);
+    await db.todo_table.update(
+      todo[0].index,
+      {'checked': !todo[0].checked}
+    );
+  }
+
 }
+
 
 async function getQuery(project) {
-  const hoge = await db.todo_table.where({'project': project }).toArray() 
-  console.log(hoge[0])
-  return await hoge;
+  const todos = await db.todo_table.where({'project': project }).toArray(); 
+  return await todos;
 }
 
 export default {
   createDB,
   addTodo,
-  deleteTodo,
+  changeChecked,
   getQuery,
 }

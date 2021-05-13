@@ -46,6 +46,7 @@ export default {
   data: function() {
     return {
       comp : '達成せよ。',
+      // TodoInputBoxと重複あり
       task : {
         "nexttask" : "次の行動",
         "otherperson" : "連絡待ち",

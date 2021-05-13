@@ -6,7 +6,7 @@
     </template>
     <template v-else-if="display==1">
       <TodoComponent 
-        :hoge="{hage:'hage'}"/>
+        :todo_added="todo"/>
     </template>
     <template v-else-if="display==2">
       <battle-component />
@@ -57,6 +57,7 @@ export default {
       ],
       show: false,
       db: Object,
+      todo: {},
 
     }
   },
@@ -71,8 +72,9 @@ export default {
       this.display = index;
     },
     addTodo: function(todo) {
-      console.log(todo);
+      // console.log(todo);
       this.db.addTodo(todo);
+      this.todo = todo;
       this.show = false;
     }
   }

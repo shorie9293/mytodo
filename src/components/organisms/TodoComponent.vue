@@ -19,17 +19,16 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       <div v-for="(t, index) in todo" :key="key + t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
-          :value="t.title"
-          :exp="Number(t.exp)"
-          :initialExp="Number(t.exp)"
-          :taskType="t.type"
-          :classofvalue="{'finished' : t.checked}"
-          :index="index"
-          :classType="t.type"
-          v-model:checked="t.checked"
-          v-model:select="pick"
-          @delete-item="deleteItem"
-          />
+            :value="t.title"
+            :exp="Number(t.exp)"
+            :initialExp="Number(t.exp)"
+            :taskType="t.type"
+            :classofvalue="{'finished' : t.checked}"
+            :index="index"
+            :classType="t.type"
+            v-model:checked="t.checked"
+            v-model:select="pick"
+            @delete-item="deleteItem" />
       </div>
     </swiper-slide>
   </swiper>
@@ -53,9 +52,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
   <Button @click="addTodoList" title="TEST"/>
-  {{ hoge }}
+{{ todos }}
 </template>
-
 <script>
 import Button from '@/components/atoms/Button';
 import TodoPanel from '@/components/molecules/TodoPanel.vue';
@@ -80,14 +78,14 @@ export default {
   },
   props: {
     class: String,
-    hoge: Object,
+    todo_added: Object,
   },
   data() {
     return {
       leveldata: [],
       todos: {
         "main": [],
-        "rep": [],
+        "repeat": [],
         "sub": []
       },
       doitnow: [],
@@ -95,7 +93,7 @@ export default {
       pick: 0,
       project_name: {
         "main" : "メイン",
-        "rep" : "繰り返し",
+        "repeat" : "繰り返し",
         "sub" : "サブ"
       },
       realIndex: 0,
@@ -119,13 +117,12 @@ export default {
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
     this.searchResult = this.todos
     this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
-    this.db = TodoDBAdapter;
 
+    this.db = TodoDBAdapter;
     this.db.createDB();
     this.todos.main = await this.db.getQuery('main') || [];
     this.todos.rep = await this.db.getQuery('repeat') || [];
     this.todos.sub = await this.db.getQuery('sub') || [];
-    // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
@@ -136,8 +133,14 @@ export default {
         localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
         localStorage.setItem('todos_rep', JSON.stringify(this.todos.rep));
         localStorage.setItem('todoid', JSON.stringify(this.id_number));
+        this.db.changeChecked(this.todos);
       },
       deep: true
+    },
+    'todo_added': function() {
+      this.todos[this.todo_added.project].push(
+        this.todo_added,
+      );
     },
     'doitnow': {
       handler: function() {
@@ -158,9 +161,11 @@ export default {
         title: 'title',
         type: 'type', 
         exp: 0});
+      this.todos[this.todo.project].push(
+        this.todo,
+      );
 
     },
-
     // todoを加える。
     addTodo: function() {
       if (this.pexp > 5) this.pexp = 5

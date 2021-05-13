@@ -8,9 +8,9 @@ class Todo {
   // }
   constructor () {
     this.id = '';
-    this.project = '';
+    this.project = 'main';
     this.title = '';
-    this.type = '';
+    this.type = 'nexttask';
     this.exp = 0;
     this.checked = false;
   }

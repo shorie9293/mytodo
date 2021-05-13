@@ -15,14 +15,17 @@
           v-model="todo.title">
       </p>
       <p>
-        <label for="todo_type">Type</label>
-        <input type="text" name="todo_type" id="todo_type" 
+        <select class="select-box" name="todo_type" id="todo_type" 
           v-model="todo.type">
+          <option v-for="(type ,index) in types"
+            :key="index" 
+            :value="type">{{ todo_type[type] }}</option>
+        </select>
       </p>
       <p>
         <label for="todo_exp">Exp</label>
         <input type="number" name="todo_exp" id="todo_exp" 
-          v-model="todo.exp">
+          v-model="todo.exp" min="0" max="5">
       </p>
       <p>
         <input type="submit" value="Submit" @click="addData">
@@ -33,6 +36,7 @@
 
 <script>
 import Todo from '@/assets/js/Todo'
+import {uuid} from 'vue-uuid';
 
 export default {
   name: 'todo-input-box',
@@ -41,10 +45,6 @@ export default {
   },
   emits: [
     'add-todo',
-    'update:todo-project',
-    'update:todo-title',
-    'update:todo-type',
-    'update:todo-exp',
   ],
   data: function(){
     return {
@@ -53,18 +53,31 @@ export default {
         "sub": "サブクエスト",
         "repeat": "繰り返し"
       },
+      // TodoPanelと重複あり
+      todo_type: {
+        "nexttask" : "次の行動",
+        "otherperson" : "連絡待ち",
+        "wait" : "待機",
+      },
       todo: new Todo.Todo(),
     }
   },
   methods: {
-    addData: function() {
+    addData: async function() {
+      if (this.todo.exp > 5) this.todo.exp = 5;
+      this.todo.id = uuid.v4();
       this.$emit('add-todo', this.todo);
+      this.todo = new Todo.Todo();
     },
   },
   computed: {
     projects: function(){
       return Object.keys(this.todo_project_type);
+    },
+    types: function(){
+      return Object.keys(this.todo_type);
     }
+
   }
 }
 </script>
