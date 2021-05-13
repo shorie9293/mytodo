@@ -6,7 +6,7 @@
           v-model="todo.project">
           <option v-for="(project,index) in projects"
             :key="index" 
-            :value="todo_project_type[project]">{{ todo_project_type[project] }}</option>
+            :value="project">{{ todo_project_type[project] }}</option>
         </select>
       </p>
       <p>
@@ -49,25 +49,15 @@ export default {
   data: function(){
     return {
       todo_project_type: {
-        "null": "選択してください",
         "main": "メインクエスト",
-        "sup": "サブクエスト",
+        "sub": "サブクエスト",
         "repeat": "繰り返し"
       },
-      todo: new Todo.Todo(
-        {
-          id: '',
-          project: "選択してください",
-          title: '',
-          type: '',
-          exp: 0,
-        }
-      ),
+      todo: new Todo.Todo(),
     }
   },
   methods: {
     addData: function() {
-      console.log(this.todo.title);
       this.$emit('add-todo', this.todo);
     },
   },

@@ -14,10 +14,9 @@
     <template v-else>
       <Option />
     </template>
+    <FloatingButton
+    @click="show=true" />
   </div>
-  <FloatingButton
-   @click="show=true"
-   />
 
   <TodoInputBox
     :show="show"
@@ -83,6 +82,7 @@ export default {
 <style scoped>
 
   .display-panel {
+    position: relative;
     border-radius: 10px;
     box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -96,7 +96,9 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
-  
+  }
+  .display-panel::-webkit-scrollbar {
+    display: none;
   }
 
 </style>

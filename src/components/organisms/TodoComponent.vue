@@ -110,9 +110,9 @@ export default {
       db: Object,
     }
   },
-  mounted: function() {
+  mounted: async function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
-    this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
+    // this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
     this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
     this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
@@ -122,6 +122,8 @@ export default {
     this.db = TodoDBAdapter;
 
     this.db.createDB();
+    this.todos.main = await this.db.getQuery('main') || [];
+    console.log(this.todos.main[0])
     // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {

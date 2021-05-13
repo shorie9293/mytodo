@@ -6,10 +6,10 @@
 
 <style scoped>
 .fab-component {
-  position: fixed;
+  position: absolute;
   display: table-cell;
-  bottom: 70px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
   box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
   background: hsl(180, 80%, 50%);
   border-radius: 50%;

@@ -7,25 +7,12 @@ async function createDB() {
   db = await new Dexie('maguroDB');
   // const id = uuidv4();
   await db.version(1).stores({todo_table: '++index, id, project, title, type'});
-  //   await db.todo_table.add({
-  //     id: id,
-  //     project: 'project',
-  //     title: 'title',
-  //     type: 'tipe',
-  //     exp: 'exp',
-  // });
   db.on("populate", function() {
     // const id = uuidv4();
     console.log(db);
     db.todo_table.add({project: 'project'});
   });
   db.open();
-
-  // async function populate() {
-  //   // const id = uuidv4();
-  //   console.log(db);
-  //   await db.todo_table.add({project: 'project'});
-  // }
 }
 
 
@@ -43,8 +30,15 @@ async function deleteTodo(id) {
   console.log(db.todo_table.where('id').anyOf(id).toArray());
 }
 
+async function getQuery(project) {
+  const hoge = await db.todo_table.where({'project': project }).toArray() 
+  console.log(hoge[0])
+  return await hoge;
+}
+
 export default {
   createDB,
   addTodo,
   deleteTodo,
+  getQuery,
 }
