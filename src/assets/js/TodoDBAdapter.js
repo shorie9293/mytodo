@@ -68,7 +68,10 @@ async function changeChecked(todos) {
 }
 
 async function searchTitle(word) {
-  const todos = await db.todo_table.where('title').anyOf(word).toArray();
+  const todos = await db.todo_table.filter(function (todo) {
+    // console.log(todo.title, word);
+    return todo.title.indexOf(word) > -1;
+  }).toArray();
   return await todos;
 }
 

@@ -251,23 +251,25 @@ export default {
     getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
     },
-    searchtodo: function() {
-      
-
+    searchtodo: async function() {
 
       if (this.searchtext == '') {
-        this.searchResult = this.todos
+        this.todos = await this.db.getQuery();
         return;
       }
+      // console.log(this.searchtext);
+      // console.log(await this.db.searchTitle(this.searchtext));
 
-      this.searchResult = [];
-      Object.keys(this.todos).forEach(key => {
-        let v =  this.todos[key].filter( v => {
-          return v.value.match(this.searchtext);
-        });
-        this.searchResult.push(v);
-      })
-      this.searchtext = '';
+      this.todos = await this.db.searchTitle(this.searchtext);
+
+      // this.searchResult = [];
+      // Object.keys(this.todos).forEach(key => {
+      //   let v =  this.todos[key].filter( v => {
+      //     return v.value.match(this.searchtext);
+      //   });
+      //   this.searchResult.push(v);
+      // })
+      // this.searchtext = '';
     },
     addToday: function() {
       if (!this.pick) {
