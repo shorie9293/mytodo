@@ -13,10 +13,10 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
-    class="swiper"
-    >
-    <swiper-slide v-for="(todo, key) in searchResult" :key="key" class="slider">
-      <div v-for="(t, index) in todo" :key="key + t.id">
+    class="swiper">
+    <swiper-slide v-for="(todo,index) in [todos_main, todos_repeat, todos_sub]"
+      :key="index" class="slider">
+      <div v-for="(t, index) in todo" :key="t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
             :value="t.title"
@@ -52,7 +52,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
   <Button @click="addTodoList" title="TEST"/>
-{{ todos }}
 </template>
 <script>
 import Button from '@/components/atoms/Button';
@@ -83,6 +82,7 @@ export default {
   data() {
     return {
       leveldata: [],
+      todos_2: [],
       todos: {
         "main": [],
         "repeat": [],
@@ -110,35 +110,25 @@ export default {
   },
   mounted: async function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
-    // this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
-    // this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
-    // this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
-    this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
     this.searchResult = this.todos
     this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
 
     this.db = TodoDBAdapter;
     this.db.createDB();
-    this.todos.main = await this.db.getQuery('main') || [];
-    this.todos.rep = await this.db.getQuery('repeat') || [];
-    this.todos.sub = await this.db.getQuery('sub') || [];
+    this.todos_2 = await this.db.getQuery2();
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
-    'todos': {
+    'todos_2': {
       handler: function() {
-        localStorage.setItem('todos_main', JSON.stringify(this.todos.main));
-        localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
-        localStorage.setItem('todos_rep', JSON.stringify(this.todos.rep));
-        localStorage.setItem('todoid', JSON.stringify(this.id_number));
-        this.db.changeChecked(this.todos);
+        this.db.changeChecked(this.todos_2);
       },
       deep: true
     },
     'todo_added': function() {
-      this.todos[this.todo_added.project].push(
+      this.todos_2.push(
         this.todo_added,
       );
     },
@@ -263,6 +253,8 @@ export default {
       this.realIndex = this.controlledSwiper.realIndex
     },
     searchtodo: function() {
+      
+
 
       if (this.searchtext == '') {
         this.searchResult = this.todos
@@ -312,6 +304,21 @@ export default {
         })
       })
       return totalExp;
+    },
+    todos_main: function() {
+      return this.todos_2.filter((value) =>{
+        return value.project == 'main'
+      })
+    },
+    todos_repeat: function() {
+      return this.todos_2.filter((value) =>{
+        return value.project == 'repeat'
+      })
+    },
+    todos_sub: function() {
+      return this.todos_2.filter((value) =>{
+        return value.project == 'sub'
+      })
     },
   },
 }

@@ -42,9 +42,9 @@ async function addTodo(todo) {
 // }
 
 async function changeChecked(todos) {
-  let oldtodo = await db.todo_table.where({'project':'main'}).toArray();
+  let oldtodo = await db.todo_table.toArray();
   const todo = oldtodo.filter((value,index) => {
-    return value.checked !== todos['main'][index].checked; 
+    return value.checked !== todos[index].checked; 
   });
 
   if (todo[0]) {
@@ -63,9 +63,16 @@ async function getQuery(project) {
   return await todos;
 }
 
+async function getQuery2() {
+  const todos = await db.todo_table.toArray(); 
+  return await todos;
+}
+
+
 export default {
   createDB,
   addTodo,
   changeChecked,
   getQuery,
+  getQuery2,
 }
