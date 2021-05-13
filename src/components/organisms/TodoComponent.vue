@@ -82,12 +82,7 @@ export default {
   data() {
     return {
       leveldata: [],
-      todos_2: [],
-      todos: {
-        "main": [],
-        "repeat": [],
-        "sub": []
-      },
+      todos: [],
       doitnow: [],
       id_number: 0,
       pick: 0,
@@ -116,19 +111,23 @@ export default {
 
     this.db = TodoDBAdapter;
     this.db.createDB();
-    this.todos_2 = await this.db.getQuery2();
+    this.todos = await this.db.getQuery2();
+    console.log(this.todos);
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
-    'todos_2': {
+    'todos': {
       handler: function() {
-        this.db.changeChecked(this.todos_2);
+        if (!Object.keys(this.todos).length) {
+          return;
+        }
+        this.db.changeChecked(this.todos);
       },
       deep: true
     },
     'todo_added': function() {
-      this.todos_2.push(
+      this.todos.push(
         this.todo_added,
       );
     },
@@ -306,17 +305,17 @@ export default {
       return totalExp;
     },
     todos_main: function() {
-      return this.todos_2.filter((value) =>{
+      return this.todos.filter((value) =>{
         return value.project == 'main'
       })
     },
     todos_repeat: function() {
-      return this.todos_2.filter((value) =>{
+      return this.todos.filter((value) =>{
         return value.project == 'repeat'
       })
     },
     todos_sub: function() {
-      return this.todos_2.filter((value) =>{
+      return this.todos.filter((value) =>{
         return value.project == 'sub'
       })
     },
