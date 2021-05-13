@@ -12,6 +12,7 @@ class Todo {
     this.title = '';
     this.type = '';
     this.exp = 0;
+    this.checked = false;
   }
 }
 

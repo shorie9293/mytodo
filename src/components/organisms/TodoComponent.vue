@@ -18,10 +18,10 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <swiper-slide v-for="(todo, key) in searchResult" :key="key" class="slider">
       <div v-for="(t, index) in todo" :key="key + t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
-          <TodoPanel :forid="t.id"
-          :value="t.value"
+          <TodoPanel :forid="t.index"
+          :value="t.title"
           :exp="Number(t.exp)"
-          :initialExp="Number(t.initialExp)"
+          :initialExp="Number(t.exp)"
           :taskType="t.type"
           :classofvalue="{'finished' : t.checked}"
           :index="index"
@@ -113,8 +113,8 @@ export default {
   mounted: async function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
     // this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
-    this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
-    this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
+    // this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
+    // this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
     this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
     this.searchResult = this.todos
@@ -123,7 +123,8 @@ export default {
 
     this.db.createDB();
     this.todos.main = await this.db.getQuery('main') || [];
-    console.log(this.todos.main[0])
+    this.todos.rep = await this.db.getQuery('repeat') || [];
+    this.todos.sub = await this.db.getQuery('sub') || [];
     // alert('hoge' + this.swiper.activeIndex)
   },
   watch: {

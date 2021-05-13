@@ -74,11 +74,8 @@ export default {
 <style scoped>
 
 .finished {
-  color:rgba(255, 217, 0, 0.589);
   text-shadow: 1px 1px 2px silver;
-  /* font-style: italic; */
   font-weight: bold;
-  /* letter-spacing: 0.2em; */
 }
 
 .tasks-detail {
@@ -86,12 +83,12 @@ export default {
   width: 100%;
   vertical-align: middle;
   position: relative;
+  font-size: 10pt;
 }
 
 .task-d {
   background:rgba(240, 240, 240, 1);
-  padding: 2px;
-  margin: 2px;
+  margin-left: 2px;
   border: .1mm solid;
   border-color: rgb(140, 140, 140);
   text-align: center;
@@ -100,7 +97,7 @@ export default {
 
 .exp {
   width: 60px;
-  padding-top: 5px;
+  padding-top: 3px;
 }
 
 .type {

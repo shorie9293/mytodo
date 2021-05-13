@@ -8,10 +8,22 @@ async function createDB() {
   // const id = uuidv4();
   await db.version(1).stores({todo_table: '++index, id, project, title, type'});
   db.on("populate", function() {
-    // const id = uuidv4();
-    console.log(db);
-    db.todo_table.add({project: 'project'});
-  });
+    addTodo({
+      project: 'main', 
+      title: '最も目に入れておきたいタスクを入れます。例:仕事のことなど', 
+      type: 'nexttask',
+      exp: 5});
+    addTodo({
+      project: 'repeat', 
+      title: '繰り返したいタスクを入れます。', 
+      type: 'nexttask',
+      exp: 3});
+    addTodo({
+      project: 'sub', 
+      title: '通常のタスクを入れます。例:家でのことなど', 
+      type: 'nexttask',
+      exp: 1});
+      });
   db.open();
 }
 
@@ -23,7 +35,8 @@ async function addTodo(todo) {
     project: todo.project,
     title: todo.title,
     type: todo.type, 
-    exp: todo.exp});
+    exp: todo.exp,
+    checked: false});
 }
 
 async function deleteTodo(id) {
