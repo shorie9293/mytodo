@@ -15,7 +15,8 @@
       <Option />
     </template>
     <FloatingButton
-    @click="show=true" />
+    @click="showInputTodoBox"
+     />
   </div>
 
   <TodoInputBox
@@ -76,6 +77,9 @@ export default {
       this.db.addTodo(todo);
       this.todo = todo;
       this.show = false;
+    },
+    showInputTodoBox: function() {
+      this.show = true;
     }
   }
 }

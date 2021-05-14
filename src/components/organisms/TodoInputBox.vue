@@ -42,6 +42,7 @@ export default {
   name: 'todo-input-box',
   props: {
     show: Boolean,
+    getTodo: Todo.Todo,
   },
   emits: [
     'add-todo',
