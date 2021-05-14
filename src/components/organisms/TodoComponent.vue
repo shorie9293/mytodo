@@ -112,7 +112,7 @@ export default {
     this.db = TodoDBAdapter;
     this.db.createDB();
     this.todos = await this.db.getQuery();
-    console.log(this.todos);
+    // console.log(this.todos);
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
@@ -122,6 +122,7 @@ export default {
         if (!Object.keys(this.todos).length) {
           return;
         }
+
         this.db.changeChecked(this.todos);
       },
       deep: true

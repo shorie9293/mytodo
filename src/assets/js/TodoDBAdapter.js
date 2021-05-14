@@ -52,18 +52,21 @@ async function addTodo(todo) {
 // }
 
 async function changeChecked(todos) {
-  let oldtodo = await db.todo_table.toArray();
-  const todo = await oldtodo.filter((value,index) => {
-    return value.checked !== todos[index].checked; 
-  });
 
-  if (todo[0]) {
-    console.log(todo[0].index, todo[0].checked);
-    await db.todo_table.update(
-      todo[0].index,
-      {'checked': !todo[0].checked}
-    );
+  let changed_todos = [];
+
+  // forEachやfilterを使うとうまく行かない。
+  // おそらく、内部でawait使う処理するとreturnのほうがあとに処理される。
+  for (const todo of todos) {
+    const oldtodo = await db.todo_table.get(todo.index);
+    if (todo.checked !== oldtodo.checked) {
+      changed_todos.push(todo);
+    }
   }
+
+  changed_todos.forEach(async (todo) => {
+    await db.todo_table.update(todo.index, {'checked': todo.checked})
+  })
 
 }
 
