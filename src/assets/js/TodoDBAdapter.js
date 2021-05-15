@@ -64,9 +64,14 @@ async function changeChecked(todos) {
     }
   }
 
+  if (!changed_todos.length) {
+    return;
+  }
+
   changed_todos.forEach(async (todo) => {
     await db.todo_table.update(todo.index, {'checked': todo.checked})
   })
+
 
 }
 

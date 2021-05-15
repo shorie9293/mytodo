@@ -118,19 +118,24 @@ export default {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     'todos': {
-      handler: function() {
+      handler: async function() {
         if (!Object.keys(this.todos).length) {
           return;
         }
-
-        this.db.changeChecked(this.todos);
+        
+        await this.db.changeChecked(this.todos);
       },
       deep: true
     },
-    'todo_added': function() {
-      this.todos.push(
-        this.todo_added,
-      );
+    'todo_added': async function() {
+      
+      // この書き方だとうまく行かない。おそらくpropで渡したやつを再レンダリングしようとして失敗してる。
+      // ライフサイクル的なところ？
+      // this.todos.push(
+      //   this.todo_added,
+      // );
+
+      this.todos = await this.db.getQuery();
     },
     'doitnow': {
       handler: function() {
