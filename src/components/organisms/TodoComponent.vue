@@ -13,16 +13,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
-<<<<<<< HEAD
-    class="swiper"
-    >
-      <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
-        <h3>{{ project_name[key] }}</h3>
-        <div v-for="(t, index) in todo" :key="t.id">
-            <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
-            <TodoPanel :forid="t.id"
-            :value="t.value"
-=======
     class="swiper">
     <swiper-slide v-for="(todo,index) in [todos_main, todos_repeat, todos_sub]"
       :key="index" class="slider">
@@ -30,23 +20,10 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
             :value="t.title"
->>>>>>> proto
             :exp="Number(t.exp)"
             :initialExp="Number(t.exp)"
             :taskType="t.type"
             :classofvalue="{'finished' : t.checked}"
-<<<<<<< HEAD
-            :keyValue=key
-            :index=index
-            :classType="t.type"
-            v-model:checked="t.checked"
-            v-model:select="pick"
-            @delete-item="deleteItem"
-            />
-        </div>
-      </swiper-slide>
-
-=======
             :index="index"
             :classType="t.type"
             v-model:checked="t.checked"
@@ -54,7 +31,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             @delete-item="deleteItem" />
       </div>
     </swiper-slide>
->>>>>>> proto
   </swiper>
 
   <div>
@@ -109,11 +85,7 @@ export default {
       todos: [],
       doitnow: [],
       id_number: 0,
-<<<<<<< HEAD
-      pick: 1,
-=======
       pick: 0,
->>>>>>> proto
       project_name: {
         "main" : "メイン",
         "repeat" : "繰り返し",

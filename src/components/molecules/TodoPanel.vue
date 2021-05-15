@@ -11,13 +11,8 @@
         <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
         <div class="task-d type">{{ task[taskType] }}</div>
       </div>
-    </label>
-    <div class="todo-btn">
-      <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-      <label :for="'radio' + forid" v-show="false">{{ index }}</label>
-      <div @click="deleteItem" class="peke"> [x]</div>
     </div>
-    <div v-if="task[taskType]" class="todo-btn">
+    <div class="todo-btn">
       <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
       <label :for="'radio' + forid" v-show="false">{{ index }}</label>
       <div @click="deleteItem" class="peke"> [x]</div>
