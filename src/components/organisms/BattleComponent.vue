@@ -279,7 +279,7 @@ export default {
       localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter))
     },
     setStage: function(index) {
-      this.status.enemyStatus.img = require(`@/assets/imgs/${this.enemyDatabase[index].img}`)
+      this.status.enemyStatus.img = require(`@/assets/imgs/monster/${this.enemyDatabase[index].img}`)
       this.status.enemyStatus.name = this.enemyDatabase[index].name
       this.status.enemyStatus.hp = this.enemyDatabase[index].hp
       this.status.enemyStatus.attack = this.enemyDatabase[index].at

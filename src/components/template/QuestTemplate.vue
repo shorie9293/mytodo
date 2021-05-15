@@ -1,96 +1,110 @@
 <!-- 各コンポーネント表示用 -->
 <template>
-  <div class="btns">
-    <standard-button title="HOME" @click="display=0" class="btn" :class="{ selected : display != 0 }"/>
-    <standard-button title="BTL" @click="display=1" class="btn" :class="{ selected : display != 1 }"/>
-    <standard-button title="TODO" @click="display=2" class="btn" :class="{ selected : display != 2 }"/>
-    <standard-button title="OPT" @click="display=3" class="btn" :class="{ selected : display != 3 }"/>
-  </div>
   <div class="display-panel">
     <template v-if="display==0">
-      <status-component class="component"/>
+      <status-component />
     </template>
     <template v-else-if="display==1">
-      <battle-component class="component"/>
+      <TodoComponent 
+        :todo_added="todo"/>
     </template>
     <template v-else-if="display==2">
-      <todo-component class="component"/>
+      <battle-component />
     </template>
     <template v-else>
-      <Option class="component"/>
+      <Option />
     </template>
+    <FloatingButton
+    @click="showInputTodoBox"
+     />
   </div>
+
+  <TodoInputBox
+    :show="show"
+    @add-todo="addTodo"
+    />
+  <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
 <script>
-import StandardButton from '../atoms/Button'
-import TodoComponent from '../organisms/TodoComponent.vue'
-import StatusComponent from '../organisms/StatusComponent.vue'
-import BattleComponent from '../organisms/BattleComponent.vue'
-import Option from '../pages/Option'
+import TodoComponent from '@/components/organisms/TodoComponent.vue'
+import StatusComponent from '@/components/organisms/StatusComponent.vue'
+import BattleComponent from '@/components/organisms/BattleComponent.vue'
+import Option from '@/components/pages/Option'
+import Footer from '@/components/organisms/Footer.vue'
+import FloatingButton from '@/components/atoms/FlortingButton'
+import TodoInputBox from '@/components/organisms/TodoInputBox'
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 export default {
   name: 'QuestTemplate',
   components: {
-    StandardButton,
     StatusComponent,
     BattleComponent,
     TodoComponent,
     Option,
+    Footer,
+    FloatingButton,
+    TodoInputBox,
   },
   data: function() {
     return{
-      display: 2,
-      comp: 3,
+      display: 0,
+      displayMenus: [
+        {"title":"HOME", "display": true, "img": "todo.png"},
+        {"title":"TODO", "display": false, "img": "todo.png"},
+        {"title":"BTL", "display": false, "img": "todo.png"},
+        {"title":"OPT", "display": false, "img": "todo.png"}
+      ],
+      show: false,
+      db: Object,
+      todo: {},
+
     }
   },
+  mounted: function() {
+    this.db = TodoDBAdapter;
+    this.db.createDB();
+  },
   methods: {
-    selectComp: function() {
-      if (this.display == this.comp - 1) {
-        this.display = 0
-      } else {
-        this.display++
-      }
+    setDisplay: function(index) {
+      this.displayMenus[this.display].display = false;
+      this.displayMenus[index].display = true;
+      this.display = index;
+    },
+    addTodo: function(todo) {
+      // console.log(todo);
+      this.db.addTodo(todo);
+      this.todo = todo;
+      this.show = false;
+    },
+    showInputTodoBox: function() {
+      this.show = true;
     }
   }
 }
 </script>
 
 <style scoped>
-  .component {
-    margin-right: auto;
-    margin-left: auto;
-
-  }
 
   .display-panel {
+    position: relative;
     border-radius: 10px;
     box-shadow: 1px 2px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin-right: auto;
     margin-left: auto;
     width: 95%;
-    height: 100%;
+    height: 78vh;
     background-color: rgb(196, 227, 255);
+    background-image: url(./../../assets/imgs/06.jpg);
+    background-repeat: repeat;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+  .display-panel::-webkit-scrollbar {
+    display: none;
   }
 
-  .btns {
-    display: flex;
-    padding: 5px;
-    width: 95%;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .btn {
-    vertical-align: center;
-    padding: 5px 5px;
-    width: 100%;
-    margin-left: 1px;
-    margin-right: 1px;
-  }
-
-  .selected {
-    background-color: lightgray;
-  }
 </style>

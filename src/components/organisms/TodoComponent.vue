@@ -1,13 +1,19 @@
 <!-- TODOを表示するパネル
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
-  
+  <h3>
+    {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
+  </h3>
+  <Flash :show="show"/>
+
   <swiper ref="mainSwiper"
+    :padding="10"
     :slides-per-view="1" 
     :space-between="10"
     :controller="{ control: controlledSwiper }"
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
+<<<<<<< HEAD
     class="swiper"
     >
       <swiper-slide v-for="(todo, key) in todos" :key="key" class="slider">
@@ -16,10 +22,20 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
             <TodoPanel :forid="t.id"
             :value="t.value"
+=======
+    class="swiper">
+    <swiper-slide v-for="(todo,index) in [todos_main, todos_repeat, todos_sub]"
+      :key="index" class="slider">
+      <div v-for="(t, index) in todo" :key="t.id">
+          <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
+          <TodoPanel :forid="t.index"
+            :value="t.title"
+>>>>>>> proto
             :exp="Number(t.exp)"
-            :initialExp="Number(t.initialExp)"
-            :taskType="tasktype[t.type]"
+            :initialExp="Number(t.exp)"
+            :taskType="t.type"
             :classofvalue="{'finished' : t.checked}"
+<<<<<<< HEAD
             :keyValue=key
             :index=index
             :classType="t.type"
@@ -30,6 +46,15 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
         </div>
       </swiper-slide>
 
+=======
+            :index="index"
+            :classType="t.type"
+            v-model:checked="t.checked"
+            v-model:select="pick"
+            @delete-item="deleteItem" />
+      </div>
+    </swiper-slide>
+>>>>>>> proto
   </swiper>
 
   <div>
@@ -37,26 +62,32 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       @add-todo="addTodo" 
       @change-todo="changeTodo"
       @clear-input="clearInput"
-      v-model:msg="pmsg"
+      @add-today="addToday"
       v-model:todotitle="ptitle"
       v-model:todoexp="pexp"
-      v-model:todotype="ptype" />
+      v-model:todotype="ptype"
+      />
+    <div class="searchbox">
+      <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
+      <Button @click="searchtodo" title="SEARCH" />
+    </div>
     <Button @click="enhanceExp" title="けいけんちアップ"/>
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
-
+  <Button @click="addTodoList" title="TEST"/>
 </template>
-
 <script>
-import Button from '../atoms/Button';
-import TodoPanel from '../molecules/TodoPanel.vue';
+import Button from '@/components/atoms/Button';
+import TodoPanel from '@/components/molecules/TodoPanel.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
 import SwiperCore, { Navigation, Controller } from 'swiper';
 import 'swiper/components/navigation/navigation.scss';
 import TodoInputPanel from './TodoInputPanel.vue';
+import Flash from '../molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 export default {
   name: "todo-panel",
@@ -66,75 +97,102 @@ export default {
     Swiper,
     SwiperSlide,
     TodoInputPanel,
+    Flash
   },
   props: {
     class: String,
+    todo_added: Object,
   },
   data() {
     return {
       leveldata: [],
-      todos: {
-        "main": [],
-        "rep": [],
-        "sub": []
-      },
+      todos: [],
+      doitnow: [],
       id_number: 0,
+<<<<<<< HEAD
       pick: 1,
+=======
+      pick: 0,
+>>>>>>> proto
       project_name: {
         "main" : "メイン",
-        "rep" : "繰り返し",
+        "repeat" : "繰り返し",
         "sub" : "サブ"
-      },
-      project_no: [
-        "main",
-        "rep",
-        "sub"
-      ],
-      tasktype: {
-        "nexttask" : "次の行動",
-        "otherperson" : "連絡待ち",
-        "wait" : "待機",
       },
       realIndex: 0,
       controlledSwiper: null,
-      pmsg: '',
       ptitle: '',
       pexp: 0,
       ptype: 'nexttask',
+      complete: '達成せよ',
+      searchtext: '',
+      searchResult: [],
+      show: false,
+      db: Object,
     }
   },
-  mounted: function() {
+  mounted: async function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
-    this.todos.main = JSON.parse(localStorage.getItem('todos_main')) || [];
-    this.todos.rep = JSON.parse(localStorage.getItem('todos_rep')) || [];
-    this.todos.sub = JSON.parse(localStorage.getItem('todos_sub')) || [];
-    this.id_number = JSON.parse(localStorage.getItem('todoid')) || 0;
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
-    // alert('hoge' + this.swiper.activeIndex)
+    this.searchResult = this.todos
+    this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
+
+    this.db = TodoDBAdapter;
+    this.db.createDB();
+    this.todos = await this.db.getQuery();
+    // console.log(this.todos);
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
-    todos: {
-      handler: function() {
-        localStorage.setItem('todos_main', JSON.stringify(this.todos.main));
-        localStorage.setItem('todos_sub', JSON.stringify(this.todos.sub));
-        localStorage.setItem('todos_rep', JSON.stringify(this.todos.rep));
-        localStorage.setItem('todoid', JSON.stringify(this.id_number));
+    'todos': {
+      handler: async function() {
+        if (!Object.keys(this.todos).length) {
+          return;
+        }
+        
+        await this.db.changeChecked(this.todos);
       },
       deep: true
     },
-    pick: function() {
-      this.ptitle = this.todos[this.project_no[this.realIndex]][this.pick].value;
-      this.pexp = this.todos[this.project_no[this.realIndex]][this.pick].exp;
-      this.ptype = this.todos[this.project_no[this.realIndex]][this.pick].type;
-    }
+    'todo_added': async function() {
+      
+      // この書き方だとうまく行かない。おそらくpropで渡したやつを再レンダリングしようとして失敗してる。
+      // ライフサイクル的なところ？
+      // this.todos.push(
+      //   this.todo_added,
+      // );
+
+      this.todos = await this.db.getQuery();
+    },
+    'doitnow': {
+      handler: function() {
+        localStorage.setItem('doit_now', JSON.stringify(this.doitnow));
+      },
+      deep: true
+    },
+    'pick': function() {
+      this.ptitle = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].value;
+      this.pexp = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].exp;
+      this.ptype = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].type;
+    },
   },
   methods: {
+    addTodoList: function() {
+      this.db.addTodo({
+        project: 'project',
+        title: 'title',
+        type: 'type', 
+        exp: 0});
+      this.todos[this.todo.project].push(
+        this.todo,
+      );
+
+    },
     // todoを加える。
     addTodo: function() {
       if (this.pexp > 5) this.pexp = 5
-      this.todos[this.project_no[this.realIndex]].push({id: this.id_number,
+      this.todos[Object.keys(this.project_name)[this.realIndex]].push({id: this.id_number,
         value: this.ptitle,
         exp: this.pexp,
         initialExp: this.pexp,
@@ -147,11 +205,11 @@ export default {
     // todoを変更する。
     changeTodo: function() {
       if (this.pexp > 5) this.pexp = 5
-      let proj = this.todos[this.project_no[this.realIndex]][this.pick]
-      this.value != '' ? proj.value = this.ptitle : ''
-      this.exp != '' ? proj.exp = this.pexp : ''
-      this.exp != '' ? proj.initialExp = this.pexp : ''
-      this.type != '' ? proj.type = this.ptype : ''
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
+      this.ptitle != '' ? proj.value = this.ptitle : '';
+      this.pexp != '' ? proj.exp = this.pexp : '';
+      this.pexp != '' ? proj.initialExp = this.pexp : '';
+      this.ptype != '' ? proj.type = this.ptype : '';
       this.ptitle = '';
       this.pexp = 0;
     },
@@ -167,11 +225,10 @@ export default {
     //   this.todos[key].splice(index, 1);
     // },
     deleteItem: function(e) {
-      console.log(e);
       if (!confirm('けしますか？')) {
         return;
       }
-      this.todos[e.key].splice(e.index, 1);
+      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(e, 1);
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
@@ -180,11 +237,16 @@ export default {
         return;
       }
 
-      this.todos[this.project_no[this.realIndex]] = this.remaining;
+      this.todos[Object.keys(this.project_name)[this.realIndex]] = this.remaining;
     },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
     enhanceExp: function() {
+      
+      if (!this.calExp) {
+        return;
+      }
+
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
@@ -194,6 +256,13 @@ export default {
           }
         }
       )
+
+      this.show=true;
+
+      let v = this;
+      setTimeout(function(){
+        v.show=false;
+        },600);
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
@@ -216,21 +285,52 @@ export default {
     getRealIndex: function() {
       this.realIndex = this.controlledSwiper.realIndex
     },
+    searchtodo: async function() {
+
+      if (this.searchtext == '') {
+        this.todos = await this.db.getQuery();
+        return;
+      }
+      // console.log(this.searchtext);
+      // console.log(await this.db.searchTitle(this.searchtext));
+
+      this.todos = await this.db.searchTitle(this.searchtext);
+
+      // this.searchResult = [];
+      // Object.keys(this.todos).forEach(key => {
+      //   let v =  this.todos[key].filter( v => {
+      //     return v.value.match(this.searchtext);
+      //   });
+      //   this.searchResult.push(v);
+      // })
+      // this.searchtext = '';
+    },
+    addToday: function() {
+      if (!this.pick) {
+        // console.log("not selected todo");
+        return;
+      }
+
+      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
+      this.doitnow.push(proj);
+      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1);
+      this.clearInput();
+    }
+
   },
   computed: {
     // 完了していないタスクのみを抽出した配列を返す
     remaining: function() {
 
-      return this.todos[this.project_no[this.realIndex]].filter((todo) => {
+      return this.todos[Object.keys(this.project_name)[this.realIndex]].filter((todo) => {
         return !todo.checked;
       })
     },
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
-      let a = ['main', 'rep', 'sub'];
       let v = this.todos
-      a.forEach(function(p){
+      Object.keys(this.project_name).forEach(function(p){
         v[p].forEach(function(todo){
           if (todo.checked) {
             totalExp += Number(todo.exp);
@@ -240,11 +340,33 @@ export default {
       })
       return totalExp;
     },
+    todos_main: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'main'
+      })
+    },
+    todos_repeat: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'repeat'
+      })
+    },
+    todos_sub: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'sub'
+      })
+    },
   },
 }
 </script>
 
 <style scoped>
+.searchbox {
+  display: flex;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+}
 
 h3 {
   margin-top: 0px;
@@ -253,56 +375,15 @@ h3 {
 
 .swiper {
   align-content: center;
-  padding-left: auto;
-  padding-right: auto;
   padding-bottom: 10px;
-  overflow: scroll;
+  margin-bottom: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: rgba(201, 231, 231, 0.6);
+  /* overflow: scroll; */
   height: 300px;
-}
-
-.peke {
-  color: blue;
-  cursor: pointer;
-}
-
-.delete-task{
-  display: flex;
-}
-
-.container {
-  text-align: left;
-  background: rgba(150, 150, 255, 1);
-  margin-top: 3px;
-  margin-bottom: 4px;
-  display: flex;
-  padding: 2px;
-  border-radius: 4px;
-  box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
-}
-
-.todo-btn {
-  display: block;
-  margin-left: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.checkbox {
-  margin-top: auto;
-  margin-bottom: auto;
-  margin-right: 10px;
-}
-
-
-.otherperson {
-  color: rgb(160, 160, 160);
-  background: rgb(200, 200, 255);
-}
-
-.wait {
-  color: rgb(210, 210, 210);
-  background: rgba(200, 227, 255, 1);
+  border-radius: 5px;
+  box-shadow: 2px 2px rgba(0,0,0,0.1);
 }
 
 </style>

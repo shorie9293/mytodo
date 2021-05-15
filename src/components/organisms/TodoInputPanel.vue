@@ -24,7 +24,7 @@
       </tr>
       <tr class="select-tr">
         <td>
-          <select class="select-box" name="type" id="ty" :title="todotype" @change="$emit('update:todotype', $event.target.value)">
+          <select class="select-box" name="type" id="ty" :value="todotype" @change="$emit('update:todotype', $event.target.value)">
             <option value="nexttask">次の行動</option>
             <option value="otherperson">連絡待ち</option>
             <option value="wait">待機</option>
@@ -34,9 +34,14 @@
     </table>
 
     <div class="btn-box">
-      <Button class="btn" @click="addTodo" title="くわえる"/>
-      <Button class="btn" @click="changeTodo" title="へんこう"/>
-      <Button class="btn" @click="clearInput" title="入力クリア"/>
+      <Button class="btn" @click="addTodo" title="ADD"/>
+      <Button class="btn" @click="changeTodo" title="CHG"/>
+      <Button class="btn" @click="clearInput" title="CLA"/>
+    </div>
+    <div class="btn-box">
+      <Button class="btn" @click="addToday" title="TDY"/>
+      <!-- <Button class="btn" @click="changeTodo" title="CHG"/> -->
+      <!-- <Button class="btn" @click="clearInput" title="CLA"/> -->
     </div>
 
   </div>
@@ -52,7 +57,6 @@ export default {
     Button
   },
   props: {
-    msg: String,
     todotitle: String,
     todoexp: Number,
     todotype: String 
@@ -80,6 +84,9 @@ export default {
     clearInput: function() {
       this.$emit('clear-input')
     },
+    addToday: function(){
+      this.$emit('add-today')
+    }
     // checkInput: function() {
       // this.isInputTitle = false;
       // this.isInputExp = false;
@@ -126,10 +133,10 @@ export default {
   }
  */
   .btn-box {
-    margin-top: auto;
+    margin-top: 3pt;
     margin-bottom: auto;
     margin-left: auto;
-    width: 30%;
+    width: 20%;
   }
 
   .inp-box {
@@ -148,11 +155,14 @@ export default {
   }
   .component {
     display: flex;
-    background: rgb(198, 198, 248);
+    /* background: rgb(198, 198, 248); */
+    background-image: url(./../../assets/imgs/paper.webp);
     padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 4px;
     box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
-
+    background-size: 100% 100%;
   }
 
   .btn {

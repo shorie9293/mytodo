@@ -1,10 +1,38 @@
 <!-- ステータスアップコンポーネント -->
 <template>
-  <div style="width: 100%;">
-    <div style="height: 150px;">
-      <ImageView :imgs="img"/>
+  <Flash :show="show"/>
+
+  <div class="char-component">
+    <div class="status" v-show="show_status">
+      <div style="height: 150px;">
+        <ImageView :imgs="img"/>
+      </div>
+      <level-data :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
     </div>
-    <level-data :level="lvdata.lv" :exp="lvdata.exp" :point="lvdata.pt" :money="lvdata.money" style="margin-bottom: 10px;"/>
+    <div class="todos">
+
+      <div class="todonow">
+        <div v-for="(t, index) in todos" :key="'todo' + t.id">
+          <TodoPanel :forid="t.id"
+          :value="t.value"
+          :exp="Number(t.exp)"
+          :initialExp="Number(t.initialExp)"
+          :taskType="''"
+          :classofvalue="{'finished' : t.checked}"
+          :index="index"
+          :classType="t.type"
+          v-model:checked="t.checked"
+          v-model:select="pick"
+          />
+
+        </div>
+      </div>
+      <div class="finish-button">
+        <Button @click="enhanceExp" title="FINISH!!"/>
+      </div>
+    </div>
+  </div>
+  
     <div class="status-block">
       <status-panel v-for="(item,index) in sts"
         :key="index"
@@ -17,13 +45,14 @@
     </div>
     <Button @click=ptToVl title="ポイント反映"/>
     <Button @click=ptToSkpt title="キャンセル"/>
+    <Button @click="show_status = !show_status" :title="place"/>
+
     <!-- デバッグ用。うつしてないがとりあえず保存しておくが消しても良い 21/2/27。 -->
     <div v-show=false>
       <Button @click=expstockToExp title="経験値反映"/>
       <input id="inputexp" type="number" v-model="lvdata.stexp">
       <label for="inputexp"></label>
     </div>
-  </div>
 </template>
 
 <script>
@@ -31,6 +60,8 @@ import StatusPanel from '../molecules/StatusPanel'
 import Button from '../atoms/Button'
 import ImageView from '../atoms/ImageView.vue'
 import LevelData from '../molecules/LevelData.vue'
+import TodoPanel from '../molecules/TodoPanel'
+import Flash from '../molecules/Flash'
 
 export default {
   name: "StatusComponent",
@@ -38,7 +69,9 @@ export default {
     StatusPanel,
     LevelData,
     Button,
-    ImageView
+    ImageView,
+    TodoPanel,
+    Flash
   },
   data: function(){
     return {
@@ -54,9 +87,13 @@ export default {
         stexp: 0,
         money: 0
       },
-      img: require(`@/assets/imgs/yuusya_game.webp`),
-      personal: {}
-
+      img: require(`@/assets/imgs/player/yuusya_game.webp`),
+      personal: {},
+      todos: [],
+      pick: 0,
+      show: false,
+      place: '@OFFICE',
+      show_status: '',
     }
   },
   watch: {
@@ -85,7 +122,19 @@ export default {
         localStorage.setItem('leveldata', JSON.stringify(this.lvdata));
       }
 
+    },
+    'todos': {
+      handler: function() {
+        localStorage.setItem('doit_now', JSON.stringify(this.todos));
+
+      },
+      deep: true
+    },
+    'show_status': function() {
+      localStorage.setItem('office_mode', JSON.stringify(!this.show_status));
+      this.place = this.show_status ? "@PARSONAL" : "@OFFICE";
     }
+
   },
   mounted: function() {
     this.sts = JSON.parse(localStorage.getItem('status')) || [
@@ -95,15 +144,18 @@ export default {
     ];
     this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0, money: 0};
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
+    this.todos = JSON.parse(localStorage.getItem('doit_now')) || [];
     if (this.parsonal.job == "ゆうしゃ") {
-      this.img = require(`@/assets/imgs/yuusya_game.webp`)
+      this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
     } else if (this.parsonal.job == "まほうつかい") {
-      this.img = require(`@/assets/imgs/magic.webp`)
+      this.img = require(`@/assets/imgs/player/magic.webp`)
     } else if (this.parsonal.job == "せんし") {
-      this.img = require(`@/assets/imgs/senshi.webp`)
+      this.img = require(`@/assets/imgs/player/senshi.webp`)
     } else {
-      this.img = require(`@/assets/imgs/rpg.webp`)
+      this.img = require(`@/assets/imgs/player/rpg.webp`)
     }
+    this.show_status = JSON.parse(localStorage.getItem('office_mode'));
+    this.show_status = !this.show_status;
 
   },
   methods: {
@@ -133,6 +185,27 @@ export default {
         element.pt = 0
       });
     },
+    enhanceExp: function() {
+
+      if (this.count_checked === 0) {
+        return;
+      }
+      
+      this.lvdata.exp += this.calExp
+      new Audio(require(`@/assets/media/powerup10.mp3`)).play();
+
+      this.todos = this.remaining;
+
+      this.show=true;
+
+      let v = this;
+      setTimeout(function(){
+        v.show=false;
+        },600);
+
+      // localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
+    },
+
     // デバッグ用。いまのところ保存 210207
     expstockToExp: function() {
       if (this.lvdata.stexp <= 0) {
@@ -141,12 +214,80 @@ export default {
       this.lvdata.exp += Number(this.lvdata.stexp);
       this.lvdata.stexp = 0;
     },
-   }
+   },
+   computed: {
+
+    calExp: function() {
+      var totalExp = 0
+      this.todos.forEach(function(todo){
+        if (todo.checked) {
+          totalExp += Number(todo.exp);
+          todo.exp = 0;
+        }
+      })
+      return totalExp;
+    },
+    remaining: function() {
+      return this.todos.filter((todo) => {
+        return !todo.checked;
+      })
+    },
+    count_checked: function() {
+      
+      let counter = 0;
+      this.todos.forEach(function(todo) {
+        if (todo.checked) {
+          counter++
+        }
+      })
+      return counter;
+    }
+
+  },
+
 
 }
 </script>
 
 <style scoped>
+.todonow {
+  background: rgba(201, 231, 231, 0.6);
+  height: 87%;
+  margin: 1px;
+  padding: 3px;
+  position: relative;
+  vertical-align: top;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 5px;
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.1);;
+  scrollbar-width: none;
+}
+
+.todonow::-webkit-scrollbar {
+  display: none;
+}
+
+.todos {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin: 5px;
+}
+
+.char-component {
+  display: flex;
+  width: 100%;
+  height: 300px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.status {
+  width: 40%;
+  height: auto;
+  margin: 5px;
+  }
 
 .box1 {
   width: 100%;

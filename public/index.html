@@ -4,19 +4,44 @@
     <meta charset="utf-8">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta property="og:url" content="https://www.maguro-quest.com/" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="マグロクエスト" />
-    <meta property="og:description" content="RPG型、GTDライクなTODOリスト。" />
-    <meta property="og:site_name" content="マグロクエスト" />
-    <meta property="og:image" content="https://www.maguro-quest.com/tsuna-kan.jpg" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@sholliencohol" />
-    <meta name="twitter:player" content="@sholliencohol" />
+    <meta property="og:url" content="https://www.maguro-quest.com/" />
+    <meta property="og:title" content="マグロクエスト" />
+    <meta property="og:description" content="RPG型、GTDライクなTODOリスト。" />
+    <meta property="og:image" content="https://www.maguro-quest.com/tsuna-kan.jpg" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="maguro-quest">
+    <link rel="apple-touch-icon" href="icon/maguro-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="icon/maguro-256.png" sizes="256x256">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
+ <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyAUx6jXnnWzafhnUrzkDcczg2pC4WKbVA8",
+    authDomain: "maguroquest.firebaseapp.com",
+    projectId: "maguroquest",
+    storageBucket: "maguroquest.appspot.com",
+    messagingSenderId: "128972192686",
+    appId: "1:128972192686:web:6138937c378f1e0e13e63f",
+    measurementId: "G-EWEFC6SRDS"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>

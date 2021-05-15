@@ -19,15 +19,19 @@
     </tr>
   </table>
 
-  <read-custom-q v-show="false"></read-custom-q>
-
   <Button @click="setOptions" title="オプション反映"/>
   <Button @click=clear title="全てのデータを消去する"/>
   <Button @click="show=true" title="ReadMe"/>
+
+  <!-- お試し機能 -->
   <div v-show="show">
     <Readme></Readme>
     <Button title="とじる" @click="show=false"/>
   </div>
+  
+    <read-custom-q v-show="false"></read-custom-q>
+    
+    <SarchTodo v-show="false" />
 
 </template>
 
@@ -35,12 +39,14 @@
 import Button from "../atoms/Button";
 import Readme from '../pages/Readme';
 import ReadCustomQ from '../organisms/ReadCustomQ';
+import SarchTodo from '../test/SarchTodo.vue'
 
 export default {
   components: {
     Button,
     Readme,
-    ReadCustomQ
+    ReadCustomQ,
+    SarchTodo
   },
   props: {
     class: String

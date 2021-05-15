@@ -1,0 +1,21 @@
+{
+  "name": "maguro-quest",
+  "short_name": "maguro-quest",
+  "theme_color": "#2196f3",
+  "background_color": "#2196f3",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "https://www.maguro-quest.com/",
+  "icons": [
+    {
+      "src": "icon/maguro-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon/maguro-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}

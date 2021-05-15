@@ -2,21 +2,19 @@
   <div id="App">
     <h1>マグロクエスト</h1>
     <h2>~{{parsonal.job}} {{parsonal.name}} のぼうけん~</h2>
-    <div>
-      <div v-if="firstSetting">
-        なまえ<input type="text" v-model="parsonal.name">
-        しょくぎょう
-        <select size="1" v-model="parsonal.job">
-          <option v-for="job in jobs" 
-              :key="job"
-              :value="job"> {{ job }}
-          </option>
+    <div v-if="firstSetting">
+      なまえ<input type="text" v-model="parsonal.name">
+      しょくぎょう
+      <select size="1" v-model="parsonal.job">
+        <option v-for="job in jobs" 
+            :key="job"
+            :value="job"> {{ job }}
+        </option>
 
-        </select>
-        <standard-button title="ゲームスタート" @click="setNameandJob" />
-      </div>
-    <QuestTemplate v-else/>
+      </select>
+      <standard-button title="ゲームスタート" @click="setNameandJob" />
     </div>
+    <QuestTemplate v-else/>
   </div>
 </template>
 
@@ -74,18 +72,25 @@ export default {
 </script>
 
 <style>
-@import url(http://fonts.googleapis.com/earlyaccess/notosanssc.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosanssc.css);
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: "001Shirokuma", "Avenir", Helvetica, Arial, sans-serif; */
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 10px;
 }
+/* 
+input, select {
+  font-family: "001Shirokuma";
+
+} */
 
 h1 {
+  font-family: "001Shirokuma";
   margin: 0px;
   font-size: 16pt;
 }
