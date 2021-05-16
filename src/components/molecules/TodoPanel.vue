@@ -13,8 +13,10 @@
       </div>
     </div>
     <div class="todo-btn">
-      <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-      <label :for="'radio' + forid" v-show="false">{{ index }}</label>
+      <input :id="'radio' + forid" class="raido-button" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
+      <label :for="'radio' + forid" class="radio-label">
+        <Button title="CHG" />
+      </label>
       <div @click="deleteItem" class="peke"> [x]</div>
     </div>
   </div>
@@ -22,6 +24,8 @@
 </template>
 
 <script>
+import Button from '@/components/atoms/Button'
+
 export default {
   inheritAttrs: false,
   name: 'TodoPanel',
@@ -29,7 +33,10 @@ export default {
     'delete-item',
     'update:select',
     'update:checked'
-  ]
+  ],
+  components: {
+    Button,
+  }
   ,
   props: {
     forid: Number,
@@ -68,17 +75,23 @@ export default {
     deleteItem: function() {
       this.$emit('delete-item', this.index)
     }
-  }
-}
+  }}
 </script>
 
 <style scoped>
+.raido-button {
+  display: none;
+}
+
+.radio-label {
+  font-size: 10pt;
+}
 
 .finished {
   text-shadow: 1px 1px 2px silver;
-  font-weight: bold;
+  font-weight: bold
 }
-
+  
 .tasks-detail {
   display: flex;
   width: 100%;
