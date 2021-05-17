@@ -12,32 +12,37 @@
         <div class="task-d type">{{ task[taskType] }}</div>
       </div>
     </div>
-    <div class="todo-btn">
-      <input :id="'radio' + forid" class="raido-button" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
+    <!-- <div class="todo-btn"> -->
+      <!-- <input :id="'radio' + forid" class="raido-button" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
       <label :for="'radio' + forid" class="radio-label">
         <Button title="CHG" />
       </label>
-      <div @click="deleteItem" class="peke"> [x]</div>
+      <div @click="deleteItem" class="peke"> [x]</div> -->
+    <div v-if="task[taskType]" class="todo-btn">
+      <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
+      <label :for="'radio' + forid"></label>
+      <div @click="deleteItem" class="peke" >❎</div>
     </div>
   </div>
 
 </template>
 
 <script>
-import Button from '@/components/atoms/Button'
+// import Button from '@/components/atoms/Button'
 
 export default {
   inheritAttrs: false,
   name: 'TodoPanel',
+  components: {
+  },
   emits:[
     'delete-item',
     'update:select',
     'update:checked'
   ],
-  components: {
-    Button,
-  }
-  ,
+  // components: {
+  //   Button,
+  // },
   props: {
     forid: Number,
     value: String,
@@ -174,6 +179,9 @@ export default {
 .peke {
   color: blue;
   cursor: pointer;
+  padding: 0;
+  height: auto;
+  text-align: center;
 }
 
 .delete-task{
