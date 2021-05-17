@@ -14,17 +14,20 @@
     </div>
     <div v-if="task[taskType]" class="todo-btn">
       <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-      <label :for="'radio' + forid" v-show="false">{{ index }}</label>
-      <div @click="deleteItem" class="peke"> [x]</div>
+      <label :for="'radio' + forid"></label>
+      <div @click="deleteItem" class="peke" >❎</div>
     </div>
   </div>
 
 </template>
 
 <script>
+
 export default {
   inheritAttrs: false,
   name: 'TodoPanel',
+  components: {
+  },
   emits:[
     'delete-item',
     'update:select',
@@ -161,6 +164,9 @@ export default {
 .peke {
   color: blue;
   cursor: pointer;
+  padding: 0;
+  height: auto;
+  text-align: center;
 }
 
 .delete-task{
