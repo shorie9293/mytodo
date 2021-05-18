@@ -1,6 +1,6 @@
 <template>
   <div class="fab-component ripple">
-    <div class="fab-text">押す</div>
+    <div class="fab-text"><fa icon="plus" type="fas" class="fas fa-plus"></fa></div>
   </div>
 </template>
 
@@ -21,7 +21,11 @@
 }
 
 .fab-text{
-  margin-top: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  vertical-align: middle;
+  width: 50px;
 }
 
 .ripple {
