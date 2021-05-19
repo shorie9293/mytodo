@@ -52,7 +52,8 @@ export default {
       todo_project_type: {
         "main": "メインクエスト",
         "sub": "サブクエスト",
-        "repeat": "繰り返し"
+        "repeat": "繰り返し",
+        "now": "今すぐやる",
       },
       // TodoPanelと重複あり
       todo_type: {

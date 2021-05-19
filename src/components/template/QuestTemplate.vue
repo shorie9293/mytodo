@@ -2,7 +2,8 @@
 <template>
   <div class="display-panel">
     <template v-if="display==0">
-      <status-component />
+      <StatusComponent
+        :todo_added="todo"/>
     </template>
     <template v-else-if="display==1">
       <TodoComponent 

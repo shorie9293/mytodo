@@ -14,7 +14,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper">
-    <swiper-slide v-for="(todo,index) in [todos_main, todos_repeat, todos_sub]"
+    <swiper-slide v-for="(todo,index) in [todos_main, todos_sub, todos_repeat]"
       :key="index" class="slider">
       <div v-for="t in todo" :key="t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
@@ -88,8 +88,8 @@ export default {
       pick: 0,
       project_name: {
         "main" : "メイン",
+        "sub" : "サブ",
         "repeat" : "繰り返し",
-        "sub" : "サブ"
       },
       realIndex: 0,
       controlledSwiper: null,
@@ -314,14 +314,14 @@ export default {
         return value.project == 'main'
       })
     },
-    todos_repeat: function() {
-      return this.todos.filter((value) =>{
-        return value.project == 'repeat'
-      })
-    },
     todos_sub: function() {
       return this.todos.filter((value) =>{
         return value.project == 'sub'
+      })
+    },
+    todos_repeat: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'repeat'
       })
     },
   },

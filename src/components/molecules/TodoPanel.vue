@@ -10,7 +10,7 @@
       <label :for="'todo' + forid"></label>
     </div>
     <div class="task-area">
-      <div class="val">「{{ value }}」<span v-if="task[taskType]" :class="classofvalue">を{{ comp }}</span></div>
+      <div class="val"><span v-if="task[taskType]" :class="classofvalue">「</span>{{ value }}<span v-if="task[taskType]" :class="classofvalue">」を{{ comp }}</span></div>
       <div v-if="task[taskType]" class="tasks-detail">
         <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
         <div class="task-d type">{{ task[taskType] }}</div>
@@ -23,17 +23,19 @@
       </label>
       <div @click="deleteItem" class="peke"> [x]</div> -->
     <!-- <div v-if="task[taskType]" class="todo-btn"> -->
-      <div v-if="task[taskType]" class="peke" >
+      <div v-show="task[taskType]" class="peke" >
         <!-- <input :id="'radio' + forid"
           type="radio"
           name="todoitems"
           :value="index"
           @change="editTask($event)">
         <label :for="'radio' + forid"> -->
-          <fa  @click="editTask" icon="feather-alt" type="fas" class="fas fa-feather-alt"></fa>
+        <fa @click="editTask" icon="feather-alt" type="fas" class="fas fa-feather-alt"></fa>
+
         <!-- </label> -->
-        <span class="margin"></span>
-        <fa @click="sentTask($event)" icon="exchange-alt" type="fas" class="fas fa-exchange-alt"></fa>
+        <span class="margin" v-show="task[taskType]"></span>
+        
+        <fa @click="sentTask($event)" icon="exchange-alt" type="fas"  class="fas fa-exchange-alt"></fa>
       </div>
     <!-- </div> -->
   </div>
@@ -50,7 +52,7 @@ export default {
   },
   emits:[
     'edit-task',
-    'update:select',
+    'sent-task',
     'update:checked'
   ],
   // components: {
@@ -90,9 +92,9 @@ export default {
     // deleteItem: function() {
     //   this.$emit('delete-item', {"key": this.keyValue, "index": this.index})
     // }
-    sentTask: function(event) {
+    sentTask: function() {
       // console.log(`sent task: ${event.target}`);
-      console.log(event.target);
+      this.$emit('sent-task', this.index);
     
       // this.$emit('delete-item', this.index)
       // this.$emit('delete-item', this.index)
@@ -114,9 +116,10 @@ export default {
   height: 5px;
 }
 
-.fa-trash-alt {
+.fa-exchange-alt {
   color: blue;
   height: 20px;
+  width: 20px;
   cursor: pointer;
   /* margin: 2px; */
 }
@@ -124,6 +127,7 @@ export default {
 .fa-feather-alt {
   color: orange;
   height: 20px;
+  width: 20px;
   cursor: pointer;
 }
 
@@ -242,7 +246,7 @@ export default {
   margin-top: 3px;
   margin-bottom: 4px;
   display: flex;
-  padding: 2px;
+  padding: 3px;
   border-radius: 4px;
   box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
   background-color: white;
@@ -250,6 +254,7 @@ export default {
   background-size: 400px auto;
   background-repeat: repeat-y;
   /* border: 3px solid rgba(70, 70, 70, 0.3); */
+  justify-content: space-between;
 
 }
 

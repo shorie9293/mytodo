@@ -12,17 +12,16 @@
     <div class="todos">
 
       <div class="todonow">
-        <div v-for="(t, index) in todos" :key="'todo' + t.id">
-          <TodoPanel :forid="t.id"
-          :value="t.value"
+        <div v-for="t in todos_now" :key="'todo' + t.id">
+          <TodoPanel :forid="t.index"
+          :value="t.title"
           :exp="Number(t.exp)"
           :initialExp="Number(t.initialExp)"
           :taskType="''"
           :classofvalue="{'finished' : t.checked}"
-          :index="index"
+          :index="t.index"
           :classType="t.type"
           v-model:checked="t.checked"
-          v-model:select="pick"
           />
 
         </div>
@@ -62,6 +61,7 @@ import ImageView from '../atoms/ImageView.vue'
 import LevelData from '../molecules/LevelData.vue'
 import TodoPanel from '../molecules/TodoPanel'
 import Flash from '../molecules/Flash'
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 export default {
   name: "StatusComponent",
@@ -72,6 +72,9 @@ export default {
     ImageView,
     TodoPanel,
     Flash
+  },
+  props: {
+    todo_added: Object,
   },
   data: function(){
     return {
@@ -94,6 +97,7 @@ export default {
       show: false,
       place: '@OFFICE',
       show_status: '',
+      db: Object
     }
   },
   watch: {
@@ -124,8 +128,12 @@ export default {
 
     },
     'todos': {
-      handler: function() {
-        localStorage.setItem('doit_now', JSON.stringify(this.todos));
+      handler: async function() {
+        if (!Object.keys(this.todos).length) {
+          return;
+        }
+        
+        await this.db.changeChecked(this.todos);
 
       },
       deep: true
@@ -133,10 +141,20 @@ export default {
     'show_status': function() {
       localStorage.setItem('office_mode', JSON.stringify(!this.show_status));
       this.place = this.show_status ? "@PARSONAL" : "@OFFICE";
-    }
+    },
+    'todo_added': async function() {
+      
+      // この書き方だとうまく行かない。おそらくpropで渡したやつを再レンダリングしようとして失敗してる。
+      // ライフサイクル的なところ？
+      // this.todos.push(
+      //   this.todo_added,
+      // );
+
+      this.todos = await this.db.getQuery();
+    },
 
   },
-  mounted: function() {
+  mounted: async function() {
     this.sts = JSON.parse(localStorage.getItem('status')) || [
       {itm: "HP", vl: 12, pt: 0, cl:"box1"},
       {itm: "AT", vl: 4, pt: 0, cl:"box2"},
@@ -144,7 +162,7 @@ export default {
     ];
     this.lvdata = JSON.parse(localStorage.getItem('leveldata')) || {lv: 1, exp: 0, pt: 0, stexp: 0, money: 0};
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
-    this.todos = JSON.parse(localStorage.getItem('doit_now')) || [];
+    // this.todos = JSON.parse(localStorage.getItem('doit_now')) || [];
     if (this.parsonal.job == "ゆうしゃ") {
       this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
     } else if (this.parsonal.job == "まほうつかい") {
@@ -157,6 +175,9 @@ export default {
     this.show_status = JSON.parse(localStorage.getItem('office_mode'));
     this.show_status = !this.show_status;
 
+    this.db = TodoDBAdapter;
+    await this.db.createDB();
+    this.todos = await this.db.getQuery();
   },
   methods: {
     // スキルポイントを各ステータスに割り振る
@@ -241,7 +262,13 @@ export default {
         }
       })
       return counter;
-    }
+    },
+    todos_now: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'now'
+      })
+    },
+
 
   },
 

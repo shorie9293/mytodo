@@ -90,7 +90,6 @@ input, select {
 } */
 
 h1 {
-  font-family: "001Shirokuma";
   margin: 0px;
   font-size: 16pt;
 }
