@@ -12,6 +12,7 @@ class Todo {
     this.title = '';
     this.type = 'nexttask';
     this.exp = 0;
+    this.exp_init = 0;
     this.checked = false;
   }
 }

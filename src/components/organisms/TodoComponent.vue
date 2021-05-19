@@ -21,14 +21,15 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
           <TodoPanel :forid="t.index"
             :value="t.title"
             :exp="Number(t.exp)"
-            :initialExp="Number(t.exp)"
+            :initialExp="Number(t.exp_init)"
             :taskType="t.type"
             :classofvalue="{'finished' : t.checked}"
             :index="t.index"
             :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
-            @edit-task="editTask" />
+            @edit-task="editTask"
+            @sent-task="sentTaskToNow" />
       </div>
     </swiper-slide>
   </swiper>
@@ -51,7 +52,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
-  <Button @click="addTodoList" title="TEST"/>
 </template>
 <script>
 import Button from '@/components/atoms/Button';
@@ -150,17 +150,7 @@ export default {
     },
   },
   methods: {
-    addTodoList: function() {
-      this.db.addTodo({
-        project: 'project',
-        title: 'title',
-        type: 'type', 
-        exp: 0});
-      this.todos[this.todo.project].push(
-        this.todo,
-      );
-
-    },
+    //後でけす！！！！！！！！！
     // todoを加える。
     addTodo: function() {
       if (this.pexp > 5) this.pexp = 5
@@ -189,6 +179,7 @@ export default {
       this.ptitle = '';
       this.pexp = 0;
     },
+    //後でけす！！！！！！！！！
     // [x]ボタンを押すとtodoを消す
     // deleteItem: function(index, key) {
     //   if (!confirm('けしますか？')) {
@@ -198,6 +189,17 @@ export default {
     // },
     editTask: function(index) {
       console.log(`click item index is ${index}`)
+    },
+    sentTaskToNow: async function(index) {
+      // console.log(`sentTaskToNow: click item index is ${index}`)
+
+      if (!confirm('今やるタスクにうつしますか？')) {
+        return;
+      }
+
+      this.db.changeTaskProject(index, 'now');
+      this.todos = await this.db.getQuery();
+
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
@@ -219,7 +221,7 @@ export default {
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
 
-      this.todos.rep.forEach( todo => {
+      this.todos.forEach( todo => {
           if (todo.checked) {
             todo.checked = false;
           }
@@ -298,15 +300,13 @@ export default {
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
-      let v = this.todos
-      Object.keys(this.project_name).forEach(function(p){
-        v[p].forEach(function(todo){
+      
+      this.todos.forEach(function(todo){
           if (todo.checked) {
             totalExp += Number(todo.exp);
             todo.exp = 0;
           }
         })
-      })
       return totalExp;
     },
     todos_main: function() {

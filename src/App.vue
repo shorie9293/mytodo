@@ -20,7 +20,9 @@
 
 <script>
 import StandardButton from './components/atoms/Button';
-import QuestTemplate from './components/template/QuestTemplate'
+import QuestTemplate from './components/template/QuestTemplate';
+import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
+
 
 export default {
   name: 'App',
@@ -37,7 +39,8 @@ export default {
         "せんし",
         "まほうつかい"
       ],
-      show: false
+      show: false,
+      db: Object
     }
   },
   mounted: function(){
@@ -51,7 +54,8 @@ export default {
           true;
         }
       })
-   
+    this.db = TodoDBAdapter;
+    TodoDBAdapter.createDB();
   },
   methods:{
     setNameandJob: function(){

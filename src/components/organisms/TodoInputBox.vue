@@ -67,6 +67,7 @@ export default {
   methods: {
     addData: async function() {
       if (this.todo.exp > 5) this.todo.exp = 5;
+      this.todo.exp_init = this.todo.exp;
       this.todo.id = uuid.v4();
       this.$emit('add-todo', this.todo);
       this.todo = new Todo.Todo();

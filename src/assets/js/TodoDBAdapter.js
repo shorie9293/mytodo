@@ -4,9 +4,9 @@ import {v4 as uuidv4} from 'uuid';
 let db;
 
 async function createDB() {
-  db = await new Dexie('maguroDB');
-  await db.version(1).stores({todo_table: '++index, id, project, title, type'});
-  await db.on("populate", function() {
+  db = new Dexie('maguroDB');
+  db.version(1).stores({todo_table: '++index, id, project, title, type'});
+  db.on("populate", function() {
     db.todo_table.bulkPut([
       {
         id: uuidv4(),
@@ -14,6 +14,7 @@ async function createDB() {
         title: '最も目に入れておきたいタスクを入れます。例:仕事のことなど', 
         type: 'nexttask',
         exp: 5,
+        exp_init: 5,
         checked: false,
       },
       {
@@ -22,6 +23,7 @@ async function createDB() {
         title: '繰り返したいタスクを入れます。', 
         type: 'nexttask',
         exp: 3,
+        exp_init: 3,
         checked: false,
       },
       {
@@ -30,6 +32,7 @@ async function createDB() {
         title: '通常のタスクを入れます。例:家でのことなど', 
         type: 'nexttask',
         exp: 1,
+        exp_init: 1,
         checked: false,
       }
     ]);
@@ -89,6 +92,14 @@ async function getQuery() {
   return await todos;
 }
 
+async function changeTaskProject(index, project) {
+  await db.todo_table.update(index, {'project': project})
+}
+
+async function finishTask() {
+  await db.todo_table.where({'checked': true}).each(
+  );
+}
 
 export default {
   createDB,
@@ -96,4 +107,6 @@ export default {
   changeChecked,
   getQuery,
   searchTitle,
+  changeTaskProject,
+  finishTask
 }
