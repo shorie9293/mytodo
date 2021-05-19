@@ -2,7 +2,11 @@
 <template>
   <div :class="['container', classType]">
     <div class="check-area">
-      <input :id="'todo' + forid"  class="checkbox" type="checkbox" :checked="checked" @change="changeChecked($event)">
+      <input :id="'todo' + forid"
+        class="checkbox"
+        type="checkbox"
+        :checked="checked"
+        @change="changeChecked($event)">
       <label :for="'todo' + forid"></label>
     </div>
     <div class="task-area">
@@ -18,11 +22,20 @@
         <Button title="CHG" />
       </label>
       <div @click="deleteItem" class="peke"> [x]</div> -->
-    <div v-if="task[taskType]" class="todo-btn">
-      <input :id="'radio' + forid" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-      <label :for="'radio' + forid"></label>
-      <div @click="deleteItem" class="peke" >❎</div>
-    </div>
+    <!-- <div v-if="task[taskType]" class="todo-btn"> -->
+      <div v-if="task[taskType]" class="peke" >
+        <!-- <input :id="'radio' + forid"
+          type="radio"
+          name="todoitems"
+          :value="index"
+          @change="editTask($event)">
+        <label :for="'radio' + forid"> -->
+          <fa  @click="editTask" icon="feather-alt" type="fas" class="fas fa-feather-alt"></fa>
+        <!-- </label> -->
+        <span class="margin"></span>
+        <fa @click="sentTask($event)" icon="exchange-alt" type="fas" class="fas fa-exchange-alt"></fa>
+      </div>
+    <!-- </div> -->
   </div>
 
 </template>
@@ -36,7 +49,7 @@ export default {
   components: {
   },
   emits:[
-    'delete-item',
+    'edit-task',
     'update:select',
     'update:checked'
   ],
@@ -77,13 +90,43 @@ export default {
     // deleteItem: function() {
     //   this.$emit('delete-item', {"key": this.keyValue, "index": this.index})
     // }
-    deleteItem: function() {
-      this.$emit('delete-item', this.index)
+    sentTask: function(event) {
+      // console.log(`sent task: ${event.target}`);
+      console.log(event.target);
+    
+      // this.$emit('delete-item', this.index)
+      // this.$emit('delete-item', this.index)
+    },
+    editTask: function() {
+      // console.log(`editTask: ${this.index}`);
+      this.$emit('edit-task', this.index);
     }
   }}
 </script>
 
 <style scoped>
+.fas {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.margin{
+  height: 5px;
+}
+
+.fa-trash-alt {
+  color: blue;
+  height: 20px;
+  cursor: pointer;
+  /* margin: 2px; */
+}
+
+.fa-feather-alt {
+  color: orange;
+  height: 20px;
+  cursor: pointer;
+}
+
 .raido-button {
   display: none;
 }
@@ -177,11 +220,15 @@ export default {
 }
 
 .peke {
-  color: blue;
-  cursor: pointer;
-  padding: 0;
+  padding-right: 5px;
   height: auto;
   text-align: center;
+  display: flex;
+  display:-webkit-box;
+  display:-ms-flexbox;
+  flex-flow: column;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .delete-task{

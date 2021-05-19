@@ -16,7 +16,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     class="swiper">
     <swiper-slide v-for="(todo,index) in [todos_main, todos_repeat, todos_sub]"
       :key="index" class="slider">
-      <div v-for="(t, index) in todo" :key="t.id">
+      <div v-for="t in todo" :key="t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
             :value="t.title"
@@ -24,11 +24,11 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             :initialExp="Number(t.exp)"
             :taskType="t.type"
             :classofvalue="{'finished' : t.checked}"
-            :index="index"
+            :index="t.index"
             :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
-            @delete-item="deleteItem" />
+            @edit-task="editTask" />
       </div>
     </swiper-slide>
   </swiper>
@@ -196,11 +196,8 @@ export default {
     //   }
     //   this.todos[key].splice(index, 1);
     // },
-    deleteItem: function(e) {
-      if (!confirm('けしますか？')) {
-        return;
-      }
-      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(e, 1);
+    editTask: function(index) {
+      console.log(`click item index is ${index}`)
     },
     // checkされたアイテムを消す。
     // computedに定義されたremainingをtodoに代入している。
