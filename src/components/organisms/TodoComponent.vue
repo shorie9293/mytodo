@@ -14,6 +14,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     :show="show_TodoInputBox"
     type="change"
     @change-todo="changeTodo"
+    @cancel="cancel"
+    @delete-todo="deleteTodo"
     />
   
   <swiper ref="mainSwiper"
@@ -51,7 +53,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
-    <Button @click="finishTask" title="FINISH!!"/>
+  <Button @click="finishTask" title="FINISH!!"/>
 
 </template>
 <script>
@@ -206,8 +208,20 @@ export default {
       this.edit_index = index;
       this.show_TodoInputBox = true;
     },
-    changeTodo: async function(todo) {
+    changeTodo: function(todo) {
       this.db.changeTodo(this.edit_index, todo);
+      this.show_TodoInputBox = false;
+    },
+    cancel: function() {
+      this.show_TodoInputBox = false;
+    },
+    deleteTodo: async function() {
+      console.log('put delete button')
+      if (!confirm('タスクを削除しますか？')) {
+        return;
+      }
+
+      this.todos = await this.db.deleteTodo(this.edit_index);
       this.show_TodoInputBox = false;
     },
     sentTaskToNow: async function(index) {

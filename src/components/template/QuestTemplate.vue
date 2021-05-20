@@ -24,6 +24,7 @@
     :show="show"
     type="add"
     @add-todo="addTodo"
+    @cancel="cancel"
     />
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
@@ -82,7 +83,11 @@ export default {
     },
     showInputTodoBox: function() {
       this.show = true;
-    }
+    },
+    cancel: function() {
+      this.show = false;
+    },
+
   }
 }
 </script>

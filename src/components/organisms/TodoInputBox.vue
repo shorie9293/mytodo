@@ -30,6 +30,7 @@
       <div class="bottuns">
         <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
         <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
+        <input type="submit" value="Delete" @click="deleteTodo">
         <input type="submit" value="Cancel" @click="cancel">
       </div>
     </div>
@@ -49,7 +50,9 @@ export default {
   },
   emits: [
     'add-todo',
-    'change-todo'
+    'change-todo',
+    'cancel',
+    'delete-todo'
   ],
   data: function(){
     return {
@@ -96,8 +99,14 @@ export default {
       if (this.todo.exp <= 0) this.todo.exp = 1;
       this.todo.exp_init = this.todo.exp;
       this.$emit('change-todo', this.todo);
-      this.todo = new Todo.Todo();
+      // this.todo = new Todo.Todo();
     },
+    cancel: function() {
+      this.$emit('cancel');
+    },
+    deleteTodo: function() {
+      this.$emit('delete-todo');
+    }
   },
   computed: {
     projects: function(){

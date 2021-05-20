@@ -129,8 +129,13 @@ async function finishTask() {
 }
 
 async function changeTodo(index, todo) {
-  console.log(index, todo);
+  // console.log(index, todo);
   await db.todo_table.update(index, todo);
+}
+
+async function deleteTodo(index) {
+  await db.todo_table.where('index').equals(index).delete();
+  return await db.todo_table.toArray();
 }
 
 export default {
@@ -142,4 +147,5 @@ export default {
   changeTaskProject,
   finishTask,
   changeTodo,
+  deleteTodo,
 }
