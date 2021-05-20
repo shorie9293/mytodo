@@ -201,7 +201,7 @@ export default {
         element.pt = 0
       });
     },
-    enhanceExp: function() {
+    enhanceExp: async function() {
 
       if (this.count_checked === 0) {
         return;
@@ -209,8 +209,7 @@ export default {
       
       this.lvdata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
-
-      this.todos = this.remaining;
+      this.todos = await this.db.finishTask();
 
       this.show=true;
 

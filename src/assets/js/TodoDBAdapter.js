@@ -99,7 +99,9 @@ async function getQuery() {
 }
 
 async function changeTaskProject(index, project) {
+  // console.log(index, project);
   await db.todo_table.update(index, {'project': project})
+  return await db.todo_table.toArray();
 }
 
 async function finishTask() {
@@ -126,6 +128,11 @@ async function finishTask() {
 
 }
 
+async function changeTodo(index, todo) {
+  console.log(index, todo);
+  await db.todo_table.update(index, todo);
+}
+
 export default {
   createDB,
   addTodo,
@@ -133,5 +140,6 @@ export default {
   getQuery,
   searchTitle,
   changeTaskProject,
-  finishTask
+  finishTask,
+  changeTodo,
 }

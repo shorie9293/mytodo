@@ -4,11 +4,18 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <h3>
     {{ project_name[realIndex] }}クエスト
   </h3>
+  <div class="searchbox">
+    <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
+    <Button @click="searchtodo" title="SEARCH" />
+  </div>
   <Flash :show="show"/>
-  <!-- <TodoInputBox
-    :show="show_changeBox"
-    @add-todo="closeTodoInput"
-    /> -->
+  <TodoInputBox
+    :getTodo="todos.filter(todo => {return todo.index == edit_index})[0]"
+    :show="show_TodoInputBox"
+    type="change"
+    @change-todo="changeTodo"
+    />
+  
   <swiper ref="mainSwiper"
     :padding="10"
     :slides-per-view="1" 
@@ -17,8 +24,8 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper">
-    <swiper-slide v-for="(todo,index) in [todos_main, todos_sub, todos_repeat, todos_archive]"
-      :key="index" class="slider">
+    <swiper-slide v-for="todo in [todos_main, todos_sub, todos_repeat, todos_archive]"
+      :key="todo.index" class="slider">
       <div v-for="t in todo" :key="t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
@@ -26,15 +33,14 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
             :classofvalue="{'finished' : t.checked}"
             v-model:checked="t.checked"
             v-model:select="pick"
-            @edit-task="editTask"
-            @sent-task="sentTaskToNow" />
+            @edit-task="editTask(t.index)"
+            @sent-task="sentTaskToNow(t.index)" />
       </div>
     </swiper-slide>
   </swiper>
 
-  <div>
+  <div v-show=false>
     <TodoInputPanel 
-      @add-todo="addTodo" 
       @change-todo="changeTodo"
       @clear-input="clearInput"
       @add-today="addToday"
@@ -42,14 +48,10 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       v-model:todoexp="pexp"
       v-model:todotype="ptype"
       />
-    <div class="searchbox">
-      <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
-      <Button @click="searchtodo" title="SEARCH" />
-    </div>
-    <Button @click="finishTask" title="けいけんちアップ"/>
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
+    <Button @click="finishTask" title="FINISH!!"/>
 
 </template>
 <script>
@@ -63,6 +65,7 @@ import TodoInputPanel from './TodoInputPanel.vue';
 import Flash from '../molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
+import TodoInputBox from '@/components/organisms/TodoInputBox'
 
 export default {
   name: "todo-panel",
@@ -72,7 +75,8 @@ export default {
     Swiper,
     SwiperSlide,
     TodoInputPanel,
-    Flash
+    Flash,
+    TodoInputBox
   },
   props: {
     class: String,
@@ -102,6 +106,8 @@ export default {
       searchtext: '',
       searchResult: [],
       show: false,
+      show_TodoInputBox: false,
+      edit_index: Number,
       db: Object,
     }
   },
@@ -154,7 +160,7 @@ export default {
   methods: {
     //後でけす！！！！！！！！！
     // todoを加える。
-    addTodo: function() {
+    addTodoaaaa: function() {
       if (this.pexp > 5) this.pexp = 5
       this.todos[Object.keys(this.project_name)[this.realIndex]].push({id: this.id_number,
         value: this.ptitle,
@@ -165,17 +171,6 @@ export default {
         this.id_number++;
         this.ptitle = '';
         this.pexp = 0;
-    },
-    // todoを変更する。
-    changeTodo: function() {
-      if (this.pexp > 5) this.pexp = 5
-      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
-      this.ptitle != '' ? proj.value = this.ptitle : '';
-      this.pexp != '' ? proj.exp = this.pexp : '';
-      this.pexp != '' ? proj.initialExp = this.pexp : '';
-      this.ptype != '' ? proj.type = this.ptype : '';
-      this.ptitle = '';
-      this.pexp = 0;
     },
     clearInput: function() {
       this.ptitle = '';
@@ -207,8 +202,13 @@ export default {
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
-    editTask: async function() {
-      // this.todos = await this.db.finishTask();
+    editTask: async function(index) {
+      this.edit_index = index;
+      this.show_TodoInputBox = true;
+    },
+    changeTodo: async function(todo) {
+      this.db.changeTodo(this.edit_index, todo);
+      this.show_TodoInputBox = false;
     },
     sentTaskToNow: async function(index) {
       // console.log(`sentTaskToNow: click item index is ${index}`)
@@ -217,8 +217,8 @@ export default {
         return;
       }
 
-      this.db.changeTaskProject(index, 'now');
-      this.todos = await this.db.getQuery();
+      this.todos = await this.db.changeTaskProject(index, 'now');
+      // this.todos = await this.db.getQuery();
 
     },
     // checkされたアイテムを消す。
@@ -377,7 +377,7 @@ h3 {
   overflow-x: hidden;
   background: rgba(201, 231, 231, 0.6);
   /* overflow: scroll; */
-  height: 300px;
+  height: 76%;
   border-radius: 5px;
   box-shadow: 2px 2px rgba(0,0,0,0.1);
 }

@@ -22,6 +22,7 @@
 
   <TodoInputBox
     :show="show"
+    type="add"
     @add-todo="addTodo"
     />
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>

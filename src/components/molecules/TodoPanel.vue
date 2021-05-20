@@ -84,14 +84,14 @@ export default {
     // }
     sentTask: function() {
       // console.log(`sent task: ${event.target}`);
-      this.$emit('sent-task', this.index);
+      this.$emit('sent-task');
     
       // this.$emit('delete-item', this.index)
       // this.$emit('delete-item', this.index)
     },
     editTask: function() {
       // console.log(`editTask: ${this.index}`);
-      this.$emit('edit-task', this.index);
+      this.$emit('edit-task');
     }
   },
   computed: {

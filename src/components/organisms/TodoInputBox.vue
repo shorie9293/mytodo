@@ -12,7 +12,7 @@
       <p>
         <label for="todo_title">Title</label>
         <input type="text" name="todo_title" id="todo_title" 
-          v-model="todo.title">
+          v-model="todo.title" autocomplete="off">
       </p>
       <p>
         <select class="select-box" name="todo_type" id="todo_type" 
@@ -25,11 +25,13 @@
       <p>
         <label for="todo_exp">Exp</label>
         <input type="number" name="todo_exp" id="todo_exp" 
-          v-model="todo.exp" min="0" max="5">
+          v-model="todo.exp" min="1" max="5">
       </p>
-      <p>
-        <input type="submit" value="Submit" @click="addData">
-      </p>
+      <div class="bottuns">
+        <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
+        <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
+        <input type="submit" value="Cancel" @click="cancel">
+      </div>
     </div>
   </div>
 </template>
@@ -42,10 +44,12 @@ export default {
   name: 'todo-input-box',
   props: {
     show: Boolean,
-    getTodo: Todo.Todo,
+    getTodo: Object,
+    type: String,
   },
   emits: [
     'add-todo',
+    'change-todo'
   ],
   data: function(){
     return {
@@ -61,15 +65,37 @@ export default {
         "otherperson" : "連絡待ち",
         "wait" : "待機",
       },
-      todo: new Todo.Todo(),
+      todo: Object,
+    }
+  },
+  mounted: function(){
+    if (!this.getTodo) {
+      this.todo = new Todo.Todo();
+      return;
+    }
+
+    this.todo = this.getTodo;
+
+  },
+  watch: {
+    'getTodo': function() {
+      this.todo = this.getTodo;
     }
   },
   methods: {
     addData: async function() {
       if (this.todo.exp > 5) this.todo.exp = 5;
+      if (this.todo.exp <= 0) this.todo.exp = 1;
       this.todo.exp_init = this.todo.exp;
       this.todo.id = uuid.v4();
       this.$emit('add-todo', this.todo);
+      this.todo = new Todo.Todo();
+    },
+    changeTodo: async function() {
+      if (this.todo.exp > 5) this.todo.exp = 5;
+      if (this.todo.exp <= 0) this.todo.exp = 1;
+      this.todo.exp_init = this.todo.exp;
+      this.$emit('change-todo', this.todo);
       this.todo = new Todo.Todo();
     },
   },
@@ -86,8 +112,12 @@ export default {
 </script>
 
 <style scoped>
+.buttons {
+  display: flex;
+}
+
 .cover-all-display {
-  position: absolute;
+  position: fixed;
   display: table-cell;
   top: 0;
   left: 0;

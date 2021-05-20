@@ -11,8 +11,8 @@ class Todo {
     this.project = 'main';
     this.title = '';
     this.type = 'nexttask';
-    this.exp = 0;
-    this.exp_init = 0;
+    this.exp = 1;
+    this.exp_init = 1;
     this.checked = false;
     this.finish_date = '';
   }

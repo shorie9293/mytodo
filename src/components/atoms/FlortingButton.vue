@@ -14,19 +14,20 @@
   box-shadow: 0.1px 2px rgba(0, 0, 0, 0.1);
   background: hsl(180, 80%, 50%);
   border-radius: 50%;
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   user-select: none;
   text-align: center;
   vertical-align: middle;
+  z-index: 10000;
 }
 
 .fab-text{
   margin-left: auto;
   margin-right: auto;
-  margin-top: 15px;
+  margin-top: 10px;
   vertical-align: middle;
-  width: 40px;
+  width: 30px;
 }
 
 .ripple {
