@@ -1,11 +1,12 @@
 import Dexie from 'dexie';
 import {v4 as uuidv4} from 'uuid';
+import moment from 'moment';
 
 let db;
 
 async function createDB() {
   db = new Dexie('maguroDB');
-  db.version(1).stores({todo_table: '++index, id, project, title, type'});
+  db.version(1).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
   db.on("populate", function() {
     db.todo_table.bulkPut([
       {
@@ -16,6 +17,7 @@ async function createDB() {
         exp: 5,
         exp_init: 5,
         checked: false,
+        finish_date: '',
       },
       {
         id: uuidv4(),
@@ -25,6 +27,7 @@ async function createDB() {
         exp: 3,
         exp_init: 3,
         checked: false,
+        finish_date: '',
       },
       {
         id: uuidv4(),
@@ -34,6 +37,7 @@ async function createDB() {
         exp: 1,
         exp_init: 1,
         checked: false,
+        finish_date: '',
       }
     ]);
   })
@@ -47,7 +51,9 @@ async function addTodo(todo) {
     title: todo.title,
     type: todo.type, 
     exp: todo.exp,
-    checked: todo.checked});
+    exp_init: todo.exp,
+    checked: todo.checked,
+    finish_date: ''});
 }
 
 // async function changeTodo(todo) {
@@ -97,8 +103,26 @@ async function changeTaskProject(index, project) {
 }
 
 async function finishTask() {
-  await db.todo_table.where({'checked': true}).each(
-  );
+  let todos = await db.todo_table.filter( function(todo) {
+      return todo.checked;
+    }
+  ).toArray();
+
+  todos.filter(function(todo) {
+    return todo.project !== 'repeat'
+  }).forEach(async function(todo) {
+    await db.todo_table.update(todo.index, {'project': 'archive','exp': 0, 'finish_date': moment().format('YY-MM-DD')})
+  })
+
+  todos.filter(function(todo) {
+    return todo.project == 'repeat'
+  }).forEach(async function(todo) {
+    await db.todo_table.update(todo.index, {'exp': 0, 'checked': false})
+  })
+
+
+  return await db.todo_table.toArray();
+
 }
 
 export default {

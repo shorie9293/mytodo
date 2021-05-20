@@ -2,10 +2,13 @@
 TODOの機能はこのコンポーネントで完結できるようにする。 -->
 <template>
   <h3>
-    {{ project_name[Object.keys(project_name)[realIndex]] }}クエスト
+    {{ project_name[realIndex] }}クエスト
   </h3>
   <Flash :show="show"/>
-
+  <!-- <TodoInputBox
+    :show="show_changeBox"
+    @add-todo="closeTodoInput"
+    /> -->
   <swiper ref="mainSwiper"
     :padding="10"
     :slides-per-view="1" 
@@ -14,18 +17,13 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper">
-    <swiper-slide v-for="(todo,index) in [todos_main, todos_sub, todos_repeat]"
+    <swiper-slide v-for="(todo,index) in [todos_main, todos_sub, todos_repeat, todos_archive]"
       :key="index" class="slider">
       <div v-for="t in todo" :key="t.id">
           <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
           <TodoPanel :forid="t.index"
-            :value="t.title"
-            :exp="Number(t.exp)"
-            :initialExp="Number(t.exp_init)"
-            :taskType="t.type"
+            :todo="t"
             :classofvalue="{'finished' : t.checked}"
-            :index="t.index"
-            :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
             @edit-task="editTask"
@@ -48,10 +46,11 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
       <input type="text" placeholder="SEARCH TODO" v-model="searchtext">
       <Button @click="searchtodo" title="SEARCH" />
     </div>
-    <Button @click="enhanceExp" title="けいけんちアップ"/>
+    <Button @click="finishTask" title="けいけんちアップ"/>
     <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
+
 </template>
 <script>
 import Button from '@/components/atoms/Button';
@@ -86,11 +85,14 @@ export default {
       doitnow: [],
       id_number: 0,
       pick: 0,
-      project_name: {
-        "main" : "メイン",
-        "sub" : "サブ",
-        "repeat" : "繰り返し",
-      },
+      // project_name: {
+      //   "main" : "メイン",
+      //   "sub" : "サブ",
+      //   "repeat" : "繰り返し",
+      // },
+      project_name: [
+        "メイン", "サブ", "繰り返し", "アーカイブ"
+      ],
       realIndex: 0,
       controlledSwiper: null,
       ptitle: '',
@@ -187,8 +189,26 @@ export default {
     //   }
     //   this.todos[key].splice(index, 1);
     // },
-    editTask: function(index) {
-      console.log(`click item index is ${index}`)
+    finishTask: async function() {
+      if (!this.calExp) {
+        return;
+      }
+
+      this.leveldata.exp += this.calExp
+      new Audio(require(`@/assets/media/powerup10.mp3`)).play();
+      this.todos = await this.db.finishTask();
+
+      this.show=true;
+
+      let v = this;
+      setTimeout(function(){
+        v.show=false;
+        },600);
+
+      localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
+    },
+    editTask: async function() {
+      // this.todos = await this.db.finishTask();
     },
     sentTaskToNow: async function(index) {
       // console.log(`sentTaskToNow: click item index is ${index}`)
@@ -276,6 +296,7 @@ export default {
       // })
       // this.searchtext = '';
     },
+//後で消す！！
     addToday: function() {
       if (!this.pick) {
         // console.log("not selected todo");
@@ -287,6 +308,7 @@ export default {
       this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1);
       this.clearInput();
     }
+//後で消す！！
 
   },
   computed: {
@@ -304,7 +326,7 @@ export default {
       this.todos.forEach(function(todo){
           if (todo.checked) {
             totalExp += Number(todo.exp);
-            todo.exp = 0;
+            console.log(todo.title, todo.exp);
           }
         })
       return totalExp;
@@ -322,6 +344,11 @@ export default {
     todos_repeat: function() {
       return this.todos.filter((value) =>{
         return value.project == 'repeat'
+      })
+    },
+    todos_archive: function() {
+      return this.todos.filter((value) =>{
+        return value.project == 'archive'
       })
     },
   },

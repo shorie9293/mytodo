@@ -14,6 +14,7 @@ class Todo {
     this.exp = 0;
     this.exp_init = 0;
     this.checked = false;
+    this.finish_date = '';
   }
 }
 

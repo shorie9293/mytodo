@@ -2,42 +2,32 @@
 <template>
   <div :class="['container', classType]">
     <div class="check-area">
-      <input :id="'todo' + forid"
+      <input :id="'todo' + todo.index"
         class="checkbox"
         type="checkbox"
         :checked="checked"
         @change="changeChecked($event)">
-      <label :for="'todo' + forid"></label>
+      <label :for="'todo' + todo.index"></label>
     </div>
     <div class="task-area">
-      <div class="val"><span v-if="task[taskType]" :class="classofvalue">「</span>{{ value }}<span v-if="task[taskType]" :class="classofvalue">」を{{ comp }}</span></div>
-      <div v-if="task[taskType]" class="tasks-detail">
-        <div class="task-d exp">{{ exp }}/{{ initialExp }}</div>
-        <div class="task-d type">{{ task[taskType] }}</div>
+      <div class="val"><span v-if="task[todo.type]" :class="classofvalue">
+        「</span>{{ todo.title }}<span v-if="task[todo.type]" :class="classofvalue">」を{{ comp }}</span>
+      </div>
+      <div v-if="todo.project == 'archive' " >
+        完了日: {{todo.finish_date}}
+      </div>
+      <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="tasks-detail">
+        <div class="task-d exp">{{ todo.exp }}/{{ todo.exp_init }}</div>
+        <div class="task-d type">{{ task[todo.type] }}</div>
       </div>
     </div>
-    <!-- <div class="todo-btn"> -->
-      <!-- <input :id="'radio' + forid" class="raido-button" type="radio" name="todoitems" :value="index" @change="changeRadioButton($event)">
-      <label :for="'radio' + forid" class="radio-label">
-        <Button title="CHG" />
-      </label>
-      <div @click="deleteItem" class="peke"> [x]</div> -->
-    <!-- <div v-if="task[taskType]" class="todo-btn"> -->
-      <div v-show="task[taskType]" class="peke" >
-        <!-- <input :id="'radio' + forid"
-          type="radio"
-          name="todoitems"
-          :value="index"
-          @change="editTask($event)">
-        <label :for="'radio' + forid"> -->
+      <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="peke" >
         <fa @click="editTask" icon="feather-alt" type="fas" class="fas fa-feather-alt"></fa>
 
-        <!-- </label> -->
-        <span class="margin" v-show="task[taskType]"></span>
+        <span class="margin" v-show="(todo.project !== 'now') && (todo.project !== 'archive')"></span>
         
         <fa @click="sentTask($event)" icon="exchange-alt" type="fas"  class="fas fa-exchange-alt"></fa>
       </div>
-    <!-- </div> -->
   </div>
 
 </template>
@@ -69,10 +59,11 @@ export default {
     keyValue: String,
     index: Number,
     classType: String,
+    todo: Object,
   },
   data: function() {
     return {
-      comp : '達成せよ。',
+      isComp : '',
       // TodoInputBoxと重複あり
       task : {
         "nexttask" : "次の行動",
@@ -83,8 +74,7 @@ export default {
   },
   methods: {
     changeChecked: function(e) {
-      this.$emit('update:checked', e.target.checked)
-      this.comp = e.target.checked ? '達成した!!' : '達成せよ。'
+      this.$emit('update:checked', e.target.checked);
     },
     changeRadioButton: function(e) {
       this.$emit('update:select', e.target.value)
@@ -103,7 +93,13 @@ export default {
       // console.log(`editTask: ${this.index}`);
       this.$emit('edit-task', this.index);
     }
-  }}
+  },
+  computed: {
+    comp: function() {
+      return this.checked ? `達成した!!` : '達成せよ。'
+    }
+  }
+}
 </script>
 
 <style scoped>

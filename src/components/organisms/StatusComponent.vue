@@ -13,14 +13,9 @@
 
       <div class="todonow">
         <div v-for="t in todos_now" :key="'todo' + t.id">
-          <TodoPanel :forid="t.index"
-          :value="t.title"
-          :exp="Number(t.exp)"
-          :initialExp="Number(t.initialExp)"
-          :taskType="''"
+          <TodoPanel 
+          :todo="t"
           :classofvalue="{'finished' : t.checked}"
-          :index="t.index"
-          :classType="t.type"
           v-model:checked="t.checked"
           />
 
