@@ -111,13 +111,14 @@ async function finishTask() {
   todos.filter(function(todo) {
     return todo.project !== 'repeat'
   }).forEach(async function(todo) {
-    await db.todo_table.update(todo.index, {'project': 'archive','exp': 0, 'finish_date': moment().format('YY-MM-DD')})
+    await db.todo_table
+      .update(todo.index, {'project': 'archive','exp': 0, 'finish_date': moment().format('YY-MM-DD')})
   })
 
   todos.filter(function(todo) {
     return todo.project == 'repeat'
   }).forEach(async function(todo) {
-    await db.todo_table.update(todo.index, {'exp': 0, 'checked': false})
+    await db.todo_table.update(todo.index, {'exp': todo.exp_init, 'checked': false})
   })
 
 

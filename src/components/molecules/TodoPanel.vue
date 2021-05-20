@@ -26,7 +26,7 @@
 
         <span class="margin" v-show="(todo.project !== 'now') && (todo.project !== 'archive')"></span>
         
-        <fa @click="sentTask($event)" icon="exchange-alt" type="fas"  class="fas fa-exchange-alt"></fa>
+        <fa v-show="(todo.project !== 'repeat')" @click="sentTask($event)" icon="exchange-alt" type="fas"  class="fas fa-exchange-alt"></fa>
       </div>
   </div>
 
