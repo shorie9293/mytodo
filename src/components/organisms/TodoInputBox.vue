@@ -30,7 +30,7 @@
       <div class="bottuns">
         <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
         <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
-        <input type="submit" value="Delete" @click="deleteTodo">
+        <input type="submit" v-show="type == 'change'" value="Delete" @click="deleteTodo">
         <input type="submit" value="Cancel" @click="cancel">
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
     }
   },
   mounted: function(){
-    console.log(`Get todo ${this.getTodo}`)
+    // console.log(`Get todo ${this.getTodo}`)
     if (!this.getTodo) {
       this.todo = new Todo.Todo();
       return;
@@ -144,5 +144,6 @@ export default {
   background: lightgoldenrodyellow;
   width: 250px;
   padding: 5px;
+  border-radius: 10px;
 }
 </style>

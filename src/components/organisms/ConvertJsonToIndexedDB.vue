@@ -17,6 +17,7 @@ export default {
       todoJmain: [],
       todoJsub: [],
       todoJrepeat: [],
+      todoJnow: [],
     }
   },
   methods: {
@@ -25,9 +26,10 @@ export default {
       this.setDB();
     },
     getJson: function() {
-      this.todoJmain = JSON.parse(localStorage.getItem('todos_main'));
-      this.todoJsub = JSON.parse(localStorage.getItem('todos_sub'));
-      this.todoJrepeat = JSON.parse(localStorage.getItem('todos_rep'));
+      this.todoJmain = JSON.parse(localStorage.getItem('todos_main')) || [];
+      this.todoJsub = JSON.parse(localStorage.getItem('todos_sub')) || [];
+      this.todoJrepeat = JSON.parse(localStorage.getItem('todos_rep')) || [];
+      this.todoJnow = JSON.parse(localStorage.getItem('doit_now')) || [];
     },
     setDB: function() {
       this.db = TodoDBAdapter;
@@ -68,6 +70,17 @@ export default {
         this.db.addTodo(todo);
       }
 
+      for (const todo0 of this.todoJnow) {
+        todo.id = uuid.v4();
+        todo.project = 'now';
+        // todo.title = todo0.title;
+        todo.title = todo0.value;
+        if (todo0.exp <= 0) todo0.exp = 1;
+        todo.exp = todo0.exp;
+        todo.type = 'nexttask'
+        todo.checked = false;
+        this.db.addTodo(todo);
+      }
 
     }
   }

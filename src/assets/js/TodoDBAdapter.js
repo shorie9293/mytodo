@@ -129,7 +129,7 @@ async function finishTask() {
 }
 
 async function changeTodo(index, todo) {
-  console.log(index, todo);
+  // console.log(index, todo);
   await db.todo_table.update(index, todo);
 }
 

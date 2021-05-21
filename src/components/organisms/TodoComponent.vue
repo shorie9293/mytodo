@@ -25,6 +25,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
           <TodoPanel :forid="t.index"
             :todo="t"
             :classofvalue="{'finished' : t.checked}"
+            :classType="t.type"
             v-model:checked="t.checked"
             v-model:select="pick"
             @edit-task="editTask(t.index)"
@@ -218,7 +219,7 @@ export default {
       this.show_TodoInputBox = false;
     },
     deleteTodo: async function() {
-      console.log('put delete button')
+      // console.log('put delete button')
       if (!confirm('タスクを削除しますか？')) {
         return;
       }
@@ -342,7 +343,7 @@ export default {
       this.todos.forEach(function(todo){
           if (todo.checked) {
             totalExp += Number(todo.exp);
-            console.log(todo.title, todo.exp);
+            // console.log(todo.title, todo.exp);
           }
         })
       return totalExp;
