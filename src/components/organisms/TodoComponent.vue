@@ -9,14 +9,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="searchtodo" title="SEARCH" />
   </div>
   <Flash :show="show"/>
-  <TodoInputBox
-    :getTodo="todos.filter(todo => {return todo.index == edit_index})[0]"
-    :show="show_TodoInputBox"
-    type="change"
-    @change-todo="changeTodo"
-    @cancel="cancel"
-    @delete-todo="deleteTodo"
-    />
   
   <swiper ref="mainSwiper"
     :padding="10"
@@ -54,6 +46,15 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     <Button @click="hoimi" title="けいけんちかいふく"/>
   </div>
   <Button @click="finishTask" title="FINISH!!"/>
+
+  <TodoInputBox
+    :getTodo="todos.filter(todo => {return todo.index == edit_index})[0]"
+    :show="show_TodoInputBox"
+    type="change"
+    @change-todo="changeTodo"
+    @cancel="cancel"
+    @delete-todo="deleteTodo"
+    />
 
 </template>
 <script>
@@ -193,6 +194,7 @@ export default {
 
       this.leveldata.exp += this.calExp
       new Audio(require(`@/assets/media/powerup10.mp3`)).play();
+
       this.todos = await this.db.finishTask();
 
       this.show=true;
@@ -220,7 +222,7 @@ export default {
       if (!confirm('タスクを削除しますか？')) {
         return;
       }
-
+      
       this.todos = await this.db.deleteTodo(this.edit_index);
       this.show_TodoInputBox = false;
     },

@@ -21,6 +21,7 @@
 
   <Button @click="setOptions" title="オプション反映"/>
   <Button @click=clear title="全てのデータを消去する"/>
+  <ConvertJsonToIndexedDB />
   <Button @click="show=true" title="ReadMe"/>
 
   <!-- お試し機能 -->
@@ -39,14 +40,16 @@
 import Button from "../atoms/Button";
 import Readme from '../pages/Readme';
 import ReadCustomQ from '../organisms/ReadCustomQ';
-import SarchTodo from '../test/SarchTodo.vue'
+import SarchTodo from '../test/SarchTodo.vue';
+import ConvertJsonToIndexedDB from '@/components/organisms/ConvertJsonToIndexedDB';
 
 export default {
   components: {
     Button,
     Readme,
     ReadCustomQ,
-    SarchTodo
+    SarchTodo,
+    ConvertJsonToIndexedDB,
   },
   props: {
     class: String

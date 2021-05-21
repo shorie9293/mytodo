@@ -1,5 +1,5 @@
 <template>
-  <div class="cover-all-display" v-show="show">
+  <div class="cover-all-display" v-if="show">
     <div class="input-box">
       <p>
         <select class="select-box" name="todo-project" id="todo-project" 
@@ -72,11 +72,11 @@ export default {
     }
   },
   mounted: function(){
+    console.log(`Get todo ${this.getTodo}`)
     if (!this.getTodo) {
       this.todo = new Todo.Todo();
       return;
     }
-
     this.todo = this.getTodo;
 
   },
