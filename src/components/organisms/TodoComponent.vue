@@ -34,18 +34,6 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     </swiper-slide>
   </swiper>
 
-  <div v-show=false>
-    <TodoInputPanel 
-      @change-todo="changeTodo"
-      @clear-input="clearInput"
-      @add-today="addToday"
-      v-model:todotitle="ptitle"
-      v-model:todoexp="pexp"
-      v-model:todotype="ptype"
-      />
-    <Button @click="deleteCheckedItem" title="かんりょうずみをけす"/>
-    <Button @click="hoimi" title="けいけんちかいふく"/>
-  </div>
   <Button @click="finishTask" title="FINISH!!"/>
 
   <TodoInputBox
@@ -65,7 +53,6 @@ import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
 import SwiperCore, { Navigation, Controller } from 'swiper';
 import 'swiper/components/navigation/navigation.scss';
-import TodoInputPanel from './TodoInputPanel.vue';
 import Flash from '../molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
@@ -78,7 +65,6 @@ export default {
     TodoPanel,
     Swiper,
     SwiperSlide,
-    TodoInputPanel,
     Flash,
     TodoInputBox
   },
