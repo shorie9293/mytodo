@@ -1,8 +1,10 @@
 <template>
   <div class="cover-all-display" v-if="show">
     <div class="input-box">
+      <div class="component">
       <p>
-        <select class="select-box" name="todo-project" id="todo-project" 
+        <label for="todo_project">Project: </label>
+        <select class="select-box" name="todo_project" id="todo_project" 
           v-model="todo.project">
           <option v-for="(project,index) in projects"
             :key="index" 
@@ -10,11 +12,12 @@
         </select>
       </p>
       <p>
-        <label for="todo_title">Title</label>
-        <input type="text" name="todo_title" id="todo_title" 
+        <label for="todo_title"><span style="margin-right: 20px">Title: </span></label>
+        <input class="text-input-box" type="text" name="todo_title" id="todo_title" 
           v-model="todo.title" autocomplete="off">
       </p>
       <p>
+        <label for="todo_type"><span style="margin-right: 15px">Type: </span></label>
         <select class="select-box" name="todo_type" id="todo_type" 
           v-model="todo.type">
           <option v-for="(type ,index) in types"
@@ -23,15 +26,16 @@
         </select>
       </p>
       <p>
-        <label for="todo_exp">Exp</label>
-        <input type="number" name="todo_exp" id="todo_exp" 
+        <label for="todo_exp"><span style="margin-right: 23px">Exp: </span></label>
+        <input class="text-input-box" type="number" name="todo_exp" id="todo_exp" 
           v-model="todo.exp" min="1" max="5">
       </p>
-      <div class="bottuns">
+      <div class="buttons">
         <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
         <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
         <input type="submit" v-show="type == 'change'" value="Delete" @click="deleteTodo">
         <input type="submit" value="Cancel" @click="cancel">
+      </div>
       </div>
     </div>
   </div>
@@ -121,8 +125,15 @@ export default {
 </script>
 
 <style scoped>
+.component {
+  margin: 20px;
+}
+
 .buttons {
   display: flex;
+  /* position: relative; */
+  justify-content: space-around;
+  width: 100%;
 }
 
 .cover-all-display {
@@ -143,7 +154,17 @@ export default {
   margin-top: 40%;
   background: lightgoldenrodyellow;
   width: 250px;
+  height: auto;
   padding: 5px;
   border-radius: 10px;
+  text-align: left;
+}
+
+.select-box {
+  width: 140px;
+}
+
+.text-input-box {
+  width: 130px
 }
 </style>

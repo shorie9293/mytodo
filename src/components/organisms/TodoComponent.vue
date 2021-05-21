@@ -18,20 +18,20 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @swiper="setControlledSwiper"
     @slideChange="getRealIndex"
     class="swiper">
-    <swiper-slide v-for="todo in [todos_main, todos_sub, todos_repeat, todos_archive]"
-      :key="todo.index" class="slider">
-      <div v-for="t in todo" :key="t.id">
-          <!-- <input class="checkbox" :id="t.id" type="checkbox" v-model="t.checked"> -->
-          <TodoPanel :forid="t.index"
-            :todo="t"
-            :classofvalue="{'finished' : t.checked}"
-            :classType="t.type"
-            v-model:checked="t.checked"
-            v-model:select="pick"
-            @edit-task="editTask(t.index)"
-            @sent-task="sentTaskToNow(t.index)" />
+
+    <swiper-slide v-for="todos in [todos_main, todos_sub, todos_repeat, todos_archive]"
+      :key="todos.index" class="slider">
+      <div v-for="todo in todos" :key="todo.id">
+          <TodoPanel :forid="todo.index"
+            :todo="todo"
+            :classofvalue="{'finished' : todo.checked}"
+            :classType="todo.type"
+            v-model:checked="todo.checked"
+            @edit-task="editTask(todo.index)"
+            @sent-task="sentTaskToNow(todo.index)" />
       </div>
     </swiper-slide>
+
   </swiper>
 
   <Button @click="finishTask" title="FINISH!!"/>

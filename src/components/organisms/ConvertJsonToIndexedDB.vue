@@ -88,7 +88,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .component {
   display: flex;
   background: lightgreen;

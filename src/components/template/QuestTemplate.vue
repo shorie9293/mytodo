@@ -1,5 +1,6 @@
 <!-- 各コンポーネント表示用 -->
 <template>
+
   <div class="display-panel">
     <template v-if="display==0">
       <StatusComponent
@@ -15,9 +16,10 @@
     <template v-else>
       <Option />
     </template>
+
     <FloatingButton
-    @click="showInputTodoBox"
-     />
+      @click="showInputTodoBox"/>
+
   </div>
 
   <TodoInputBox
@@ -110,6 +112,7 @@ export default {
     overflow-x: hidden;
     scrollbar-width: none;
   }
+
   .display-panel::-webkit-scrollbar {
     display: none;
   }

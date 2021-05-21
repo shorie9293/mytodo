@@ -1,6 +1,6 @@
 <template>
   <div class="fab-component ripple">
-    <div class="fab-text"><fa icon="check" type="fas" class="fas fa-check"></fa></div>
+    <div class="fab-text"><fa icon="plus" type="fas" class="fas fa-plus"></fa></div>
     <!-- <fa icon="check" type="fas" class="fas fa-tasks fab-component"></fa> -->
   </div>
 </template>
@@ -25,7 +25,7 @@
 .fab-text{
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10px;
+  margin-top: 8px;
   vertical-align: middle;
   width: 30px;
 }
