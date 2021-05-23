@@ -2,40 +2,48 @@
   <div class="cover-all-display" v-if="show">
     <div class="input-box">
       <div class="component">
-      <p>
-        <label for="todo_project">Project: </label>
-        <select class="select-box" name="todo_project" id="todo_project" 
-          v-model="todo.project">
-          <option v-for="(project,index) in projects"
-            :key="index" 
-            :value="project">{{ todo_project_type[project] }}</option>
-        </select>
-      </p>
-      <p>
-        <label for="todo_title"><span style="margin-right: 20px">Title: </span></label>
-        <input class="text-input-box" type="text" name="todo_title" id="todo_title" 
-          v-model="todo.title" autocomplete="off">
-      </p>
-      <p>
-        <label for="todo_type"><span style="margin-right: 15px">Type: </span></label>
-        <select class="select-box" name="todo_type" id="todo_type" 
-          v-model="todo.type">
-          <option v-for="(type ,index) in types"
-            :key="index" 
-            :value="type">{{ todo_type[type] }}</option>
-        </select>
-      </p>
-      <p>
-        <label for="todo_exp"><span style="margin-right: 23px">Exp: </span></label>
-        <input class="text-input-box" type="number" name="todo_exp" id="todo_exp" 
-          v-model="todo.exp" min="1" max="5">
-      </p>
-      <div class="buttons">
-        <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
-        <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
-        <input type="submit" v-show="type == 'change'" value="Delete" @click="deleteTodo">
-        <input type="submit" value="Cancel" @click="cancel">
-      </div>
+        <p>
+          <label for="todo_project">Project: </label>
+          <select class="select-box" name="todo_project" id="todo_project" 
+            v-model="todo.project">
+            <option v-for="(project,index) in projects"
+              :key="index" 
+              :value="project">{{ todo_project_type[project] }}</option>
+          </select>
+        </p>
+        <p>
+          <label for="todo_title"><span style="margin-right: 20px">Title: </span></label>
+          <input class="text-input-box" type="text" name="todo_title" id="todo_title" 
+            v-model="todo.title" autocomplete="off">
+        </p>
+        <p>
+          <label for="todo_type"><span style="margin-right: 15px">Type: </span></label>
+          <select class="select-box" name="todo_type" id="todo_type" 
+            v-model="todo.type">
+            <option v-for="(type ,index) in types"
+              :key="index" 
+              :value="type">{{ todo_type[type] }}</option>
+          </select>
+        </p>
+        <p>
+          <label for="todo_exp"><span style="margin-right: 23px">Exp: </span></label>
+          <input class="text-input-box" type="number" name="todo_exp" id="todo_exp" 
+            v-model="todo.exp" min="1" max="5">
+        </p>
+
+        <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
+          <input v-model="days" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
+        </div>
+        {{ days }}
+        <input type="submit" value="get Time" @click="getTodaysDate">
+
+
+        <div class="buttons">
+          <input type="submit" v-show="type == 'add'" value="Add Todo" @click="addData">
+          <input type="submit" v-show="type == 'change'" value="Change Todo" @click="changeTodo">
+          <input type="submit" v-show="type == 'change'" value="Delete" @click="deleteTodo">
+          <input type="submit" value="Cancel" @click="cancel">
+        </div>
       </div>
     </div>
   </div>
@@ -44,6 +52,7 @@
 <script>
 import Todo from '@/assets/js/Todo'
 import {uuid} from 'vue-uuid';
+import TimeTrigger from '@/assets/js/TimeTrigger'
 
 export default {
   name: 'todo-input-box',
@@ -72,7 +81,18 @@ export default {
         "otherperson" : "連絡待ち",
         "wait" : "待機",
       },
+      todo_data: 
+      [
+        {'rep': 'week', 'days': ['mon', 'tue']},
+        {'rep': 'week', 'days': ['wed', 'sun']},
+        {'rep': 'week', 'days': ['sat', 'sun']},
+        {'rep': 'week', 'days': ['tue', 'sun']},
+        {'rep': 'week', 'days': ['tue', 'mon']},
+        {'rep': 'week', 'days': ['thu', 'wed']},
+      ],
       todo: Object,
+      days: [],
+      date: Object
     }
   },
   mounted: function(){
@@ -90,6 +110,10 @@ export default {
     }
   },
   methods: {
+    getTodaysDate: function() {
+      this.date = TimeTrigger;
+      this.date.getToday(this.todo_data);
+    },
     addData: async function() {
       if (this.todo.exp > 5) this.todo.exp = 5;
       if (this.todo.exp <= 0) this.todo.exp = 1;

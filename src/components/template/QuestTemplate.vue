@@ -70,6 +70,8 @@ export default {
   mounted: function() {
     this.db = TodoDBAdapter;
     this.db.createDB();
+    // let date = new Date();
+    // console.log(date);
   },
   methods: {
     setDisplay: function(index) {

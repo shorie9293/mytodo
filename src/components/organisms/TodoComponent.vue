@@ -57,7 +57,6 @@ import Flash from '@/components/molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 import TodoInputBox from '@/components/organisms/TodoInputBox'
-import TimeTrigger from '@/assets/js/TimeTrigger'
 
 export default {
   name: "todo-panel",
@@ -98,8 +97,6 @@ export default {
     this.db.createDB();
     this.todos = await this.db.getQuery();
     // console.log(this.todos);
-    this.date = TimeTrigger
-    this.date.getToday();
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する

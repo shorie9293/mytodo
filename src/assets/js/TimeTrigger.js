@@ -1,18 +1,37 @@
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
 let db = TodoDBAdapter;
-let date = new Date;
-let todos = [];
+// let date = new Date;
+// let todos = [];
+// todo_data: 
+// [
+//   {'rep': 'week', 'days': ['mon', 'tue']},
+//   {'rep': 'week', 'days': ['wed', 'sun']},
+//   {'rep': 'week', 'days': ['sat', 'sun']},
+//   {'rep': 'week', 'days': ['tue', 'sun']},
+//   {'rep': 'week', 'days': ['tue', 'mon']},
+//   {'rep': 'week', 'days': ['thu', 'wed']},
+// ],
 
 db.createDB();
 
-async function getToday() {
-  todos = await db.searchTitle(23);
-  todos.forEach( todo => {
-      console.log(todo.title);
-      if (todo.title == date.getDate()) console.log(`This is todays task: ${todo.index}`);
+function getToday(todos) {
+  // todos = await db.searchTitle(23);
+  const monday = todos.filter( todo => {
+      return todo.days.forEach(day => {
+        console.log(day)
+        if (day == 'mon') {
+          day.index;
+          return true;
+        } else {
+          return false;
+        }
+      });
+      // if (todo.title == date.getDate()) console.log(`This is todays task: ${todo.index}`);
     }
   )
+
+  console.log(monday);
 }
 
 export default {
