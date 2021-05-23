@@ -6,7 +6,7 @@ let db;
 
 async function createDB() {
   db = new Dexie('maguroDB');
-  db.version(1).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
+  db.version(2).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
   db.on("populate", function() {
     db.todo_table.bulkPut([
       {

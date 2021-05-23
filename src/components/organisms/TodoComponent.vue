@@ -53,10 +53,11 @@ import {Swiper, SwiperSlide} from 'swiper/vue'
 import 'swiper/swiper.scss';
 import SwiperCore, { Navigation, Controller } from 'swiper';
 import 'swiper/components/navigation/navigation.scss';
-import Flash from '../molecules/Flash'
+import Flash from '@/components/molecules/Flash'
 SwiperCore.use([Navigation, Controller]);
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 import TodoInputBox from '@/components/organisms/TodoInputBox'
+import TimeTrigger from '@/assets/js/TimeTrigger'
 
 export default {
   name: "todo-panel",
@@ -69,48 +70,36 @@ export default {
     TodoInputBox
   },
   props: {
-    class: String,
     todo_added: Object,
   },
   data() {
     return {
       leveldata: [],
       todos: [],
-      doitnow: [],
-      id_number: 0,
-      pick: 0,
-      // project_name: {
-      //   "main" : "メイン",
-      //   "sub" : "サブ",
-      //   "repeat" : "繰り返し",
-      // },
       project_name: [
         "メイン", "サブ", "繰り返し", "アーカイブ"
       ],
       realIndex: 0,
       controlledSwiper: null,
-      ptitle: '',
-      pexp: 0,
-      ptype: 'nexttask',
       complete: '達成せよ',
       searchtext: '',
-      searchResult: [],
       show: false,
       show_TodoInputBox: false,
       edit_index: Number,
       db: Object,
+      date: Date,
     }
   },
   mounted: async function() {
     // todoリストとtodoのID、経験値UPのためにレベルデータを読み出し
     this.leveldata = JSON.parse(localStorage.getItem('leveldata')) || 0;
-    this.searchResult = this.todos
-    this.doitnow = JSON.parse(localStorage.getItem('doit_now')) || [];
 
     this.db = TodoDBAdapter;
     this.db.createDB();
     this.todos = await this.db.getQuery();
     // console.log(this.todos);
+    this.date = TimeTrigger
+    this.date.getToday();
   },
   watch: {
     // todoリストが変更されたらlocalStorageを変更する
@@ -135,45 +124,8 @@ export default {
 
       this.todos = await this.db.getQuery();
     },
-    'doitnow': {
-      handler: function() {
-        localStorage.setItem('doit_now', JSON.stringify(this.doitnow));
-      },
-      deep: true
-    },
-    'pick': function() {
-      this.ptitle = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].value;
-      this.pexp = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].exp;
-      this.ptype = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick].type;
-    },
   },
   methods: {
-    //後でけす！！！！！！！！！
-    // todoを加える。
-    addTodoaaaa: function() {
-      if (this.pexp > 5) this.pexp = 5
-      this.todos[Object.keys(this.project_name)[this.realIndex]].push({id: this.id_number,
-        value: this.ptitle,
-        exp: this.pexp,
-        initialExp: this.pexp,
-        type: this.ptype,
-        checked: false});
-        this.id_number++;
-        this.ptitle = '';
-        this.pexp = 0;
-    },
-    clearInput: function() {
-      this.ptitle = '';
-      this.pexp = 0;
-    },
-    //後でけす！！！！！！！！！
-    // [x]ボタンを押すとtodoを消す
-    // deleteItem: function(index, key) {
-    //   if (!confirm('けしますか？')) {
-    //     return;
-    //   }
-    //   this.todos[key].splice(index, 1);
-    // },
     finishTask: async function() {
       if (!this.calExp) {
         return;
@@ -224,15 +176,6 @@ export default {
       // this.todos = await this.db.getQuery();
 
     },
-    // checkされたアイテムを消す。
-    // computedに定義されたremainingをtodoに代入している。
-    deleteCheckedItem: function() {
-      if (!confirm('完了タスクをけしますか？')) {
-        return;
-      }
-
-      this.todos[Object.keys(this.project_name)[this.realIndex]] = this.remaining;
-    },
     // かんりょうずみタスクの経験値を反映。
     // computedのcalExpを使っている。
     enhanceExp: function() {
@@ -260,17 +203,6 @@ export default {
 
       localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
-    // 経験値の回復。将来的には時間トリガーみたいな感じにしたい。
-    hoimi: function() {
-      if (!confirm('くりかえしタスクのけいけんちをかいふくしますか？')) {
-        return;
-      }
-
-      this.todos.rep.forEach(todo=>{
-        todo.exp = todo.initialExp
-        todo.checked = false
-      })
-    },
     // swiperのインスタンスを登録
     setControlledSwiper(swiper) {
       this.controlledSwiper = swiper;
@@ -285,43 +217,12 @@ export default {
         this.todos = await this.db.getQuery();
         return;
       }
-      // console.log(this.searchtext);
-      // console.log(await this.db.searchTitle(this.searchtext));
 
       this.todos = await this.db.searchTitle(this.searchtext);
 
-      // this.searchResult = [];
-      // Object.keys(this.todos).forEach(key => {
-      //   let v =  this.todos[key].filter( v => {
-      //     return v.value.match(this.searchtext);
-      //   });
-      //   this.searchResult.push(v);
-      // })
-      // this.searchtext = '';
     },
-//後で消す！！
-    addToday: function() {
-      if (!this.pick) {
-        // console.log("not selected todo");
-        return;
-      }
-
-      let proj = this.todos[Object.keys(this.project_name)[this.realIndex]][this.pick];
-      this.doitnow.push(proj);
-      this.todos[Object.keys(this.project_name)[this.realIndex]].splice(this.pick, 1);
-      this.clearInput();
-    }
-//後で消す！！
-
   },
   computed: {
-    // 完了していないタスクのみを抽出した配列を返す
-    remaining: function() {
-
-      return this.todos[Object.keys(this.project_name)[this.realIndex]].filter((todo) => {
-        return !todo.checked;
-      })
-    },
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
