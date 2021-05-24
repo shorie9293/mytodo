@@ -30,7 +30,8 @@
           <input class="text-input-box" type="number" name="todo_exp" id="todo_exp" 
             v-model="todo.exp" min="1" max="5">
         </p>
-        <div v-show="todo.project == 'repeat'">
+        <!-- <div v-show="todo.project == 'repeat'"> -->
+        <div v-show="todo.project == false">
           <p>
             <label for="todo_repeated"><span style="margin-right: 0px">Repeat: </span></label>
             <select class="select-box" name="todo_type" id="todo_type" 
