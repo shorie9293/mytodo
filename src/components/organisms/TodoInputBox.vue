@@ -31,11 +31,13 @@
             v-model="todo.exp" min="1" max="5">
         </p>
 
-        <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
-          <input v-model="days" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
+        <div v-show="todo.project == 'repeat'">
+          <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
+            <input v-model="days" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
+          </div>
+          {{ days }}
+          <input type="submit" value="get Time" @click="getTodaysDate">
         </div>
-        {{ days }}
-        <input type="submit" value="get Time" @click="getTodaysDate">
 
 
         <div class="buttons">
@@ -112,7 +114,7 @@ export default {
   methods: {
     getTodaysDate: function() {
       this.date = TimeTrigger;
-      this.date.getToday(this.todo_data);
+      this.date.getToday(this.todo_data, this.days);
     },
     addData: async function() {
       if (this.todo.exp > 5) this.todo.exp = 5;

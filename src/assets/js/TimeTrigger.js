@@ -15,24 +15,19 @@ let db = TodoDBAdapter;
 
 db.createDB();
 
-function getToday(todos) {
+function getToday(todos, days) {
   // todos = await db.searchTitle(23);
-  const monday = todos.filter( todo => {
-      return todo.days.forEach(day => {
-        console.log(day)
-        if (day == 'mon') {
-          day.index;
-          return true;
-        } else {
-          return false;
-        }
-      });
-      // if (todo.title == date.getDate()) console.log(`This is todays task: ${todo.index}`);
-    }
-  )
-
-  console.log(monday);
+  
+  todos = todos.filter(element => {
+    return days.some(el => element.days.includes(el));
+  });
+  
+  todos.forEach(element => {
+    console.log(element.days);
+  });
+  console.log('------------');
 }
+
 
 export default {
   getToday,
