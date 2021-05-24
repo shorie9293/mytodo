@@ -13,19 +13,36 @@ let db = TodoDBAdapter;
 //   {'rep': 'week', 'days': ['thu', 'wed']},
 // ],
 
-db.createDB();
 
-function getToday(todos, days) {
+async function getToday() {
+  await db.createDB();
   // todos = await db.searchTitle(23);
-  
-  todos = todos.filter(element => {
-    return days.some(el => element.days.includes(el));
+  const todos = await db.getRepeatedTodo();
+
+  console.log(todos);
+  const days = ['fri','tue'];
+  let repeated_todo_today = todos.filter(element => {
+    // console.log('repeated_day' in element)
+    if(!('repeated_day' in element)) {
+      return;
+    }
+      // console.log(element.repeated_day)
+    return days.some(el => element.repeated_day.includes(el));
+    // }
+  })
+  // todos = todos.filter(element => {
+  //   return days.some(el => element.days.includes(el));
+  // });
+
+  repeated_todo_today = repeated_todo_today.forEach(element => {
+    console.log(element);
+    element.project = 'now';
+    element.repeated = 'none';
+    db.addTodo(element);
   });
-  
-  todos.forEach(element => {
-    console.log(element.days);
-  });
-  console.log('------------');
+
+  return repeated_todo_today
+  // console.log('------------');
 }
 
 

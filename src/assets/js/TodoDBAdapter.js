@@ -45,6 +45,7 @@ async function createDB() {
 }
 
 async function addTodo(todo) {
+  
   await db.todo_table.put({
     id: todo.id, 
     project: todo.project,
@@ -53,8 +54,12 @@ async function addTodo(todo) {
     exp: todo.exp,
     exp_init: todo.exp,
     checked: todo.checked,
-    finish_date: ''});
-}
+    finish_date: '',
+    repeated: todo.repeated,
+    repeated_day: todo.repeated_day,
+    });
+
+  }
 
 // async function changeTodo(todo) {
 //   console.log(db.todo_table.where({'id':todo.id}).toArray());
@@ -129,13 +134,18 @@ async function finishTask() {
 }
 
 async function changeTodo(index, todo) {
-  // console.log(index, todo);
+  // console.log(`in DBadapter ${todo.repeated_day[0]}`)
   await db.todo_table.update(index, todo);
+  console.log(db.todo_table.get(index))
 }
 
 async function deleteTodo(index) {
   await db.todo_table.where('index').equals(index).delete();
   return await db.todo_table.toArray();
+}
+
+async function getRepeatedTodo() {
+  return db.todo_table.where('project').equals("repeat").toArray();
 }
 
 export default {
@@ -148,4 +158,5 @@ export default {
   finishTask,
   changeTodo,
   deleteTodo,
+  getRepeatedTodo,
 }

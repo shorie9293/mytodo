@@ -147,6 +147,7 @@ export default {
       this.show_TodoInputBox = true;
     },
     changeTodo: function(todo) {
+      console.log(todo);
       this.db.changeTodo(this.edit_index, todo);
       this.show_TodoInputBox = false;
     },

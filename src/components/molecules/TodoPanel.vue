@@ -13,12 +13,15 @@
       <div class="val"><span v-if="task[todo.type]" :class="classofvalue">
         「</span>{{ todo.title }}<span v-if="task[todo.type]" :class="classofvalue">」を{{ comp }}</span>
       </div>
-      <div v-if="todo.project == 'archive' " >
+      <div v-show="todo.project == 'archive' " >
         完了日: {{todo.finish_date}}
       </div>
       <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="tasks-detail">
         <div class="task-d exp">{{ todo.exp }}/{{ todo.exp_init }}</div>
         <div class="task-d type">{{ task[todo.type] }}</div>
+      </div>
+      <div v-show="todo.project == 'repeat' " >
+        繰り返し頻度: {{todo.repeated}}, 繰り返し設定: {{todo.repeated_day}}
       </div>
     </div>
       <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="peke" >

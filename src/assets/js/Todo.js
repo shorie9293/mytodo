@@ -15,6 +15,8 @@ class Todo {
     this.exp_init = 1;
     this.checked = false;
     this.finish_date = '';
+    this.repeated = 'none';
+    this.repeated_day = [];
   }
 }
 
