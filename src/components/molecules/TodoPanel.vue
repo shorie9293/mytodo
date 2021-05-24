@@ -1,7 +1,7 @@
 <!-- Todoの内容を表示するパーツ -->
 <template>
   <div :class="['container', classType]">
-    <div class="check-area">
+    <div class="check-area" >
       <input :id="'todo' + todo.index"
         class="checkbox"
         type="checkbox"
@@ -20,8 +20,10 @@
         <div class="task-d exp">{{ todo.exp }}/{{ todo.exp_init }}</div>
         <div class="task-d type">{{ task[todo.type] }}</div>
       </div>
-      <div v-show="todo.project == 'repeat' " >
-        繰り返し頻度: {{todo.repeated}}, 繰り返し設定: {{todo.repeated_day}}
+      <div class="tasks-detail" v-show="todo.project == 'repeat' " >
+      <!-- <div v-show="false" > -->
+        <div class="task-d type">頻度: {{repeat[todo.repeated]}}</div>
+        <div class="task-d exp">{{week}}</div>
       </div>
     </div>
       <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="peke" >
@@ -73,6 +75,10 @@ export default {
         "otherperson" : "連絡待ち",
         "wait" : "待機",
       },
+      repeat: {
+        "week" : "週",
+        "month" : "月"
+      },
     }
   },
   methods: {
@@ -100,6 +106,15 @@ export default {
   computed: {
     comp: function() {
       return this.checked ? `達成した!!` : '達成せよ。'
+    },
+    week: function() {
+      // const weekday = ['月', '火', '水', '木', '金', '土', '日']
+      if (this.todo.repeated_day){
+        return this.todo.repeated_day.join(',');
+      } else {
+        return '-'
+      }
+      // return ['1','2'].join(',');
     }
   }
 }

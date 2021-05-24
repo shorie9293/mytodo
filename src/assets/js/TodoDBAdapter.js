@@ -135,8 +135,24 @@ async function finishTask() {
 
 async function changeTodo(index, todo) {
   // console.log(`in DBadapter ${todo.repeated_day[0]}`)
-  await db.todo_table.update(index, {'title': 'changed', 'repeated_day':Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]})});
-  console.log(await db.todo_table.get(index), todo)
+  // todo.repeated_day = Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]});
+
+  console.log(todo.repeated_day)
+
+  await db.todo_table.update(index, 
+    { 
+      "project" : todo.project,
+      "title": todo.title, 
+      "type": todo.type,
+      "exp": todo.exp,
+      "repeated": todo.repeated,
+      "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]})});
+
+  // await db.todo_table.update(index, 
+  //   {
+  //     "title": todo.title, 
+  //     "repeated_day": todo.repeated_day});
+      console.log(await db.todo_table.get(index), todo)
 }
 
 async function deleteTodo(index) {

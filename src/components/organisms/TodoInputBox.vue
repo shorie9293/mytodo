@@ -30,18 +30,18 @@
           <input class="text-input-box" type="number" name="todo_exp" id="todo_exp" 
             v-model="todo.exp" min="1" max="5">
         </p>
-        <!-- <div v-show="todo.project == 'repeat'"> -->
-        <div v-show="todo.project == false">
+        <div v-show="todo.project == 'repeat'">
+        <!-- <div v-show="todo.project == false"> -->
           <p>
             <label for="todo_repeated"><span style="margin-right: 0px">Repeat: </span></label>
             <select class="select-box" name="todo_type" id="todo_type" 
               v-model="todo.repeated">
-              <option v-for="day in ['Week','Month']"
+              <option v-for="day in ['week','month']"
                 :key="day" 
                 :value="day">{{ day }}</option>
             </select>
           </p>
-          <div v-if="todo.repeated == 'Week'" class="select-day">
+          <div v-if="todo.repeated == 'week'" class="select-day">
             <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
               <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
             </div>
@@ -180,7 +180,7 @@ export default {
 .input-box {
   position:relative;
   margin: auto;
-  margin-top: 40%;
+  margin-top: 30%;
   background: lightgoldenrodyellow;
   width: 250px;
   height: auto;
