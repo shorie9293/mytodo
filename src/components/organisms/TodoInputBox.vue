@@ -93,7 +93,7 @@ export default {
         "otherperson" : "連絡待ち",
         "wait" : "待機",
       },
-      todo: Object,
+      todo: [],
       days: [],
       date: Object
     }

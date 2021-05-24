@@ -37,7 +37,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
   <Button @click="finishTask" title="FINISH!!"/>
 
   <TodoInputBox
-    :getTodo="todos.filter(todo => {return todo.index == edit_index})[0]"
+    :getTodo="todo_changed"
     :show="show_TodoInputBox"
     type="change"
     @change-todo="changeTodo"
@@ -146,12 +146,13 @@ export default {
       this.edit_index = index;
       this.show_TodoInputBox = true;
     },
-    changeTodo: function(todo) {
-      console.log(todo);
-      this.db.changeTodo(this.edit_index, todo);
+    changeTodo: async function(todo) {
+      console.log(todo.repeated_day);
+      await this.db.changeTodo(this.edit_index, todo);
       this.show_TodoInputBox = false;
     },
-    cancel: function() {
+    cancel: async function() {
+      this.todos = await this.db.getQuery();
       this.show_TodoInputBox = false;
     },
     deleteTodo: async function() {
@@ -221,6 +222,9 @@ export default {
     },
   },
   computed: {
+    todo_changed: function() {
+      return this.todos.filter(todo => {return todo.index == this.edit_index})[0];
+    },
     // 完了済みタスクの経験値を合計して返す。
     calExp: function() {
       var totalExp = 0
