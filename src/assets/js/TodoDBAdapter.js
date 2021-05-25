@@ -137,7 +137,7 @@ async function changeTodo(index, todo) {
   // console.log(`in DBadapter ${todo.repeated_day[0]}`)
   // todo.repeated_day = Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]});
 
-  console.log(todo.repeated_day)
+  // console.log(todo.repeated_day)
 
   await db.todo_table.update(index, 
     { 
@@ -152,7 +152,7 @@ async function changeTodo(index, todo) {
   //   {
   //     "title": todo.title, 
   //     "repeated_day": todo.repeated_day});
-      console.log(await db.todo_table.get(index), todo)
+      // console.log(await db.todo_table.get(index), todo)
 }
 
 async function deleteTodo(index) {

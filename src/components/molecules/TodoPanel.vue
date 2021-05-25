@@ -22,8 +22,8 @@
       </div>
       <div class="tasks-detail" v-show="todo.project == 'repeat' " >
       <!-- <div v-show="false" > -->
-        <div class="task-d type">頻度: {{repeat[todo.repeated]}}</div>
-        <div class="task-d exp">{{week}}</div>
+        <div class="task-d repeated-timing">頻度: {{repeat[todo.repeated]}}</div>
+        <div class="task-d repeated-timing-detail">{{week}}</div>
       </div>
     </div>
       <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="peke" >
@@ -108,13 +108,20 @@ export default {
       return this.checked ? `達成した!!` : '達成せよ。'
     },
     week: function() {
-      // const weekday = ['月', '火', '水', '木', '金', '土', '日']
+      const orderRule = ['月', '火', '水', '木', '金', '土', '日']
+      const weekday = {'mon':'月', 'tue':'火', 'wed':'水', 'thu':'木', 'fri':'金', 'sat':'土', 'sun':'日'}
+      // let weekday_hanzi = [];
+      let weekday_hanzi = [] 
       if (this.todo.repeated_day){
-        return this.todo.repeated_day.join(',');
+        for (const w of this.todo.repeated_day) {
+          weekday_hanzi.push(weekday[w]);
+        }
+        return [...weekday_hanzi]
+          .sort((a, b) => orderRule.indexOf(a) - orderRule.indexOf(b))
+          .join(',');
       } else {
         return '-'
       }
-      // return ['1','2'].join(',');
     }
   }
 }
@@ -173,6 +180,7 @@ export default {
   border-color: rgb(140, 140, 140);
   text-align: center;
   border-radius: 4px;
+  width: auto;
 }
 
 .exp {
@@ -182,6 +190,14 @@ export default {
 
 .type {
   width: 80px;
+}
+
+.repeated-timing {
+  width: 60px;
+}
+
+.repeated-timing-detail {
+  width: 125px;
 }
 
 .val {

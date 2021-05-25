@@ -46,8 +46,8 @@
               <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
             </div>
           </div>
-          {{ todo.repeated_day }}
-          <input type="submit" value="get Time" @click="getTodaysDate">
+          <!-- {{ todo.repeated_day }} -->
+          <!-- <input type="submit" value="get Time" @click="getTodaysDate"> -->
         </div>
 
 
@@ -127,7 +127,7 @@ export default {
       this.todo = new Todo.Todo();
     },
     changeTodo: async function() {
-      console.log(this.todo.repeated_day);
+      // console.log(this.todo.repeated_day);
       if (this.todo.exp > 5) this.todo.exp = 5;
       if (this.todo.exp <= 0) this.todo.exp = 1;
       this.todo.exp_init = this.todo.exp;
@@ -167,21 +167,20 @@ export default {
 
 .cover-all-display {
   position: fixed;
-  display: table-cell;
+  display: flex;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   background: rgba(100, 100, 100, 0.8);
   z-index: 100000;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
 .input-box {
-  position:relative;
-  margin: auto;
-  margin-top: 30%;
+  position: relative;
   background: lightgoldenrodyellow;
+  margin: auto;
   width: 250px;
   height: auto;
   padding: 5px;

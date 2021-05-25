@@ -147,7 +147,7 @@ export default {
       this.show_TodoInputBox = true;
     },
     changeTodo: async function(todo) {
-      console.log(todo.repeated_day);
+      // console.log(todo.repeated_day);
       await this.db.changeTodo(this.edit_index, todo);
       this.show_TodoInputBox = false;
     },
