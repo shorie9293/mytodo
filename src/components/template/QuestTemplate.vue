@@ -21,13 +21,19 @@
       @click="showInputTodoBox"/>
 
   </div>
-
+  
+  <Login 
+    v-show="show_login"
+    :repeated_todo="repeated_todo"
+    @closeLoginPanel="closeLoginPanel"
+    />
   <TodoInputBox
     :show="show"
     type="add"
     @add-todo="addTodo"
     @cancel="cancel"
     />
+
   <Footer :displayMenus="displayMenus" @setDisplay="setDisplay"/>
 </template>
 
@@ -40,6 +46,7 @@ import Footer from '@/components/organisms/Footer.vue'
 import FloatingButton from '@/components/atoms/FlortingButton'
 import TodoInputBox from '@/components/organisms/TodoInputBox'
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
+import Login from '@/components/organisms/Login'
 
 export default {
   name: 'QuestTemplate',
@@ -51,6 +58,7 @@ export default {
     Footer,
     FloatingButton,
     TodoInputBox,
+    Login,
   },
   data: function() {
     return{
@@ -64,14 +72,27 @@ export default {
       show: false,
       db: Object,
       todo: {},
-
+      show_login: false,
+      repeated_todo: [],
+      date: new Date(),
     }
   },
-  mounted: function() {
+  mounted: async function() {
+    const weekday = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     this.db = TodoDBAdapter;
     this.db.createDB();
-    // let date = new Date();
-    // console.log(date);
+    const today = `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`
+    const login_date = JSON.parse(localStorage.getItem('login')) 
+      || `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`
+
+    if (today == login_date) {
+
+      this.repeated_todo = await this.db.getProjectTodo('repeat');
+      this.repeated_todo = this.repeated_todo.filter(todo => {
+        return todo.repeated_day.includes(weekday[this.date.getDay()])
+      })
+      this.show_login = true;
+    }
   },
   methods: {
     setDisplay: function(index) {
@@ -91,6 +112,20 @@ export default {
     cancel: function() {
       this.show = false;
     },
+    closeLoginPanel: function() {
+
+      // console.log(this.date.getDay(), weekday[this.date.getDay()])
+      this.todo = this.repeated_todo.forEach(todo => {
+          todo.project = 'now';
+          this.db.addTodo(todo);
+        // return todo.repeated_day.includes('wed');
+      })
+
+      // console.log(this.repeated_todo);
+      this.date.setDate(this.date.getDate() + 1);
+      localStorage.setItem('login', `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`);
+      this.show_login = false;
+    }
 
   }
 }

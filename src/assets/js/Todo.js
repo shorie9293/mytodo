@@ -17,6 +17,7 @@ class Todo {
     this.finish_date = '';
     this.repeated = 'none';
     this.repeated_day = [];
+    this.repeated_date = 0;
   }
 }
 

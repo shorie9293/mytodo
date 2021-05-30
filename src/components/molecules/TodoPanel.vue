@@ -23,7 +23,10 @@
       <div class="tasks-detail" v-show="todo.project == 'repeat' " >
       <!-- <div v-show="false" > -->
         <div class="task-d repeated-timing">頻度: {{repeat[todo.repeated]}}</div>
-        <div class="task-d repeated-timing-detail">{{week}}</div>
+        <div v-if="todo.repeated == 'week'" 
+          class="task-d repeated-timing-detail">{{week}}</div>
+        <div v-else-if="todo.repeated == 'month'"
+          class="task-d repeated-timing-detail">{{todo.repeated_date}}</div>
       </div>
     </div>
       <div v-show="(todo.project !== 'now') && (todo.project !== 'archive')" class="peke" >

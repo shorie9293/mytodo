@@ -18,6 +18,9 @@ async function createDB() {
         exp_init: 5,
         checked: false,
         finish_date: '',
+        repeated: 'month',
+        repeated_day: [],
+        repeated_date: 0
       },
       {
         id: uuidv4(),
@@ -28,6 +31,9 @@ async function createDB() {
         exp_init: 3,
         checked: false,
         finish_date: '',
+        repeated: 'month',
+        repeated_day: [],
+        repeated_date: 0
       },
       {
         id: uuidv4(),
@@ -38,6 +44,9 @@ async function createDB() {
         exp_init: 1,
         checked: false,
         finish_date: '',
+        repeated: 'month',
+        repeated_day: [],
+        repeated_date: 0,
       }
     ]);
   })
@@ -57,6 +66,7 @@ async function addTodo(todo) {
     finish_date: '',
     repeated: todo.repeated,
     repeated_day: todo.repeated_day,
+    repeated_date: todo.repeated_date,
     });
 
   }
@@ -146,8 +156,20 @@ async function changeTodo(index, todo) {
       "type": todo.type,
       "exp": todo.exp,
       "repeated": todo.repeated,
-      "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]})});
+      "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]}),
+      "repeated_date": todo.repeated_date,
+    });
 
+  // if (todo.repeated == "week") {
+  //   await db.todo_table.update(index,
+  //     {
+  //       "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]})
+  //     })
+  // } else {
+  //   console.log('update month')
+  //   await db.todo_table.update(index,
+  //     {"repeated_day": todo.repeated_day})
+  // }
   // await db.todo_table.update(index, 
   //   {
   //     "title": todo.title, 
@@ -160,8 +182,11 @@ async function deleteTodo(index) {
   return await db.todo_table.toArray();
 }
 
-async function getRepeatedTodo() {
-  return db.todo_table.where('project').equals("repeat").toArray();
+async function getProjectTodo(project) {
+  console.log(project)
+  const data = await db.todo_table.where('project').equals(project).toArray(); 
+  console.log(data);
+  return data;
 }
 
 export default {
@@ -174,5 +199,5 @@ export default {
   finishTask,
   changeTodo,
   deleteTodo,
-  getRepeatedTodo,
+  getProjectTodo,
 }

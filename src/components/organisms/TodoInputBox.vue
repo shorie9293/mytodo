@@ -43,9 +43,14 @@
           </p>
           <div v-if="todo.repeated == 'week'" class="select-day">
             <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
-              <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ day }}</label>
+              <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ weekday[day] }}</label>
             </div>
           </div>
+          <select v-else-if="todo.repeated == 'month'" v-model="todo.repeated_date">
+            <option v-for="date in monthly" :key="date" :value="date">
+              {{date}}
+            </option>
+          </select>
           <!-- {{ todo.repeated_day }} -->
           <!-- <input type="submit" value="get Time" @click="getTodaysDate"> -->
         </div>
@@ -96,7 +101,8 @@ export default {
       },
       todo: [],
       days: [],
-      date: Object
+      date: Object,
+      weekday: {'mon':'月', 'tue':'火', 'wed':'水', 'thu':'木', 'fri':'金', 'sat':'土', 'sun':'日'},
     }
   },
   mounted: function(){
@@ -147,6 +153,12 @@ export default {
     },
     types: function(){
       return Object.keys(this.todo_type);
+    },
+    monthly: function() {
+      const a = [1, 5, 10 ,15, 20 ,25, '月末'];
+      // a
+      console.log(a);
+      return a;
     }
 
   }

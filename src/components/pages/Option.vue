@@ -17,6 +17,13 @@
         </select>
       </th>
     </tr>
+    <tr>
+      <th>アーカイブ:</th>
+      <th>
+        <input id="is_archive_todos" type="checkbox" :checked="show_archive" @change="show_archive = !show_archive">
+        <label for="is_archive_todos">チェックで表示{{show_archive}}</label>
+      </th>
+    </tr>
   </table>
 
   <Button @click="setOptions" title="オプション反映"/>
@@ -63,12 +70,22 @@ export default {
         word: "たんご",
         custom: "カスタム"
       },
-      show: false
+      show: false,
+      show_archive: true,
     }
   },
   mounted: function() {
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
     this.initialQuestion = JSON.parse(localStorage.getItem('initq')) || '' ;
+    this.show_archive = Boolean(JSON.parse(localStorage.getItem('show_archive')));
+  },
+  watch: {
+    'show_archive': {
+      handler: function() {
+        localStorage.setItem('show_archive', JSON.stringify(this.show_archive));
+      },
+      deep: true,
+    } 
   },
   methods: {
     setOptions: function() {

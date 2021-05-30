@@ -19,7 +19,7 @@ TODOの機能はこのコンポーネントで完結できるようにする。 
     @slideChange="getRealIndex"
     class="swiper">
 
-    <swiper-slide v-for="todos in [todos_main, todos_sub, todos_repeat, todos_archive]"
+    <swiper-slide v-for="todos in slide_todos"
       :key="todos.index" class="slider">
       <div v-for="todo in todos" :key="todo.id">
           <TodoPanel :forid="todo.index"
@@ -103,6 +103,7 @@ export default {
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     'todos': {
       handler: async function() {
+        console.log('changed todo')
         if (!Object.keys(this.todos).length) {
           return;
         }
@@ -236,6 +237,15 @@ export default {
           }
         })
       return totalExp;
+    },
+    slide_todos: function() {
+      const show_archive = Boolean(JSON.parse(localStorage.getItem('show_archive')));
+
+      if (show_archive) {
+        return [this.todos_main, this.todos_sub, this.todos_repeat, this.todos_archive];
+      } else {
+        return [this.todos_main, this.todos_sub, this.todos_repeat];
+      }
     },
     todos_main: function() {
       return this.todos.filter((value) =>{
