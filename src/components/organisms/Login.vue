@@ -40,7 +40,6 @@ export default {
   // },
   methods: {
     confirmLogin: function() {
-      console.log('hoge');
       this.$emit('closeLoginPanel');
     }
   }

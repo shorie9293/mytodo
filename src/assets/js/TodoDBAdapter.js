@@ -183,9 +183,7 @@ async function deleteTodo(index) {
 }
 
 async function getProjectTodo(project) {
-  console.log(project)
   const data = await db.todo_table.where('project').equals(project).toArray(); 
-  console.log(data);
   return data;
 }
 

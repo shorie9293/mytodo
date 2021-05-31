@@ -10,44 +10,23 @@
 <h2>改訂履歴</h2>  
 <table>
 <tr>
-  <td>'21/04/16</td>
-  <td>ver 0.7.0</td>
+  <td>'21/05/25</td>
+  <td>ver 0.9.0</td>
   <td>
     <ul>
-      <li>UIの大幅変更</li>
-      <li>検索機能の追加</li>
-      <li>細かいバグの修正</li>
+      <li>TodoのデータベースをlocalStrage=>IndexedDBに変更</li>
+      <li>フローティングボタンによるTodoの追加機能。</li>
+      <li>完了タスクの閲覧を可能に。</li>
+      <li>繰り返しタスクの週・月の入力可能に</li>
     </ul>
   </td>     
 </tr>
 <tr>
-  <td>'21/04/27</td>
-  <td>ver 0.8.0</td>
+  <td>'21/05/28</td>
+  <td>ver 1.0 (祝!!)</td>
   <td>
     <ul>
-      <li>HOME画面に「今やること」リストの追加</li>
-      <li>タスク完了時のフラッシュ機能追加</li>
-      <li>HOME画面のOFFICEモード追加</li>
-      <li>その他微修正</li>
-    </ul>
-  </td>     
-</tr>
-<tr>
-  <td>'21/04/27</td>
-  <td>ver 0.8.1</td>
-  <td>
-    <ul>
-      <li>フッターの固定</li>
-    </ul>
-  </td>     
-</tr>
-<tr>
-  <td>'21/04/28</td>
-  <td>ver 0.8.2</td>
-  <td>
-    <ul>
-      <li>アニメーションの追加</li>
-      <li>Twitter Cardの修正</li>
+      <li>繰り返しタスクを登録しておくと自動で今日のタスクに移動してくれる。</li>
     </ul>
   </td>     
 </tr>

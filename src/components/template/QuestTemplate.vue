@@ -89,7 +89,20 @@ export default {
 
       this.repeated_todo = await this.db.getProjectTodo('repeat');
       this.repeated_todo = this.repeated_todo.filter(todo => {
-        return todo.repeated_day.includes(weekday[this.date.getDay()])
+        if (todo.repeated_day.includes(weekday[this.date.getDay()])) {
+          return true;
+        }
+        
+        if (todo.repeated_date == this.date.getDate()) {
+          return true;
+        }
+        
+        if (todo.repeated_date == '月末') {
+          const lastdate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0)
+          if (today ==  `${lastdate.getFullYear()}${lastdate.getMonth()+1}${lastdate.getDate()}`) {
+            return true;
+          }
+        }
       })
       this.show_login = true;
     }

@@ -103,7 +103,6 @@ export default {
     // handlerとdeepオプションをつけることで、todoオブジェクトの中身も管理する
     'todos': {
       handler: async function() {
-        console.log('changed todo')
         if (!Object.keys(this.todos).length) {
           return;
         }

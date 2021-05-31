@@ -21,7 +21,7 @@
       <th>アーカイブ:</th>
       <th>
         <input id="is_archive_todos" type="checkbox" :checked="show_archive" @change="show_archive = !show_archive">
-        <label for="is_archive_todos">チェックで表示{{show_archive}}</label>
+        <label for="is_archive_todos">チェックで表示</label>
       </th>
     </tr>
   </table>
