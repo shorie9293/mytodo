@@ -45,6 +45,7 @@
             <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
               <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ weekday[day] }}</label>
             </div>
+            {{todo.repeated_day}}
           </div>
           <select v-else-if="todo.repeated == 'month'" v-model="todo.repeated_date">
             <option v-for="date in monthly" :key="date" :value="date">
@@ -99,24 +100,15 @@ export default {
         "otherperson" : "連絡待ち",
         "wait" : "待機",
       },
-      todo: [],
+      todo: new Todo.Todo,
       days: [],
       date: Object,
       weekday: {'mon':'月', 'tue':'火', 'wed':'水', 'thu':'木', 'fri':'金', 'sat':'土', 'sun':'日'},
     }
   },
-  mounted: function(){
-    // console.log(`Get todo ${this.getTodo}`)
-    if (!this.getTodo) {
-      this.todo = new Todo.Todo();
-      return;
-    }
-    this.todo = this.getTodo;
-
-  },
   watch: {
     'getTodo': function() {
-      this.todo = this.getTodo;
+        this.todo = this.getTodo;
     }
   },
   methods: {
@@ -133,12 +125,10 @@ export default {
       this.todo = new Todo.Todo();
     },
     changeTodo: async function() {
-      // console.log(this.todo.repeated_day);
       if (this.todo.exp > 5) this.todo.exp = 5;
       if (this.todo.exp <= 0) this.todo.exp = 1;
       this.todo.exp_init = this.todo.exp;
       this.$emit('change-todo', this.todo);
-      // this.todo = new Todo.Todo();
     },
     cancel: function() {
       this.$emit('cancel');

@@ -18,6 +18,7 @@ class Todo {
     this.repeated = 'none';
     this.repeated_day = [];
     this.repeated_date = 0;
+    this.repeated_flag = false;
   }
 }
 

@@ -1,79 +1,47 @@
 import Dexie from 'dexie';
 import {v4 as uuidv4} from 'uuid';
 import moment from 'moment';
+import Todo from './Todo';
 
 let db;
 
 async function createDB() {
+  let todo_1 = new Todo.Todo;
+  todo_1.id = uuidv4();
+  todo_1.title = '最も目に入れておきたいタスクを入れます。例:仕事のことなど';
+  todo_1.exp = 5;
+  todo_1.exp_init = 5;
+  let todo_2 = new Todo.Todo;
+  todo_2.id = uuidv4();
+  todo_2.project = 'repeat';
+  todo_2.title = '繰り返したいタスクを入れます。';
+  todo_2.exp = 1;
+  todo_2.exp_init = 1;
+  todo_2.repeated = 'week';
+  todo_2.repeated_day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  let todo_3 = new Todo.Todo;
+  todo_3.id = uuidv4();
+  todo_3.project = 'sub';
+  todo_3.title = '通常のタスクを入れます。例:家でのことなど';
+  todo_3.exp = 3;
+  todo_3.exp_init = 3;
+
   db = new Dexie('maguroDB');
   db.version(2).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
   db.on("populate", function() {
     db.todo_table.bulkPut([
-      {
-        id: uuidv4(),
-        project: 'main', 
-        title: '最も目に入れておきたいタスクを入れます。例:仕事のことなど', 
-        type: 'nexttask',
-        exp: 5,
-        exp_init: 5,
-        checked: false,
-        finish_date: '',
-        repeated: 'month',
-        repeated_day: [],
-        repeated_date: 0
-      },
-      {
-        id: uuidv4(),
-        project: 'repeat', 
-        title: '繰り返したいタスクを入れます。', 
-        type: 'nexttask',
-        exp: 3,
-        exp_init: 3,
-        checked: false,
-        finish_date: '',
-        repeated: 'month',
-        repeated_day: [],
-        repeated_date: 0
-      },
-      {
-        id: uuidv4(),
-        project: 'sub', 
-        title: '通常のタスクを入れます。例:家でのことなど', 
-        type: 'nexttask',
-        exp: 1,
-        exp_init: 1,
-        checked: false,
-        finish_date: '',
-        repeated: 'month',
-        repeated_day: [],
-        repeated_date: 0,
-      }
+        todo_1, todo_2, todo_3
     ]);
   })
   await db.open();
 }
 
 async function addTodo(todo) {
-  
-  await db.todo_table.put({
-    id: todo.id, 
-    project: todo.project,
-    title: todo.title,
-    type: todo.type, 
-    exp: todo.exp,
-    exp_init: todo.exp,
-    checked: todo.checked,
-    finish_date: '',
-    repeated: todo.repeated,
-    repeated_day: todo.repeated_day,
-    repeated_date: todo.repeated_date,
-    });
+  // console.log(todo);
+  console.log(todo.repeated_day)
+  await db.todo_table.put(todo);
 
-  }
-
-// async function changeTodo(todo) {
-//   console.log(db.todo_table.where({'id':todo.id}).toArray());
-// }
+}
 
 async function changeChecked(todos) {
 
@@ -143,13 +111,9 @@ async function finishTask() {
 
 }
 
-async function changeTodo(index, todo) {
-  // console.log(`in DBadapter ${todo.repeated_day[0]}`)
-  // todo.repeated_day = Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]});
+async function changeTodo(todo) {
 
-  // console.log(todo.repeated_day)
-
-  await db.todo_table.update(index, 
+  await db.todo_table.update(todo.index, 
     { 
       "project" : todo.project,
       "title": todo.title, 
@@ -158,23 +122,9 @@ async function changeTodo(index, todo) {
       "repeated": todo.repeated,
       "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]}),
       "repeated_date": todo.repeated_date,
-    });
+    }
+  );
 
-  // if (todo.repeated == "week") {
-  //   await db.todo_table.update(index,
-  //     {
-  //       "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]})
-  //     })
-  // } else {
-  //   console.log('update month')
-  //   await db.todo_table.update(index,
-  //     {"repeated_day": todo.repeated_day})
-  // }
-  // await db.todo_table.update(index, 
-  //   {
-  //     "title": todo.title, 
-  //     "repeated_day": todo.repeated_day});
-      // console.log(await db.todo_table.get(index), todo)
 }
 
 async function deleteTodo(index) {
