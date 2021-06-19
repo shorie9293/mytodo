@@ -27,7 +27,7 @@ async function createDB() {
   todo_3.exp_init = 3;
 
   db = new Dexie('maguroDB');
-  db.version(2).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
+  db.version(3).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated'});
   db.on("populate", function() {
     db.todo_table.bulkPut([
         todo_1, todo_2, todo_3
@@ -37,10 +37,8 @@ async function createDB() {
 }
 
 async function addTodo(todo) {
-  // console.log(todo);
-  console.log(todo.repeated_day)
+  todo.index = undefined;
   await db.todo_table.put(todo);
-
 }
 
 async function changeChecked(todos) {
@@ -122,6 +120,7 @@ async function changeTodo(todo) {
       "repeated": todo.repeated,
       "repeated_day": Object.keys(todo.repeated_day).map(function (key) {return todo.repeated_day[key]}),
       "repeated_date": todo.repeated_date,
+      "repeated_flag": todo.repeated_flag,
     }
   );
 
@@ -137,6 +136,12 @@ async function getProjectTodo(project) {
   return data;
 }
 
+async function resetRepeatFlag(i) {
+  if (i == 'week') {
+    await db.todo_table.where('repeated').equals('week').modify({repeated_flag: false});
+  }
+}
+
 export default {
   createDB,
   addTodo,
@@ -148,4 +153,5 @@ export default {
   changeTodo,
   deleteTodo,
   getProjectTodo,
+  resetRepeatFlag,
 }

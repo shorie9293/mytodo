@@ -45,7 +45,6 @@
             <div v-for="day in ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']" :key="day">
               <input v-model="todo.repeated_day" type="checkbox" :id="day" :value="day"><label :for="day">{{ weekday[day] }}</label>
             </div>
-            {{todo.repeated_day}}
           </div>
           <select v-else-if="todo.repeated == 'month'" v-model="todo.repeated_date">
             <option v-for="date in monthly" :key="date" :value="date">

@@ -47,6 +47,7 @@ import FloatingButton from '@/components/atoms/FlortingButton'
 import TodoInputBox from '@/components/organisms/TodoInputBox'
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 import Login from '@/components/organisms/Login'
+// import Todo from '@/assets/js/Todo'
 
 export default {
   name: 'QuestTemplate',
@@ -71,43 +72,58 @@ export default {
       ],
       show: false,
       db: Object,
-      todo: {},
+      todo: [],
       show_login: false,
       repeated_todo: [],
       date: new Date(),
     }
   },
   mounted: async function() {
-    const weekday = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
     this.db = TodoDBAdapter;
     this.db.createDB();
-    const today = `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`
-    const login_date = JSON.parse(localStorage.getItem('login')) 
-      || `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`
-
-    if (today == login_date) {
-
-      this.repeated_todo = await this.db.getProjectTodo('repeat');
-      this.repeated_todo = this.repeated_todo.filter(todo => {
-        if (todo.repeated_day.includes(weekday[this.date.getDay()])) {
-          return true;
-        }
-        
-        if (todo.repeated_date == this.date.getDate()) {
-          return true;
-        }
-        
-        if (todo.repeated_date == '月末') {
-          const lastdate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0)
-          if (today ==  `${lastdate.getFullYear()}${lastdate.getMonth()+1}${lastdate.getDate()}`) {
-            return true;
-          }
-        }
-      })
-      this.show_login = true;
-    }
+    // this.db.resetRepeatFlag('week');
+    this.repeated_todo = await this.db.getProjectTodo('repeat');
+    await this.startLogin();
   },
   methods: {
+    startLogin: async function() {
+      let month = `${this.date.getMonth()+1}`
+      month = this.date.getMonth() + 1 < 10 ? '0' + month : month;
+      let date = `${this.date.getDate()}`
+      date = this.date.getDate() < 10 ? '0' + date : date;
+      const week = {'mon':1, 'tue':2, 'wed':3, 'thu':4, 'fri':5, 'sat':6, 'sun':0}
+      const today = `${this.date.getFullYear()}${month}${date}`
+      const login_date = JSON.parse(localStorage.getItem('login')) 
+        || today
+
+      if (today >= login_date) {
+        this.repeated_todo = this.repeated_todo.filter(todo => {
+          let todo_week_day = todo.repeated_day.map(val => {
+            return week[val]
+          });
+          console.log(Math.max(...todo_week_day))
+          if (this.date.getDay() >= Math.max(...todo_week_day) && todo.repeated_flag == false) {
+            console.log(todo_week_day, this.date.getDay());
+            todo.repeated_flag = true;
+            return true;
+          }
+          
+          if (todo.repeated_date <= this.date.getDate() && todo.repeated_flag == false) {
+            todo.repeated_flag = true;
+            return true;
+          }
+          
+          if (todo.repeated_date == '月末') {
+            const lastdate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+            if (today ==  `${lastdate.getFullYear()}${month}${lastdate.getDate()}`) {
+              todo.repeated_flag = true;
+              return true;
+            }
+          }
+        })
+        this.show_login = true;
+      }
+    },
     setDisplay: function(index) {
       this.displayMenus[this.display].display = false;
       this.displayMenus[index].display = true;
@@ -125,20 +141,26 @@ export default {
     cancel: function() {
       this.show = false;
     },
-    closeLoginPanel: function() {
+    closeLoginPanel: async function() {
 
       // console.log(this.date.getDay(), weekday[this.date.getDay()])
-      this.todo = this.repeated_todo.forEach(todo => {
+  
+      this.todo = await this.repeated_todo.forEach(todo => {
+          this.db.changeTodo(todo);
+          console.log(todo.index, todo.repeated_flag);
           todo.project = 'now';
           this.db.addTodo(todo);
-        // return todo.repeated_day.includes('wed');
       })
 
       // console.log(this.repeated_todo);
       this.date.setDate(this.date.getDate() + 1);
-      localStorage.setItem('login', `${this.date.getFullYear()}${this.date.getMonth()+1}${this.date.getDate()}`);
+      let month = `${this.date.getMonth()+1}`
+      month = this.date.getMonth() + 1 < 10 ? '0' + month : month;
+      let date = `${this.date.getDate()}`
+      date = this.date.getDate() < 10 ? '0' + date : date;
+      localStorage.setItem('login', `${this.date.getFullYear()}${month}${date}`);
       this.show_login = false;
-    }
+    },
 
   }
 }
