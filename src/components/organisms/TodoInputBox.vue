@@ -157,7 +157,7 @@ export default {
     monthly: function() {
       const a = [1, 5, 10 ,15, 20 ,25, '月末'];
       // a
-      console.log(a);
+      // console.log(a);
       return a;
     }
 

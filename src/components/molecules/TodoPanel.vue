@@ -2,12 +2,25 @@
 <template>
   <div :class="['container', classType]">
     <div class="check-area" >
-      <input :id="'todo' + todo.index"
-        class="checkbox"
-        type="checkbox"
-        :checked="checked"
-        @change="changeChecked($event)">
-      <label :for="'todo' + todo.index"></label>
+      <div>
+        <input :id="'todo' + todo.index"
+          class="checkbox"
+          type="checkbox"
+          :checked="checked"
+          @change="changeChecked($event)">
+        <label :for="'todo' + todo.index"></label>
+        <div v-show="todo.project == 'now'">
+          <Button style="
+            text-align: center;
+            background: rgb(200,200,200);
+            width: 34px; 
+            height: 10px;
+            padding: 3px; 
+            margin:2px;
+            font-size: 8pt;" title="Delete"
+            @click="deleteTask"></Button>
+        </div>
+      </div>
     </div>
     <div class="task-area">
       <div class="val"><span v-if="task[todo.type]" :class="classofvalue">
@@ -41,21 +54,20 @@
 </template>
 
 <script>
-// import Button from '@/components/atoms/Button'
+import Button from '@/components/atoms/Button'
 
 export default {
   inheritAttrs: false,
   name: 'TodoPanel',
   components: {
+    Button,
   },
   emits:[
     'edit-task',
     'sent-task',
+    'delete-task',
     'update:checked'
   ],
-  // components: {
-  //   Button,
-  // },
   props: {
     forid: Number,
     value: String,
@@ -104,6 +116,9 @@ export default {
     editTask: function() {
       // console.log(`editTask: ${this.index}`);
       this.$emit('edit-task');
+    },
+    deleteTask: function() {
+      this.$emit('delete-task');
     }
   },
   computed: {
@@ -214,6 +229,7 @@ export default {
   margin-left: 30px;
   width: 50px;
   display: flex;
+  align-items: center;
   /* background: red; */
 }
 
@@ -229,7 +245,8 @@ export default {
 .check-area input[type="checkbox"]+ label {
   margin-top: auto;
   margin-bottom: auto;
-  
+  display: flex;
+  flex-flow: column;
     /* display: block; */
   width: 45px;
   height: 42px;
@@ -237,6 +254,7 @@ export default {
   background-image: url(./../../assets/imgs/todo/checkbox.png);
   background-size: 90%;
   background-repeat: no-repeat;
+  
 }
 
 .check-area input[type="checkbox"]:checked+ label {

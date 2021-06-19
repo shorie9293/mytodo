@@ -56,18 +56,20 @@
         :value="question">{{ question }}</option>
     </select>
   </div>
-  <span v-if="pickQuestion == questionType.math">
-    <MathCal ref="math" @updateAnswer="judgeAnswer"/>
-    <Button title="こうげき" @click="$refs.math.judge_answer()"/>
-  </span>
-  <span v-else-if="pickQuestion == questionType.word">
-    <word-q ref="word" :question="require(`@/assets/data/chinese1013.json`)" @updateAnswer="judgeAnswer"/>
-    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
-  </span>
-  <span v-else-if="pickQuestion == questionType.custom">
-    <word-q ref="word" :question="require(`@/assets/data/test.json`)" @updateAnswer="judgeAnswer"/>
-    <Button title="こうげき" @click="$refs.word.judge_answer()"/>
-  </span>
+  <div class="question-field">
+    <span v-if="pickQuestion == questionType.math">
+      <MathCal ref="math" @updateAnswer="judgeAnswer"/>
+      <Button title="こうげき" @click="$refs.math.judge_answer()"/>
+    </span>
+    <span v-else-if="pickQuestion == questionType.word">
+      <word-q ref="word" :question="require(`@/assets/data/chinese1013.json`)" @updateAnswer="judgeAnswer"/>
+      <Button title="こうげき" @click="$refs.word.judge_answer()"/>
+    </span>
+    <span v-else-if="pickQuestion == questionType.custom">
+      <word-q ref="word" :question="require(`@/assets/data/test.json`)" @updateAnswer="judgeAnswer"/>
+      <Button title="こうげき" @click="$refs.word.judge_answer()"/>
+    </span>
+  </div>
 
 
   <!-- 敵キャラのステータスデバッグ用。 -->
@@ -450,6 +452,16 @@ export default {
   width: 100%;
   align-content: left;
   margin-right: 5px;
+}
+
+.question-field {
+  background: whitesmoke;
+  margin: 5px;
+  padding: 2px;
+  height: 200px;
+  overflow: scroll;
+  border-radius: 5px;
+  box-shadow: 0.5px 2px rgba(0, 0, 0, 0.2);
 }
 
 </style>

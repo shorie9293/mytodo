@@ -14,9 +14,10 @@
       <div class="todonow">
         <div v-for="t in todos_now" :key="'todo' + t.id">
           <TodoPanel 
-          :todo="t"
-          :classofvalue="{'finished' : t.checked}"
-          v-model:checked="t.checked"
+            :todo="t"
+            :classofvalue="{'finished' : t.checked}"
+            v-model:checked="t.checked"
+            @delete-task="deleteTask(t.index)"
           />
 
         </div>
@@ -220,7 +221,14 @@ export default {
 
       // localStorage.setItem('leveldata', JSON.stringify(this.leveldata))
     },
+    deleteTask: async function(index) {
+      if (!confirm('タスクを削除しますか？')) {
+        return;
+      }
+      
+      this.todos = await this.db.deleteTodo(index);
 
+    },
     // デバッグ用。いまのところ保存 210207
     expstockToExp: function() {
       if (this.lvdata.stexp <= 0) {
