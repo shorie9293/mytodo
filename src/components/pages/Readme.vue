@@ -30,6 +30,17 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/06/19</td>
+  <td>ver 1.1</td>
+  <td>
+    <ul>
+      <li>休日にかぶった日付繰り返しタスクを再登録する。</li>
+      <li>問題画面のレイアウト変更</li>
+      <li>今やるタスクに削除ボタン追加</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

@@ -81,7 +81,11 @@ export default {
   mounted: async function() {
     this.db = TodoDBAdapter;
     this.db.createDB();
-    // this.db.resetRepeatFlag('week');
+    const login_month = JSON.parse(localStorage.getItem('login_month')) || 0;
+    if (this.date.getMonth() > login_month ) {
+      this.db.resetRepeatFlag('month');
+      localStorage.setItem('login_month', this.date.getMonth());
+    }
     this.repeated_todo = await this.db.getProjectTodo('repeat');
     await this.startLogin();
   },
@@ -101,10 +105,8 @@ export default {
           let todo_week_day = todo.repeated_day.map(val => {
             return week[val]
           });
-          console.log(Math.max(...todo_week_day))
-          if (this.date.getDay() >= Math.max(...todo_week_day) && todo.repeated_flag == false) {
-            console.log(todo_week_day, this.date.getDay());
-            todo.repeated_flag = true;
+          if (todo_week_day.includes(this.date.getDay())) {
+            // todo.repeated_flag = true;
             return true;
           }
           
@@ -147,7 +149,6 @@ export default {
   
       this.todo = await this.repeated_todo.forEach(todo => {
           this.db.changeTodo(todo);
-          console.log(todo.index, todo.repeated_flag);
           todo.project = 'now';
           this.db.addTodo(todo);
       })

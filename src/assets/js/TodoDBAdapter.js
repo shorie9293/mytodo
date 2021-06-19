@@ -27,6 +27,7 @@ async function createDB() {
   todo_3.exp_init = 3;
 
   db = new Dexie('maguroDB');
+  db.version(2).stores({todo_table: '++index, id, project, title, type, checked, finish_date'});
   db.version(3).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated'});
   db.on("populate", function() {
     db.todo_table.bulkPut([
@@ -137,9 +138,7 @@ async function getProjectTodo(project) {
 }
 
 async function resetRepeatFlag(i) {
-  if (i == 'week') {
-    await db.todo_table.where('repeated').equals('week').modify({repeated_flag: false});
-  }
+  await db.todo_table.where('repeated').equals(i).modify({repeated_flag: false});
 }
 
 export default {
