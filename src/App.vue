@@ -23,7 +23,6 @@ import StandardButton from './components/atoms/Button';
 import QuestTemplate from './components/template/QuestTemplate';
 import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 
-
 export default {
   name: 'App',
   components: {

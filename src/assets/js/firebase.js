@@ -1,3 +1,0 @@
-
-
-// const db = firebase.firestore();

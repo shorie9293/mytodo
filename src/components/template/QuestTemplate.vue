@@ -49,6 +49,8 @@ import TodoDBAdapter from '@/assets/js/TodoDBAdapter'
 import Login from '@/components/organisms/Login'
 // import Todo from '@/assets/js/Todo'
 
+import db from '@/assets/js/firebaseInit'
+
 export default {
   name: 'QuestTemplate',
   components: {
@@ -87,9 +89,22 @@ export default {
       localStorage.setItem('login_month', this.date.getMonth());
     }
     this.repeated_todo = await this.db.getProjectTodo('repeat');
+    this.addTest();
     await this.startLogin();
+    // firebase.addTest();
   },
   methods: {
+    addTest: function() {
+      db.collection('enemys').add({
+        enemy: 'test'
+      })
+      .then( doc => {
+        console.log( `${doc} added!`);
+      })
+      .catch( error => {
+        console.log(error);
+      })
+    },
     startLogin: async function() {
       let month = `${this.date.getMonth()+1}`
       month = this.date.getMonth() + 1 < 10 ? '0' + month : month;
