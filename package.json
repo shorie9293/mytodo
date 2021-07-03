@@ -15,19 +15,19 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
     "@vue/cli-plugin-pwa": "^4.5.12",
     "axios": "^0.21.1",
-    "core-js": "^3.11.2",
+    "core-js": "^3.15.2",
     "dexie": "^3.0.3",
-    "firebase": "^8.6.2",
+    "firebase": "^8.6.8",
     "material-design-icons": "^3.0.1",
     "moment": "^2.29.1",
     "node-sass": "^4.14.1",
-    "postcss": "^8.2.13",
+    "postcss": "^8.3.5",
     "register-service-worker": "^1.7.2",
     "sass-loader": "^7.3.1",
     "ssri": "^8.0.1",
-    "swiper": "^6.5.9",
+    "swiper": "^6.7.5",
     "uuid": "^3.4.0",
-    "vue": "^3.0.11",
+    "vue": "^3.1.2",
     "vue-fontawesome": "^0.0.2",
     "vue-uuid": "^2.0.2"
   },
@@ -35,10 +35,10 @@
     "@vue/cli-plugin-babel": "^4.5.12",
     "@vue/cli-plugin-eslint": "^4.5.12",
     "@vue/cli-service": "^4.5.12",
-    "@vue/compiler-sfc": "^3.0.11",
+    "@vue/compiler-sfc": "^3.1.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.9.0"
+    "eslint-plugin-vue": "^7.12.1"
   },
   "eslintConfig": {
     "root": true,
@@ -58,5 +58,17 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shorie9293/mytodo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shorie9293/mytodo/issues"
+  },
+  "homepage": "https://github.com/shorie9293/mytodo#readme"
 }
