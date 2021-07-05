@@ -6,6 +6,19 @@
     </tr>
     <tr>
       <th>
+        しょくぎょう:
+      </th>
+      <th>
+        <select  class="inputarea" name="job" id="job" v-model="parsonal.job">
+          <option v-for="(job, index) in jobs"
+            name="question"
+            :key="index"
+            :value="job">{{ job }}</option>
+        </select>
+      </th>
+    </tr>
+    <tr>
+      <th>
         もんだい:
       </th>
       <th>
@@ -64,12 +77,18 @@ export default {
   data() {
     return {
       initialQuestion: '',
+      settingJob: '',
       parsonal: '',
       questionType: {
         math: "さんすう",
         word: "たんご",
         custom: "カスタム"
       },
+      jobs: [
+        'ゆうしゃ',
+        'せんし',
+        'まほうつかい'
+      ],
       show: false,
       show_archive: true,
     }
@@ -78,6 +97,7 @@ export default {
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
     this.initialQuestion = JSON.parse(localStorage.getItem('initq')) || '' ;
     this.show_archive = Boolean(JSON.parse(localStorage.getItem('show_archive')));
+
   },
   watch: {
     'show_archive': {

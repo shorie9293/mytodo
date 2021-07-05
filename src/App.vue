@@ -59,7 +59,7 @@ export default {
   methods:{
     setNameandJob: function(){
       if (confirm`なまえとしょくぎょうはこれでいいですか？
-                ※なまえはあとからかえられます`) {
+                ※なまえとしょくぎょうはあとからかえられます`) {
         localStorage.setItem('parsonal', JSON.stringify(this.parsonal))
         localStorage.setItem('firstSetting', false);
         this.firstSetting = false

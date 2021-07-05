@@ -86,7 +86,8 @@ export default {
         stexp: 0,
         money: 0
       },
-      img: require(`@/assets/imgs/player/yuusya_game.webp`),
+      // img: require(`@/assets/imgs/player/yuusya_game.webp`),
+      img: require(`@/assets/imgs/player/yusha2.png`),
       personal: {},
       todos: [],
       pick: 0,
@@ -160,11 +161,14 @@ export default {
     this.parsonal = JSON.parse(localStorage.getItem('parsonal')) || {name:'hoge', job: ''} ;
     // this.todos = JSON.parse(localStorage.getItem('doit_now')) || [];
     if (this.parsonal.job == "ゆうしゃ") {
-      this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
+      // this.img = require(`@/assets/imgs/player/yuusya_game.webp`)
+      this.img = require(`@/assets/imgs/player/yusha2.png`)
     } else if (this.parsonal.job == "まほうつかい") {
-      this.img = require(`@/assets/imgs/player/magic.webp`)
+      // this.img = require(`@/assets/imgs/player/magic.webp`)
+      this.img = require(`@/assets/imgs/player/mahou2.png`)
     } else if (this.parsonal.job == "せんし") {
-      this.img = require(`@/assets/imgs/player/senshi.webp`)
+      // this.img = require(`@/assets/imgs/player/senshi.webp`)
+      this.img = require(`@/assets/imgs/player/senshi2.png`)
     } else {
       this.img = require(`@/assets/imgs/player/rpg.webp`)
     }
