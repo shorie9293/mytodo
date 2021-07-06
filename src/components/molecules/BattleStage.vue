@@ -9,7 +9,12 @@
         <StatusData :item="stage.stg" :value="wins[index]"/>
       </div>
     </div>
-    最初の塔
+    <select name="stage" id="stage" v-model="stageName">
+      <option v-for="(stageName, index) in stageNames"
+        name="stage"
+        :key="index"
+        :value="stageName">{{ stageName }}</option>
+    </select>
   </div>
   
 </template>
@@ -33,6 +38,15 @@ export default {
         {id:3, stg:"F4", cls:"stg stg4"},
         {id:4, stg:"F5", cls:"stg stg5"}        
       ],
+      stages2: [
+        {id:5, stg:"F6", cls:"stg stg1"},
+        {id:6, stg:"F7", cls:"stg stg2"},
+        {id:7, stg:"F8", cls:"stg stg3"},
+        {id:8, stg:"F9", cls:"stg stg4"},
+        {id:9, stg:"F10", cls:"stg stg5"}        
+      ],
+      stageName: '最初の塔',
+      stageNames: ['最初の塔', '絶望の塔']
     }
   },
   methods: {
@@ -43,7 +57,11 @@ export default {
   computed: {
     // 配列の要素順番を逆順にする
     reverseStages() {
-      return this.stages.slice().reverse();
+      if (this.stageName == "最初の塔") {
+        return this.stages.slice().reverse();
+      } else {
+        return this.stages2.slice().reverse();
+      }
     },
   }
 

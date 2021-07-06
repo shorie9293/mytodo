@@ -51,6 +51,15 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/07/07</td>
+  <td>ver 1.1.2</td>
+  <td>
+    <ul>
+      <li>ステージ:絶望の塔追加</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

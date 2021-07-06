@@ -3,5 +3,10 @@
   {"id":2, "name":"いぬ","hp":13,"at":6,"df":6,"img":"dog.webp", "money":2},
   {"id":3, "name":"あり","hp":17,"at":10,"df":9,"img":"ari.gif", "money":3},
   {"id":4, "name":"はえ","hp":21,"at":13,"df":12,"img":"hae.gif", "money":4},
-  {"id":5, "name":"おっさん","hp":26,"at":18,"df":15,"img":"ossan.gif", "money":5}
+  {"id":5, "name":"おっさん","hp":26,"at":18,"df":15,"img":"ossan.gif", "money":5},
+  {"id":6, "name":"たいいく","hp":30,"at":24,"df":20,"img":"taiiku.png", "money":6},
+  {"id":7, "name":"すまほわれ","hp":35,"at":30,"df":25,"img":"sumahoware.png", "money":7},
+  {"id":8, "name":"ざんむ","hp":40,"at":34,"df":30,"img":"zanmu.png", "money":8},
+  {"id":9, "name":"こうえん","hp":45,"at":36,"df":35,"img":"kouen.png", "money":9},
+  {"id":10, "name":"ぜつぼう","hp":50,"at":40,"df":40,"img":"zetsubou.png", "money":10}
 ]
