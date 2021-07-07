@@ -93,12 +93,13 @@
 </template>
 
 <script>
-import Button from '../atoms/Button'
-import ImageView from '../atoms/ImageView'
-import BattleStatusData from '../molecules/BattleStatusData'
-import MathCal from '../molecules/question/MathCal'
-import WordQ from '../molecules/question/WordQ.vue'
-import BattleStage from '../molecules/BattleStage.vue'
+import Button from '@/components/atoms/Button'
+import ImageView from '@/components/atoms/ImageView'
+import BattleStatusData from '@/components/molecules/BattleStatusData'
+import MathCal from '@/components/molecules/question/MathCal'
+import WordQ from '@/components/molecules/question/WordQ.vue'
+import BattleStage from '@/components/molecules/BattleStage.vue'
+import MonsterDBAdapter from '@/assets/js/MonsterDBAdapter'
 
 export default {
   name: "BattleComponent",
@@ -161,7 +162,8 @@ export default {
       isEnemyData: false,
       index: 0,
       pickQuestion: 'さんすう',
-      customQ: []
+      customQ: [],
+      monsterDB: Object,
     }
   },
   watch: {
@@ -184,6 +186,8 @@ export default {
       this.customQ = JSON.parse(localStorage.getItem('customQuestion')) || [{"title":""},
   [{"theme": "", "question": "", "answers": ["", "", "", ""], "trueAnswer": "", "comment": ""}]
 ]
+      this.monsterDB = MonsterDBAdapter;
+      this.monsterDB.createDB();
     },
   methods: {
     // 一連の攻撃画面。アニメーションを表記するためにsetTimeoutを入れ子にしているのと、内部関数使ってる
