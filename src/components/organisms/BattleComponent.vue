@@ -158,7 +158,7 @@ export default {
         word: "たんご",
         custom: "カスタム"
       },
-      defetCounter: [0,0,0,0,0],
+      defetCounter: [0,0,0,0,0,0,0,0,0,0],
       isEnemyData: false,
       index: 0,
       pickQuestion: 'さんすう',
@@ -176,7 +176,11 @@ export default {
     function() {
       // 自分のステータスを読み込む。
       this.sts = JSON.parse(localStorage.getItem('status'))
-      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter')) || [0,0,0,0,0]
+      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
+      if (this.defetCounter.length === 5) {
+        this.defetCounter.push(0,0,0,0,0);
+        localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter));
+      }
       this.leveldata = JSON.parse(localStorage.getItem('leveldata'))
       this.pickQuestion = JSON.parse(localStorage.getItem('initq')) || "さんすう"
       this.status.myStatus.hp = this.sts[0].vl
@@ -221,7 +225,11 @@ export default {
         if (ensts.hp <= 0) {
           v.show = false;
           v.winner = 1;
-          v.defetCounter[v.index]++;
+          if (v.defetCounter[v.index] == null) {
+            v.defetCounter[v.index] = 1;
+          } else {
+            v.defetCounter[v.index]++;
+          }
           if (!v.leveldata.money) {
             v.leveldata.money = v.status.enemyStatus.money; 
           } else {

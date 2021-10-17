@@ -59,8 +59,10 @@ export default {
     reverseStages() {
       if (this.stageName == "最初の塔") {
         return this.stages.slice().reverse();
-      } else {
+      } else if (this.stageName == "絶望の塔") {
         return this.stages2.slice().reverse();
+      } else {
+        return this.stages.slice().reverse();
       }
     },
   }
