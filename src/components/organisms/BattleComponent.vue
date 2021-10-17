@@ -21,7 +21,7 @@
     <!-- バトルマップ。選択されたインデックスをうけとって、selectStageで処理。  -->
     <battle-stage class="battle-map"
       @get-stage-index="selectStage"
-      :wins="reverseWins"></battle-stage>
+      :wins="defetCounter"></battle-stage>
 
   </div>  
 

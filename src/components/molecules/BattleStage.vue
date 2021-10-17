@@ -1,12 +1,12 @@
 <template>
 
   <div class="battle-map">
-    <div v-for="(stage,index) in reverseStages"
+    <div v-for="stage in reverseStages"
       :key="stage.id"
       :class="stage.cls"
       @click="selectStage(stage.id)">
       <div class="tower-container">
-        <StatusData :item="stage.stg" :value="wins[index]"/>
+        <StatusData :item="stage.stg" :value="wins[stage.id]"/>
       </div>
     </div>
     <select name="stage" id="stage" v-model="stageName">
