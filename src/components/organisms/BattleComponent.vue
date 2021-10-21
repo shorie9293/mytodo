@@ -176,7 +176,7 @@ export default {
     function() {
       // 自分のステータスを読み込む。
       this.sts = JSON.parse(localStorage.getItem('status'))
-      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter'))
+      this.defetCounter = JSON.parse(localStorage.getItem('defetCounter')) || [0,0,0,0,0,0,0,0,0,0]
       if (this.defetCounter.length === 5) {
         this.defetCounter.push(0,0,0,0,0);
         localStorage.setItem('defetCounter', JSON.stringify(this.defetCounter));
