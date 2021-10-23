@@ -8,5 +8,10 @@
   {"id":7, "name":"すまほわれ","hp":35,"at":30,"df":25,"img":"sumahoware.png", "money":7},
   {"id":8, "name":"ざんむ","hp":40,"at":34,"df":30,"img":"zanmu.png", "money":8},
   {"id":9, "name":"こうえん","hp":45,"at":36,"df":35,"img":"kouen.png", "money":9},
-  {"id":10, "name":"ぜつぼう","hp":50,"at":40,"df":40,"img":"zetsubou.png", "money":10}
+  {"id":10, "name":"ぜつぼう","hp":50,"at":40,"df":40,"img":"zetsubou.png", "money":10},
+  {"id":11, "name":"こんちゅうマン","hp":60,"at":50,"df":50,"img":"konchu.png", "money":17},
+  {"id":12, "name":"かくとうマン","hp":70,"at":55,"df":56,"img":"kakutou.png", "money":20},
+  {"id":13, "name":"じめんマン","hp":75,"at":56,"df":59,"img":"jimen.png", "money":25},
+  {"id":14, "name":"かみなりマン","hp":80,"at":60,"df":64,"img":"kaminari.png", "money":30},
+  {"id":15, "name":"かえんマン","hp":100,"at":100,"df":100,"img":"kaen.png", "money":40}
 ]
