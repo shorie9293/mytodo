@@ -60,6 +60,16 @@
     </ul>
   </td>     
 </tr>
+<tr>
+  <td>'21/10/23</td>
+  <td>ver 1.1.3</td>
+  <td>
+    <ul>
+      <li>ステージ:天地の塔追加</li>
+      <li>バグ修正</li>
+    </ul>
+  </td>     
+</tr>
 </table>
 <a href="https://scrapbox.io/maguro-quest/%E6%94%B9%E8%A8%82%E5%B1%A5%E6%AD%B4">過去の改訂履歴</a>
 

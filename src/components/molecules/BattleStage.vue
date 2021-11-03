@@ -45,8 +45,15 @@ export default {
         {id:8, stg:"F9", cls:"stg stg4"},
         {id:9, stg:"F10", cls:"stg stg5"}        
       ],
+      stages3: [
+        {id:10, stg:"F11", cls:"stg stg1"},
+        {id:11, stg:"F12", cls:"stg stg2"},
+        {id:12, stg:"F13", cls:"stg stg3"},
+        {id:13, stg:"F14", cls:"stg stg4"},
+        {id:14, stg:"F15", cls:"stg stg5"}        
+      ],
       stageName: '最初の塔',
-      stageNames: ['最初の塔', '絶望の塔']
+      stageNames: ['最初の塔', '絶望の塔', '天地の塔']
     }
   },
   methods: {
@@ -61,6 +68,8 @@ export default {
         return this.stages.slice().reverse();
       } else if (this.stageName == "絶望の塔") {
         return this.stages2.slice().reverse();
+      } else if (this.stageName == "天地の塔") {
+        return this.stages3.slice().reverse();
       } else {
         return this.stages.slice().reverse();
       }
