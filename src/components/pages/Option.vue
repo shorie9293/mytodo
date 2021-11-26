@@ -128,6 +128,8 @@ export default {
       } 
     },
     async loadLog (event) {
+      const db = TodoDBAdapter;
+      db.createDB();
         const files = event.target.files || event.dataTransfer.files
         const file = files[0]
 
@@ -140,7 +142,11 @@ export default {
 
         const logJson = JSON.parse(logData)
 
-        console.log(logJson);
+        logJson.forEach(todo => {
+          db.addTodo(todo);
+        });
+
+
     },
 
     getFileData(file) {
