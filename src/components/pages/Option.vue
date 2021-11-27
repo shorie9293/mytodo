@@ -58,6 +58,8 @@
   <read-custom-q v-show="false"></read-custom-q>
     
   <SarchTodo v-show="false" />
+
+  <Button title="TestSingleton" @click="singleton" />
 </div>
 
 </template>
@@ -69,6 +71,7 @@ import ReadCustomQ from '../organisms/ReadCustomQ';
 import SarchTodo from '../test/SarchTodo.vue';
 import ConvertJsonToIndexedDB from '@/components/organisms/ConvertJsonToIndexedDB';
 import BackUpTodo from "@/components/organisms/BackUpTodo.vue";
+import Singleton from "../test/Singleton";
 
 export default {
   components: {
