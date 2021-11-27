@@ -59,7 +59,7 @@
     
   <SarchTodo v-show="false" />
 
-  <Button title="TestSingleton" @click="singleton" />
+  <Button title="TestSingleton" @click="testsingleton" />
 </div>
 
 </template>
@@ -119,6 +119,15 @@ export default {
     } 
   },
   methods: {
+    testsingleton() {
+      Singleton.getX();
+    },
+    setOptions: function() {
+      if (confirm("設定を反映しますか？")) {
+        localStorage.setItem('parsonal', JSON.stringify(this.parsonal));
+        localStorage.setItem('initq', JSON.stringify(this.initialQuestion));
+      } 
+    },
     // 全データのリセット。デバッグ用。
     clear: function() {
       if (confirm("OK!?")) {

@@ -1,27 +1,13 @@
 class Singleton {
   constructor() {
-    let instance;
-
-    Singleton() = function () {
-      return instance;
-    };
-
-    Singleton.prototype = this;
-
-    instance = new Singleton();
-
-    instance.constructor = Singleton;
-
-    this.myName = 'Singleton';
-    this.method = function () {
-      console.log('hogehogehoge');
-    };
-
-    return instance;
-
+    this.x = 0;
   }
+
+  getX() {
+    this.x++;
+    console.log(this.x);
+  }
+
 }
 
-export default {
-  Singleton,
-}
+export default new Singleton();
