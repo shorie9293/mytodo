@@ -1,5 +1,8 @@
 <!-- 戦闘画面 -->
 <template>
+
+<div>  
+
   <div class="battle-field">
 
     <!-- 敵キャラ表示コンポーネント。 -->
@@ -90,6 +93,7 @@
       <input type="number" v-model="status.enemyStatus.diffence">
     </div>
   </div>
+</div>
 </template>
 
 <script>

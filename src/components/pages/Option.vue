@@ -1,4 +1,6 @@
 <template>
+<div>
+
   <table>
     <tr>
       <th>なまえ: </th>
@@ -42,32 +44,31 @@
   <Button @click="setOptions" title="オプション反映"/>
   <Button @click=clear title="全てのデータを消去する"/>
   <ConvertJsonToIndexedDB />
+  <BackUpTodo />
   <Button @click="show=true" title="ReadMe"/>
 
   <!-- お試し機能 -->
-
-  <Button title="SaveFile" @click="saveLog" />
-  <input ref="file" class="file-button" type="file" @change="loadLog" />
 
   <div v-show="show">
     <Readme></Readme>
     <Button title="とじる" @click="show=false"/>
   </div>
   
+  <div></div>
   <read-custom-q v-show="false"></read-custom-q>
     
   <SarchTodo v-show="false" />
+</div>
 
 </template>
 
 <script>
-import Button from "../atoms/Button";
+import Button from "@/components/atoms/Button";
 import Readme from '../pages/Readme';
 import ReadCustomQ from '../organisms/ReadCustomQ';
 import SarchTodo from '../test/SarchTodo.vue';
 import ConvertJsonToIndexedDB from '@/components/organisms/ConvertJsonToIndexedDB';
-import {saveAs} from "file-saver";
-import TodoDBAdapter from "@/assets/js/TodoDBAdapter";
+import BackUpTodo from "@/components/organisms/BackUpTodo.vue";
 
 export default {
   components: {
@@ -76,6 +77,7 @@ export default {
     ReadCustomQ,
     SarchTodo,
     ConvertJsonToIndexedDB,
+    BackUpTodo,
   },
   props: {
     class: String
@@ -114,65 +116,6 @@ export default {
     } 
   },
   methods: {
-    saveLog: async function() {
-      const db = TodoDBAdapter;
-      db.createDB();
-      const todos_now = await db.getQuery();
-      const blob = new Blob([JSON.stringify(todos_now)], {type:"application/json"});
-      saveAs(blob, "hello world.json");
-    },
-    setOptions: function() {
-      if (confirm("設定を反映しますか？")) {
-        localStorage.setItem('parsonal', JSON.stringify(this.parsonal));
-        localStorage.setItem('initq', JSON.stringify(this.initialQuestion));
-      } 
-    },
-    async loadLog (event) {
-      const db = TodoDBAdapter;
-      db.createDB();
-        const files = event.target.files || event.dataTransfer.files
-        const file = files[0]
-
-        if (!this.checkFile(file)) {
-            alert("ファイルを読み込めませんでした")
-            return
-        }
-
-        const logData = await this.getFileData(file)
-
-        const logJson = JSON.parse(logData)
-
-        logJson.forEach(todo => {
-          db.addTodo(todo);
-        });
-
-
-    },
-
-    getFileData(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader()
-            reader.readAsText(file)
-            reader.onload = () => resolve(reader.result)
-            reader.onerror = error => reject(error)
-        })
-    },
-
-    checkFile(file) {
-        if (!file) {
-            return false
-        }
-
-        if (file.type !== 'application/json') {
-            return false
-        }
-
-        const SIZE_LIMIT = 5000000 // 5MB
-        if (file.size > SIZE_LIMIT) {
-            return false
-        }
-        return true
-    },
     // 全データのリセット。デバッグ用。
     clear: function() {
       if (confirm("OK!?")) {
