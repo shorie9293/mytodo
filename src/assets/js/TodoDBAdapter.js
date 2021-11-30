@@ -6,37 +6,42 @@ import Todo from './Todo';
 let db;
 
 async function createDB() {
-  let todo_1 = new Todo.Todo;
-  todo_1.id = uuidv4();
-  todo_1.title = '最も目に入れておきたいタスクを入れます。例:仕事のことなど';
-  todo_1.exp = 5;
-  todo_1.exp_init = 5;
-  let todo_2 = new Todo.Todo;
-  todo_2.id = uuidv4();
-  todo_2.project = 'repeat';
-  todo_2.title = '繰り返したいタスクを入れます。';
-  todo_2.exp = 1;
-  todo_2.exp_init = 1;
-  todo_2.repeated = 'week';
-  todo_2.repeated_day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-  let todo_3 = new Todo.Todo;
-  todo_3.id = uuidv4();
-  todo_3.project = 'sub';
-  todo_3.title = '通常のタスクを入れます。例:家でのことなど';
-  todo_3.exp = 3;
-  todo_3.exp_init = 3;
-
-  db = new Dexie('maguroDB');
-  db.version(3).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated'});
-  db.version(4).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated',monster_table: '++index'});
-  db.on("populate", function() {
-    db.todo_table.bulkPut([
-        todo_1, todo_2, todo_3
-    ]);
-    db.monster_table.add({name:"HOGE",hp:50,at:40,df:40,img:"zetsubou.png", money:10});
-
-  })
-  await db.open();
+  if (db) {
+    db.open();
+  } else {
+    let todo_1 = new Todo.Todo;
+    todo_1.id = uuidv4();
+    todo_1.title = '最も目に入れておきたいタスクを入れます。例:仕事のことなど';
+    todo_1.exp = 5;
+    todo_1.exp_init = 5;
+    let todo_2 = new Todo.Todo;
+    todo_2.id = uuidv4();
+    todo_2.project = 'repeat';
+    todo_2.title = '繰り返したいタスクを入れます。';
+    todo_2.exp = 1;
+    todo_2.exp_init = 1;
+    todo_2.repeated = 'week';
+    todo_2.repeated_day = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    let todo_3 = new Todo.Todo;
+    todo_3.id = uuidv4();
+    todo_3.project = 'sub';
+    todo_3.title = '通常のタスクを入れます。例:家でのことなど';
+    todo_3.exp = 3;
+    todo_3.exp_init = 3;
+  
+    db = new Dexie('maguroDB');
+    db.version(3).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated'});
+    db.version(4).stores({todo_table: '++index, id, project, title, type, checked, finish_date, repeated',monster_table: '++index'});
+    db.on("populate", function() {
+      db.todo_table.bulkPut([
+          todo_1, todo_2, todo_3
+      ]);
+      db.monster_table.add({name:"HOGE",hp:50,at:40,df:40,img:"zetsubou.png", money:10});
+  
+    })
+    await db.open();
+  }
+  
 }
 
 async function addTodo(todo) {
